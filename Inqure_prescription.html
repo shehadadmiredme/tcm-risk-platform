@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="prescription.title">药方查询 — 常用中药偏方风险信息公开平台</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='80'%3E🌿%3C/text%3E%3C/svg%3E">
+
+    <!-- CDN: RemixIcon 图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- 项目样式 -->
+    <link rel="stylesheet" href="CSS/Inqure_prescription.css">
+    <!-- 共享动效样式 -->
+    <link rel="stylesheet" href="CSS/animations.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="./index.html" aria-label="返回首页">
+                <img src="./5717be68dae7df9f5529512d17a4ed3c.jpg" data-i18n-alt="nav.logoAlt" alt="留神">
+            </a>
+            <h1 class="h1-1" data-i18n="nav.brand">常用中药偏方风险信息公开平台</h1>
+        </div>
+        <div class="nav-links">
+            <a href="./index.html" id="menu" data-i18n="nav.home">
+                <i class="ri-home-4-line"></i> 首页
+            </a>
+            <details id="insert">
+                <summary data-i18n="nav.query"><i class="ri-search-line"></i> 查询</summary>
+                <div class="dropdown-menu">
+                    <a href="./Inqure_prescription.html" style="color:var(--color-primary);font-weight:700;">
+                        <i class="ri-file-list-3-line"></i> <span data-i18n="nav.prescriptionQuery">药方查询</span>
+                    </a>
+                    <a href="./Inqure_medicinal.html"><i class="ri-plant-line"></i> <span data-i18n="nav.herbQuery">药材查询</span></a>
+                </div>
+            </details>
+            <a href="./Graph_visualization.html"><i class="ri-git-branch-line"></i> <span data-i18n="nav.graph">图谱可视化</span></a>
+            <a href="./Disclaimer.html" id="declara"><i class="ri-shield-check-line"></i> <span data-i18n="nav.aboutAndDisclaimer">关于平台及免责声明</span></a>
+        </div>
+    </nav>
+
+    <!-- 分隔线 -->
+    <hr class="nav-divider">
+
+    <!-- 搜索框 -->
+    <div class="search" data-reveal>
+        <i class="ri-search-line" style="color:#aaa;font-size:18px;margin-right:4px;"></i>
+        <input type="text" data-i18n-placeholder="prescription.searchPlaceholder" placeholder="请输入方剂成分，如：红糖姜水、川贝炖梨...">
+        <span data-i18n="prescription.searchBtn"><i class="ri-search-line"></i> 搜索</span>
+    </div>
+
+    <!-- 四宫格展示区 -->
+    <div class="show card-rise-stagger">
+        <div class="imagine" data-tilt>
+            <h2><i class="ri-file-list-3-line"></i> <span data-i18n="prescription.section.composition">组成成分</span></h2>
+            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的组成药材及其用量配比。</p>
+        </div>
+        <div class="unhealth" data-tilt>
+            <h2><i class="ri-user-heart-line"></i> <span data-i18n="prescription.section.indications">适用人群或症状</span></h2>
+            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的适用症状和推荐使用人群。</p>
+        </div>
+        <div class="popularity" data-tilt>
+            <h2><i class="ri-alert-line"></i> <span data-i18n="prescription.section.adverseEffects">不良反应与注意事项</span></h2>
+            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂可能的副作用、禁忌及使用注意事项。</p>
+        </div>
+        <div class="symptoms" data-tilt>
+            <h2><i class="ri-bar-chart-box-line"></i> <span data-i18n="prescription.section.credibility">估计对比与可信度</span></h2>
+            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示古籍记载与现代研究的对比分析及可信度评级。</p>
+        </div>
+    </div>
+
+    <!-- 温馨提示 -->
+    <div class="notice" data-reveal>
+        <div style="font-size:22px;">⚠️</div>
+        <div>
+            <b data-i18n="common.notice.title">温馨提示</b>
+            <span data-i18n="common.notice.content">平台内容来源于公开文献、药典、药监信息与古籍记载，仅用于风险信息公开与科普展示；所有结论应以医生、药师及官方最新公告为准。</span>
+        </div>
+    </div>
+
+    <!-- i18n 国际化系统 -->
+    <script src="JS/i18n.js"></script>
+    <script src="JS/zh-CN.js"></script>
+    <!-- 全局动效引擎 -->
+    <script src="JS/effects.js"></script>
+    <script>
+    if (typeof I18N !== 'undefined') {
+        I18N.autoInit();
+    }
+    </script>
+</body>
+</html>

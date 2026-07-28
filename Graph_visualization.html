@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图谱可视化 — 常用中药偏方风险信息公开平台</title>
+
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='80'%3E🌿%3C/text%3E%3C/svg%3E">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/Graph_visualization.css">
+    <!-- 共享动效样式 -->
+    <link rel="stylesheet" href="CSS/animations.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="./index.html" aria-label="返回首页">
+                <img src="./5717be68dae7df9f5529512d17a4ed3c.jpg" alt="留神">
+            </a>
+            <h1 class="h1-1">常用中药偏方风险信息公开平台</h1>
+        </div>
+        <div class="nav-links">
+            <a href="./index.html"><i class="ri-home-4-line"></i> 首页</a>
+            <details id="insert">
+                <summary><i class="ri-search-line"></i> 查询</summary>
+                <div class="dropdown-menu">
+                    <a href="./Inqure_prescription.html"><i class="ri-file-list-3-line"></i> 药方查询</a>
+                    <a href="./Inqure_medicinal.html"><i class="ri-plant-line"></i> 药材查询</a>
+                </div>
+            </details>
+            <a href="./Graph_visualization.html" class="active-page"><i class="ri-git-branch-line"></i> 图谱可视化</a>
+            <a href="./Disclaimer.html"><i class="ri-shield-check-line"></i> 免责声明</a>
+        </div>
+    </nav>
+    <hr class="nav-divider">
+
+    <!-- 页面头部 -->
+    <section class="page-header" data-reveal>
+        <div class="header-content">
+            <h2><i class="ri-git-branch-line"></i> 中药知识图谱可视化</h2>
+            <p>以交互式图网络展示中药、偏方、症状、禁忌之间的复杂关联，支持节点点击查看详情、关系筛选与全局搜索。</p>
+        </div>
+    </section>
+
+    <!-- 主体：侧边栏 + 图谱区 -->
+    <div class="graph-layout">
+        <!-- 左侧控制面板 -->
+        <aside class="graph-sidebar" data-reveal>
+            <!-- 搜索节点 -->
+            <div class="sidebar-search">
+                <i class="ri-search-line"></i>
+                <input type="text" placeholder="搜索药材、方剂、症状...">
+            </div>
+
+            <!-- 图例筛选 -->
+            <div class="filter-group">
+                <h4><i class="ri-filter-3-line"></i> 节点类型筛选</h4>
+                <label class="filter-item">
+                    <input type="checkbox" checked>
+                    <span class="filter-dot" style="background:#0F766E;"></span> 药材
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked>
+                    <span class="filter-dot" style="background:#D97706;"></span> 方剂/偏方
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked>
+                    <span class="filter-dot" style="background:#DC2626;"></span> 不良反应
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked>
+                    <span class="filter-dot" style="background:#2563EB;"></span> 症状/适应症
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked>
+                    <span class="filter-dot" style="background:#7C3AED;"></span> 古籍来源
+                </label>
+            </div>
+
+            <!-- 关系筛选 -->
+            <div class="filter-group">
+                <h4><i class="ri-link"></i> 关系类型筛选</h4>
+                <label class="filter-item">
+                    <input type="checkbox" checked> 包含成分
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked> 可能引起
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked> 禁忌配伍
+                </label>
+                <label class="filter-item">
+                    <input type="checkbox" checked> 古籍记载
+                </label>
+            </div>
+
+            <!-- 统计 -->
+            <div class="filter-group">
+                <h4><i class="ri-bar-chart-2-line"></i> 图谱统计</h4>
+                <div class="stat-mini">
+                    <div><strong>128</strong><span>实体节点</span></div>
+                    <div><strong>356</strong><span>关系边</span></div>
+                    <div><strong>12</strong><span>古籍来源</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 右侧图谱主区域 -->
+        <main class="graph-main" data-reveal>
+            <!-- 顶部工具栏 -->
+            <div class="graph-toolbar">
+                <div class="toolbar-left">
+                    <button class="tool-btn active" title="平移/拖拽"><i class="ri-drag-move-line"></i></button>
+                    <button class="tool-btn" title="框选放大"><i class="ri-zoom-in-line"></i></button>
+                    <button class="tool-btn" title="重置视图"><i class="ri-refresh-line"></i></button>
+                </div>
+                <div class="toolbar-center">
+                    <button class="layout-btn">力导向布局</button>
+                    <button class="layout-btn">环形布局</button>
+                    <button class="layout-btn active">分层布局</button>
+                </div>
+                <div class="toolbar-right">
+                    <span class="zoom-level">100%</span>
+                </div>
+            </div>
+
+            <!-- 图谱画布 -->
+            <div class="graph-canvas" id="graphCanvas" data-cursor-glow>
+                <!-- 占位：实际部署时替换为 ECharts / D3.js / Cytoscape.js 渲染 -->
+                <div class="canvas-placeholder">
+                    <div class="placeholder-icon">
+                        <i class="ri-git-branch-line"></i>
+                    </div>
+                    <h3>交互式知识图谱</h3>
+                    <p>此区域将渲染中药-方剂-症状-禁忌的知识网络图</p>
+                    <p class="hint">支持节点拖拽、缩放、点击查看详情</p>
+
+                    <!-- 模拟节点装饰 -->
+                    <div class="mock-nodes">
+                        <div class="mock-node" style="top:18%;left:32%;background:#0F766E;">甘草</div>
+                        <div class="mock-node" style="top:40%;left:20%;background:#D97706;">麻黄汤</div>
+                        <div class="mock-node" style="top:55%;left:50%;background:#DC2626;">恶心</div>
+                        <div class="mock-node" style="top:30%;left:62%;background:#2563EB;">风寒感冒</div>
+                        <div class="mock-node" style="top:60%;left:72%;background:#0F766E;">桂枝</div>
+                        <div class="mock-node" style="top:22%;left:78%;background:#7C3AED;">《伤寒论》</div>
+                        <div class="mock-node" style="top:70%;left:35%;background:#0F766E;">杏仁</div>
+                        <div class="mock-node" style="top:48%;left:42%;background:#DC2626;">肝损伤</div>
+                    </div>
+
+                    <!-- 模拟连线 -->
+                    <svg class="mock-edges" viewBox="0 0 800 500" preserveAspectRatio="none">
+                        <line x1="280" y1="110" x2="200" y2="220" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="200" y1="220" x2="430" y2="300" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="520" y1="170" x2="430" y2="300" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="600" y1="320" x2="430" y2="300" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="280" y1="110" x2="520" y2="170" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="280" y1="110" x2="650" y2="130" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="310" y1="370" x2="430" y2="300" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <line x1="310" y1="370" x2="370" y2="260" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 底部：选中节点详情 -->
+            <div class="node-detail" id="nodeDetail">
+                <div class="detail-placeholder">
+                    <i class="ri-cursor-line"></i> 点击图谱中的节点查看详细信息
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 全局动效引擎 -->
+    <script src="JS/effects.js"></script>
+    <script>
+    // 工具栏按钮切换
+    document.querySelectorAll('.tool-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+    document.querySelectorAll('.layout-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.layout-btn').forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+        });
+    });
+    </script>
+</body>
+</html>

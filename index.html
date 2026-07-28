@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="site.title">常用中药偏方风险信息公开平台</title>
+
+    <!-- Favicon（内联 SVG：药草图标） -->
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='80'%3E🌿%3C/text%3E%3C/svg%3E">
+
+    <!-- CDN: RemixIcon 图标库（Apache 2.0 开源） -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- 项目样式 -->
+    <link rel="stylesheet" href="CSS/new Main_intreface.css">
+    <!-- 共享动效样式 -->
+    <link rel="stylesheet" href="CSS/animations.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="#" id="loge" aria-label="返回首页">
+                <img src="./5717be68dae7df9f5529512d17a4ed3c.jpg" data-i18n-alt="nav.logoAlt" alt="留神">
+            </a>
+            <h1 class="h1-1" data-i18n="nav.brand">常用中药偏方风险信息公开平台</h1>
+        </div>
+        <div class="nav-links">
+            <a href="./index.html" class="active-page" id="menu" data-i18n="nav.home">
+                <i class="ri-home-4-line"></i> 首页
+            </a>
+            <details id="insert">
+                <summary data-i18n="nav.query"><i class="ri-search-line"></i> 查询</summary>
+                <div class="dropdown-menu">
+                    <a href="./Inqure_prescription.html"><i class="ri-file-list-3-line"></i> <span data-i18n="nav.prescriptionQuery">药方查询</span></a>
+                    <a href="./Inqure_medicinal.html"><i class="ri-plant-line"></i> <span data-i18n="nav.herbQuery">药材查询</span></a>
+                </div>
+            </details>
+            <a href="./Graph_visualization.html"><i class="ri-git-branch-line"></i> <span data-i18n="nav.graph">图谱可视化</span></a>
+            <a href="./Disclaimer.html"><i class="ri-shield-check-line"></i> <span data-i18n="nav.disclaimer">免责声明</span></a>
+        </div>
+    </nav>
+
+    <!-- 分隔线 -->
+    <hr class="nav-divider">
+
+    <!-- 首页内容 -->
+    <section id="home" class="page active anchor">
+        <div class="hero">
+            <div class="hero-grid">
+                <!-- 左侧主卡片 -->
+                <div class="hero-card card-rise" data-cursor-glow data-tilt>
+                    <!-- 轮播 -->
+                    <div class="carousel" id="mainCarousel">
+                        <div class="carousel-item active">
+                            <div class="badge" data-i18n="home.slide1.badge">
+                                <i class="ri-information-line"></i> 面向公众的中药风险信息科普平台
+                            </div>
+                            <h1 class="h1-2" data-i18n="home.slide1.title">常用中药偏方风险信息公开平台</h1>
+                            <div class="sub">
+                                <span data-i18n="home.slide1.desc">基于知识图谱整合多源不良反应数据，面向普通民众、基层医疗工作者和中医药爱好者，提供中药/偏方风险信息、古籍对比、安全用药提示等内容展示。</span>
+                                <br><b data-i18n="home.slide1.disclaimer">仅做信息展示，不做诊断、不荐药、不替代医嘱。</b>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="badge" data-i18n="home.slide2.badge">
+                                <i class="ri-building-line"></i> 山东中医药大学 · 大数据科创项目
+                            </div>
+                            <h1 class="h1-2" data-i18n="home.slide2.title">中药安全用药风险科普</h1>
+                            <div class="sub" data-i18n="home.slide2.desc">
+                                依托知识图谱技术，整合药典、古籍、药监数据，挖掘常用中药、民间偏方潜在不良反应，助力大众科学使用中医药。
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="badge" data-i18n="home.slide3.badge">
+                                <i class="ri-alert-line"></i> 安全用药 · 拒绝偏方误区
+                            </div>
+                            <h1 class="h1-2" data-i18n="home.slide3.title">多源数据 · 风险公开</h1>
+                            <div class="sub" data-i18n="home.slide3.desc">
+                                覆盖100+常用中药、50+常见偏方，提供用药禁忌、配伍风险、古籍对比，为基层医疗与大众提供参考。
+                            </div>
+                        </div>
+
+                        <!-- 左右箭头 -->
+                        <button class="carousel-btn prev" aria-label="上一张">‹</button>
+                        <button class="carousel-btn next" aria-label="下一张">›</button>
+
+                        <!-- 圆点指示器 -->
+                        <div class="carousel-dots" id="carouselDots"></div>
+                    </div>
+
+                    <!-- 按钮组 -->
+                    <div class="hero-actions">
+                        <a class="btn btn-primary btn-pulse-white" href="./Inqure_medicinal.html" data-particle>
+                            <i class="ri-plant-line"></i> <span data-i18n="home.actions.herbRisk">快速查药材风险</span>
+                        </a>
+                        <a class="btn btn-outline" href="./Inqure_prescription.html">
+                            <i class="ri-file-list-3-line"></i> <span data-i18n="home.actions.prescriptionRisk">快速查偏方风险</span>
+                        </a>
+                        <a class="btn btn-outline" href="#manual">
+                            <i class="ri-book-open-line"></i> <span data-i18n="home.actions.safetyManual">查看安全用药手册</span>
+                        </a>
+                        <a class="btn btn-outline" href="./Graph_visualization.html">
+                            <i class="ri-git-branch-line"></i> <span data-i18n="home.actions.graphOverview">知识图谱概览</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 右侧小卡片 -->
+                <div class="hero-side">
+                    <div class="mini" data-reveal>
+                        <h3><i class="ri-notification-3-line" style="color:var(--color-primary);"></i> <span data-i18n="home.side.noticeTitle">平台公告 / 提示</span></h3>
+                        <p data-i18n="home.side.noticeContent">本平台仅提供风险信息科普和公开展示，不提供医疗建议。若出现不适，请及时咨询医生、药师等专业人员。</p>
+                        <div class="statgrid">
+                            <div class="stat"><strong data-countup="100" data-suffix="+">100+</strong><span data-i18n="home.side.herbCountLabel">常用中药</span></div>
+                            <div class="stat"><strong data-countup="50" data-suffix="+">50+</strong><span data-i18n="home.side.prescriptionCountLabel">常见偏方</span></div>
+                        </div>
+                    </div>
+                    <div class="mini" data-reveal data-reveal-delay="200">
+                        <h3><i class="ri-fire-line" style="color:#E07B3C;"></i> <span data-i18n="home.side.hotTitle">热门检索</span></h3>
+                        <p data-i18n="home.side.hotContent">板蓝根、菊花、枸杞、金银花、生姜、红糖姜水、川贝炖梨……</p>
+                        <div class="pill-row">
+                            <span class="pill" onclick="jumpToHerb('板蓝根')"><i class="ri-plant-line"></i> 板蓝根</span>
+                            <span class="pill" onclick="jumpToHerb('菊花')"><i class="ri-plant-line"></i> 菊花</span>
+                            <span class="pill" onclick="jumpToHerb('枸杞')"><i class="ri-plant-line"></i> 枸杞</span>
+                            <span class="pill" onclick="jumpToPrescription('红糖姜水')"><i class="ri-file-list-3-line"></i> 红糖姜水</span>
+                            <span class="pill" onclick="jumpToPrescription('川贝炖梨')"><i class="ri-file-list-3-line"></i> 川贝炖梨</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 温馨提示 -->
+            <div class="notice" data-reveal>
+                <div style="font-size:22px;">⚠️</div>
+                <div>
+                    <b data-i18n="common.notice.title">温馨提示</b>
+                    <span data-i18n="common.notice.content">平台内容来源于公开文献、药典、药监信息与古籍记载，仅用于风险信息公开与科普展示；所有结论应以医生、药师及官方最新公告为准。</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部快捷链接 -->
+        <div class="bottom-link-row">
+            <a href="./Inqure_medicinal.html" class="bottom-link" data-reveal>
+                <i class="ri-search-line"></i> <span data-i18n="home.quickLinks.query">查询</span>
+            </a>
+            <a href="./Graph_visualization.html" class="bottom-link" data-reveal data-reveal-delay="150">
+                <i class="ri-git-branch-line"></i> <span data-i18n="home.quickLinks.graph">图谱可视化</span>
+            </a>
+            <a href="./Disclaimer.html" class="bottom-link" data-reveal data-reveal-delay="300">
+                <i class="ri-shield-check-line"></i> <span data-i18n="home.quickLinks.disclaimer">免责声明</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 底部页脚 -->
+    <footer class="page-footer">
+        <div class="footer-left">
+            <p data-i18n="common.footer.intro">常用中药偏方风险信息公开平台致力于普及中医药安全用药知识，为民众提供中药/偏方风险科普服务。</p>
+            <p data-i18n="common.footer.copyright">© 2025 山东中医药大学 · 医学信息工程学院 保留所有权利。鲁ICP备XXXX号</p>
+            <button class="footer-btn" data-i18n="common.footer.downloadBtn">
+                <i class="ri-download-line"></i> 安全用药手册下载
+            </button>
+        </div>
+        <div class="footer-col">
+            <h4 data-i18n="common.footer.col1Title">关于平台</h4>
+            <a href="#" data-i18n="common.footer.col1Link1">平台介绍</a>
+            <a href="#" data-i18n="common.footer.col1Link2">研发团队</a>
+            <a href="#" data-i18n="common.footer.col1Link3">数据来源</a>
+            <a href="#" data-i18n="common.footer.col1Link4">联系我们</a>
+        </div>
+        <div class="footer-col">
+            <h4 data-i18n="common.footer.col2Title">使用指南</h4>
+            <a href="#" data-i18n="common.footer.col2Link1">如何查询药材</a>
+            <a href="#" data-i18n="common.footer.col2Link2">如何查询偏方</a>
+            <a href="#" data-i18n="common.footer.col2Link3">如何查看图谱</a>
+            <a href="#" data-i18n="common.footer.col2Link4">用药禁忌科普</a>
+        </div>
+        <div class="footer-col">
+            <h4 data-i18n="common.footer.col3Title">合作与资源</h4>
+            <a href="#" data-i18n="common.footer.col3Link1">院校合作</a>
+            <a href="#" data-i18n="common.footer.col3Link2">药典文献</a>
+        </div>
+    </footer>
+
+    <!-- i18n 国际化系统 -->
+    <script src="JS/i18n.js"></script>
+    <script src="JS/zh-CN.js"></script>
+    <!-- 全局动效引擎 -->
+    <script src="JS/effects.js"></script>
+
+    <!-- 轮播逻辑（增强版） -->
+    <script>
+    (function() {
+        const items = document.querySelectorAll('.carousel-item');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        const dotsContainer = document.getElementById('carouselDots');
+        const total = items.length;
+        let index = 0;
+        let timer;
+
+        // 生成圆点指示器
+        if (dotsContainer && total > 1) {
+            for (let i = 0; i < total; i++) {
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', '跳转到第' + (i + 1) + '张');
+                dot.addEventListener('click', function() { show(i); resetTimer(); });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        // 切换函数
+        function show(i) {
+            items.forEach(function(el) { el.classList.remove('active'); });
+            index = ((i % total) + total) % total;
+            items[index].classList.add('active');
+
+            // 更新圆点
+            var dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach(function(d, idx) {
+                d.classList.toggle('active', idx === index);
+            });
+        }
+
+        // 自动播放
+        function autoPlay() {
+            timer = setInterval(function() {
+                show(index + 1);
+            }, 5000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            autoPlay();
+        }
+
+        autoPlay();
+
+        // 箭头点击
+        if (prevBtn) prevBtn.addEventListener('click', function() { show(index - 1); resetTimer(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { show(index + 1); resetTimer(); });
+
+        // 鼠标悬浮暂停
+        var carousel = document.getElementById('mainCarousel');
+        if (carousel) {
+            carousel.addEventListener('mouseenter', function() { clearInterval(timer); });
+            carousel.addEventListener('mouseleave', autoPlay);
+        }
+
+        // 触摸滑动支持
+        var touchStartX = 0;
+        if (carousel) {
+            carousel.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                clearInterval(timer);
+            }, { passive: true });
+
+            carousel.addEventListener('touchend', function(e) {
+                var diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) {
+                    show(index + (diff > 0 ? 1 : -1));
+                }
+                autoPlay();
+            });
+        }
+    })();
+
+    // 空函数防报错（后续对接实际搜索）
+    function jumpToHerb(name) { console.log('跳转药材：' + name); }
+    function jumpToPrescription(name) { console.log('跳转偏方：' + name); }
+
+    // 初始化 i18n
+    if (typeof I18N !== 'undefined') {
+        I18N.autoInit();
+    }
+    </script>
+</body>
+</html>

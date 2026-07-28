@@ -1,0 +1,326 @@
+/* ============================================================
+   全局动效样式表
+   来源参考：GitHub 开源社区常见动效模式
+   包含：水波纹、滚动揭示、倾斜、打字机、光晕、骨架屏、粒子
+   ============================================================ */
+
+/* ── 水波纹关键帧 ── */
+@keyframes rippleOut {
+  0%   { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* ── 粒子爆发关键帧 ── */
+@keyframes particleBurst {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(0); }
+}
+
+/* ── 脉冲呼吸 ── */
+@keyframes pulseBreath {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.4); }
+  50%      { box-shadow: 0 0 0 14px rgba(15, 118, 110, 0); }
+}
+
+@keyframes pulseBreathWhite {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  50%      { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+}
+
+/* ── 渐变位移动画 ── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── 闪烁骨架屏 ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── 浮动动画 ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* ── 旋转进场 ── */
+@keyframes spinIn {
+  0%   { opacity: 0; transform: rotate(-10deg) scale(0.9); }
+  100% { opacity: 1; transform: rotate(0) scale(1); }
+}
+
+/* ── 下划线滑入 ── */
+@keyframes underlineSlide {
+  0%   { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+/* ── 打字机光标闪烁 ── */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ── 呼吸光环 ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(15,118,110,0.25), 0 0 60px rgba(15,118,110,0.05); }
+  50%      { box-shadow: 0 0 30px rgba(15,118,110,0.45), 0 0 80px rgba(15,118,110,0.12); }
+}
+
+/* ── 图标弹跳 ── */
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-4px); }
+  60%      { transform: translateY(-2px); }
+}
+
+/* ── 卡片上浮 ── */
+@keyframes cardRise {
+  0%   { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* ============================================================
+   按钮增强动画类
+   ============================================================ */
+
+/* 脉冲 CTA 按钮 */
+.btn-pulse {
+  animation: pulseBreath 2.5s ease-in-out infinite;
+}
+
+.btn-pulse-white {
+  animation: pulseBreathWhite 2.5s ease-in-out infinite;
+}
+
+/* 渐变流动按钮 */
+.btn-gradient-flow {
+  background: linear-gradient(135deg, #0F766E, #14B8A6, #0F766E);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* 悬停时图标弹跳 */
+.btn:hover i,
+.bottom-link:hover i,
+.nav-links a:hover i,
+.pill:hover i {
+  animation: iconBounce 0.5s ease;
+}
+
+/* 按钮 hover 发光 */
+.btn-glow:hover {
+  box-shadow: 0 0 24px rgba(15,118,110,0.3), 0 0 48px rgba(15,118,110,0.1);
+}
+
+/* ── 按钮按下反馈 ── */
+.btn:active,
+.bottom-link:active,
+.pill:active {
+  transform: scale(0.96) !important;
+}
+
+/* ============================================================
+   滚动揭示
+   ============================================================ */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
+              transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+.reveal-hidden.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 错开延迟 */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ============================================================
+   3D 倾斜卡片
+   ============================================================ */
+[data-tilt] {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+[data-tilt] > * {
+  transform: translateZ(20px);
+}
+
+/* ============================================================
+   光晕跟随
+   ============================================================ */
+[data-cursor-glow] {
+  position: relative;
+  overflow: hidden;
+  --glow-x: 50%;
+  --glow-y: 50%;
+}
+
+[data-cursor-glow]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 300px at var(--glow-x) var(--glow-y),
+              rgba(255,255,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[data-cursor-glow]:hover::after {
+  opacity: 1;
+}
+
+/* ============================================================
+   打字机效果
+   ============================================================ */
+[data-typewriter] {
+  display: inline-block;
+}
+
+[data-typewriter].typewriter-done::after {
+  content: "|";
+  animation: cursorBlink 0.8s ease infinite;
+  color: var(--color-primary, #0F766E);
+}
+
+/* ============================================================
+   骨架屏闪烁
+   ============================================================ */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.4) 50%,
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.skeleton-done::after {
+  display: none;
+}
+
+/* ============================================================
+   数字跳动指示器
+   ============================================================ */
+[data-countup] {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ============================================================
+   导航链接下划线动画
+   ============================================================ */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 60%;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  transform: translateX(-50%) scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active-page::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* 确保 nav-links a 有 relative 定位 */
+.nav-links a {
+  position: relative;
+}
+
+/* ============================================================
+   卡片进场动画
+   ============================================================ */
+.card-rise {
+  animation: cardRise 0.6s ease-out forwards;
+}
+
+.card-rise-stagger > * {
+  opacity: 0;
+  animation: cardRise 0.5s ease-out forwards;
+}
+
+.card-rise-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.card-rise-stagger > *:nth-child(2) { animation-delay: 0.15s; }
+.card-rise-stagger > *:nth-child(3) { animation-delay: 0.25s; }
+.card-rise-stagger > *:nth-child(4) { animation-delay: 0.35s; }
+.card-rise-stagger > *:nth-child(5) { animation-delay: 0.45s; }
+.card-rise-stagger > *:nth-child(6) { animation-delay: 0.55s; }
+.card-rise-stagger > *:nth-child(7) { animation-delay: 0.65s; }
+.card-rise-stagger > *:nth-child(8) { animation-delay: 0.75s; }
+
+/* ============================================================
+   浮动徽章
+   ============================================================ */
+.float-badge {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   图表节点脉冲
+   ============================================================ */
+@keyframes nodePulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+  50%      { box-shadow: 0 4px 28px rgba(0,0,0,0.5), 0 0 0 8px rgba(255,255,255,0.04); }
+}
+
+/* ============================================================
+   搜索框 loading 状态
+   ============================================================ */
+.search-loading {
+  position: relative;
+}
+
+.search-loading::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary-light), transparent);
+  animation: shimmer 1.2s ease-in-out infinite;
+  width: 100%;
+  border-radius: 1px;
+}
+
+/* ============================================================
+   可访问性：偏好减少动画
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
