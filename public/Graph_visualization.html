@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="CSS/Graph_visualization.css">
     <!-- 共享动效样式 -->
     <link rel="stylesheet" href="CSS/animations.css">
+    <!-- ECharts 图谱渲染库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -52,48 +54,51 @@
             <!-- 搜索节点 -->
             <div class="sidebar-search">
                 <i class="ri-search-line"></i>
-                <input type="text" placeholder="搜索药材、方剂、症状...">
+                <input type="text" id="graphSearchInput" placeholder="搜索药材、经络、功效、症状...">
             </div>
 
             <!-- 图例筛选 -->
             <div class="filter-group">
                 <h4><i class="ri-filter-3-line"></i> 节点类型筛选</h4>
-                <label class="filter-item">
+                <label class="filter-item" data-node-type="herb">
                     <input type="checkbox" checked>
                     <span class="filter-dot" style="background:#0F766E;"></span> 药材
                 </label>
-                <label class="filter-item">
+                <label class="filter-item" data-node-type="meridian">
                     <input type="checkbox" checked>
-                    <span class="filter-dot" style="background:#D97706;"></span> 方剂/偏方
+                    <span class="filter-dot" style="background:#D97706;"></span> 经络
                 </label>
-                <label class="filter-item">
+                <label class="filter-item" data-node-type="effect">
                     <input type="checkbox" checked>
-                    <span class="filter-dot" style="background:#DC2626;"></span> 不良反应
+                    <span class="filter-dot" style="background:#2563EB;"></span> 功效
                 </label>
-                <label class="filter-item">
+                <label class="filter-item" data-node-type="symptom">
                     <input type="checkbox" checked>
-                    <span class="filter-dot" style="background:#2563EB;"></span> 症状/适应症
+                    <span class="filter-dot" style="background:#7C3AED;"></span> 症状
                 </label>
-                <label class="filter-item">
+                <label class="filter-item" data-node-type="caution">
                     <input type="checkbox" checked>
-                    <span class="filter-dot" style="background:#7C3AED;"></span> 古籍来源
+                    <span class="filter-dot" style="background:#DC2626;"></span> 禁忌/毒性
                 </label>
             </div>
 
             <!-- 关系筛选 -->
             <div class="filter-group">
                 <h4><i class="ri-link"></i> 关系类型筛选</h4>
-                <label class="filter-item">
-                    <input type="checkbox" checked> 包含成分
+                <label class="filter-item" data-edge-type="归经">
+                    <input type="checkbox" checked> 归经
                 </label>
-                <label class="filter-item">
-                    <input type="checkbox" checked> 可能引起
+                <label class="filter-item" data-edge-type="功效">
+                    <input type="checkbox" checked> 功效
                 </label>
-                <label class="filter-item">
-                    <input type="checkbox" checked> 禁忌配伍
+                <label class="filter-item" data-edge-type="主治">
+                    <input type="checkbox" checked> 主治
                 </label>
-                <label class="filter-item">
-                    <input type="checkbox" checked> 古籍记载
+                <label class="filter-item" data-edge-type="配伍禁忌">
+                    <input type="checkbox" checked> 配伍禁忌
+                </label>
+                <label class="filter-item" data-edge-type="毒性">
+                    <input type="checkbox" checked> 毒性
                 </label>
             </div>
 
@@ -101,9 +106,9 @@
             <div class="filter-group">
                 <h4><i class="ri-bar-chart-2-line"></i> 图谱统计</h4>
                 <div class="stat-mini">
-                    <div><strong>128</strong><span>实体节点</span></div>
-                    <div><strong>356</strong><span>关系边</span></div>
-                    <div><strong>12</strong><span>古籍来源</span></div>
+                    <div><strong id="statNodes">—</strong><span>实体节点</span></div>
+                    <div><strong id="statEdges">—</strong><span>关系边</span></div>
+                    <div><strong id="statToxic">—</strong><span>有毒药材</span></div>
                 </div>
             </div>
         </aside>
@@ -113,14 +118,13 @@
             <!-- 顶部工具栏 -->
             <div class="graph-toolbar">
                 <div class="toolbar-left">
-                    <button class="tool-btn active" title="平移/拖拽"><i class="ri-drag-move-line"></i></button>
-                    <button class="tool-btn" title="框选放大"><i class="ri-zoom-in-line"></i></button>
-                    <button class="tool-btn" title="重置视图"><i class="ri-refresh-line"></i></button>
+                    <button class="tool-btn active" id="btnPan" title="平移/拖拽"><i class="ri-drag-move-line"></i></button>
+                    <button class="tool-btn" id="btnZoom" title="缩放"><i class="ri-zoom-in-line"></i></button>
+                    <button class="tool-btn" id="btnReset" title="重置视图"><i class="ri-refresh-line"></i></button>
                 </div>
                 <div class="toolbar-center">
-                    <button class="layout-btn">力导向布局</button>
-                    <button class="layout-btn">环形布局</button>
-                    <button class="layout-btn active">分层布局</button>
+                    <button class="layout-btn active" data-layout="force">力导向布局</button>
+                    <button class="layout-btn" data-layout="circular">环形布局</button>
                 </div>
                 <div class="toolbar-right">
                     <span class="zoom-level">100%</span>
@@ -175,19 +179,8 @@
 
     <!-- 全局动效引擎 -->
     <script src="JS/effects.js"></script>
-    <script>
-    // 工具栏按钮切换
-    document.querySelectorAll('.tool-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            this.classList.toggle('active');
-        });
-    });
-    document.querySelectorAll('.layout-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.layout-btn').forEach(function(b) { b.classList.remove('active'); });
-            this.classList.add('active');
-        });
-    });
-    </script>
+    <!-- API 通信 + 图谱渲染逻辑 -->
+    <script src="JS/api.js"></script>
+    <script src="JS/Graph_visualization.js"></script>
 </body>
 </html>

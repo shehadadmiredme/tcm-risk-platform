@@ -1,0 +1,23 @@
+{
+  "name": "tcm-risk-platform",
+  "version": "2.0.0",
+  "description": "常用中药偏方风险信息公开平台 - 前端 + Express 后端",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build:graph": "node scripts/build-graph.js",
+    "build:pinyin": "node scripts/build-pinyin.js",
+    "build": "npm run build:graph && npm run build:pinyin",
+    "vercel-build": "node scripts/build-graph.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "pinyin-pro": "^3.25.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

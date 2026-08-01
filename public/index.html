@@ -269,9 +269,13 @@
         }
     })();
 
-    // 空函数防报错（后续对接实际搜索）
-    function jumpToHerb(name) { console.log('跳转药材：' + name); }
-    function jumpToPrescription(name) { console.log('跳转偏方：' + name); }
+    // 首页跳转：药材查询页带参数自动搜索
+    function jumpToHerb(name) {
+        location.href = 'Inqure_medicinal.html?q=' + encodeURIComponent(name);
+    }
+    function jumpToPrescription(name) {
+        location.href = 'Inqure_prescription.html?q=' + encodeURIComponent(name);
+    }
 
     // 初始化 i18n
     if (typeof I18N !== 'undefined') {

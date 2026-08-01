@@ -467,6 +467,71 @@ body {
   }
 }
 
+/* ============================================================
+   查询结果态样式
+   ============================================================ */
+.result-content {
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.8;
+  margin-top: 8px;
+}
+
+.result-item {
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.result-item b {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.result-empty {
+  color: var(--text-tertiary);
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* 毒性徽章 */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.pill-danger {
+  background: #FEE2E2;
+  color: #B91C1C;
+  border: 1px solid #FECACA;
+}
+
+/* 主治症状胶囊 */
+.symptom-pill {
+  display: inline-block;
+  padding: 5px 14px;
+  margin: 4px 6px 4px 0;
+  background: var(--surface-light);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  color: var(--color-primary-dark);
+}
+
+/* 配伍禁忌高亮 */
+.keyword-hl {
+  background: #FEF3C7;
+  color: #B45309;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
 /* 打印样式 */
 @media print {
   .nav, .search, .notice { display: none; }

@@ -50,33 +50,33 @@
     <!-- 搜索框 -->
     <div class="search" data-reveal>
         <i class="ri-search-line" style="color:#aaa;font-size:18px;margin-right:4px;"></i>
-        <input type="text" data-i18n-placeholder="herb.searchPlaceholder" placeholder="请输入药材名称，如：板蓝根、菊花、枸杞...">
-        <span data-i18n="herb.searchBtn"><i class="ri-search-line"></i> 搜索</span>
+        <input type="text" id="searchInput" data-i18n-placeholder="herb.searchPlaceholder" placeholder="请输入药材名称，如：板蓝根、菊花、枸杞...">
+        <span id="searchBtn" data-i18n="herb.searchBtn"><i class="ri-search-line"></i> 搜索</span>
     </div>
 
     <!-- 药品标题 -->
     <div class="title" data-reveal>
-        <div><i class="ri-plant-line"></i> <span data-i18n="herb.nameLabel">药品名称</span></div>
-        <div data-i18n="herb.aliasLabel">别名/常用名：—</div>
+        <div><i class="ri-plant-line"></i> <span id="herbName" data-i18n="herb.nameLabel">药品名称</span></div>
+        <div><span id="herbAlias">别名/常用名：—</span></div>
     </div>
 
     <!-- 四宫格展示区 -->
     <div class="show card-rise-stagger">
         <div class="imagine" data-tilt>
             <h2><i class="ri-information-line"></i> <span data-i18n="herb.section.basicInfo">基础信息</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示药材的来源、性味归经、功效主治等基础信息。</p>
+            <div class="result-content" id="card-basic"><p style="color:var(--text-tertiary);margin-top:8px;">此处展示药材的来源、性味归经、功效主治等基础信息。</p></div>
         </div>
         <div class="unhealth" data-tilt>
             <h2><i class="ri-alert-line"></i> <span data-i18n="herb.section.adverseEffects">可能出现的不良症状</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该药材已知的不良反应和毒副作用信息。</p>
+            <div class="result-content" id="card-risk"><p style="color:var(--text-tertiary);margin-top:8px;">此处展示该药材已知的不良反应和毒副作用信息。</p></div>
         </div>
         <div class="popularity" data-tilt>
             <h2><i class="ri-user-heart-line"></i> <span data-i18n="herb.section.riskGroup">易感人群/注意事项</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示禁忌人群、使用注意事项和药物相互作用。</p>
+            <div class="result-content" id="card-note"><p style="color:var(--text-tertiary);margin-top:8px;">此处展示禁忌人群、使用注意事项和药物相互作用。</p></div>
         </div>
         <div class="symptoms" data-tilt>
             <h2><i class="ri-stethoscope-line"></i> <span data-i18n="herb.section.indications">常用于什么症状</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该药材的常见适应症和临床应用场景。</p>
+            <div class="result-content" id="card-symptom"><p style="color:var(--text-tertiary);margin-top:8px;">此处展示该药材的常见适应症和临床应用场景。</p></div>
         </div>
     </div>
 
@@ -94,6 +94,9 @@
     <script src="JS/zh-CN.js"></script>
     <!-- 全局动效引擎 -->
     <script src="JS/effects.js"></script>
+    <!-- API 通信 + 查询逻辑 -->
+    <script src="JS/api.js"></script>
+    <script src="JS/Inqure_medicinal.js"></script>
     <script>
     if (typeof I18N !== 'undefined') {
         I18N.autoInit();
