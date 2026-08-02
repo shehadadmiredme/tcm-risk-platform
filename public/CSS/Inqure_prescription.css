@@ -470,11 +470,42 @@ body {
   color: var(--color-primary-dark);
 }
 
+.formula-result-item .fr-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .formula-result-item .fr-name {
   font-size: 15px;
   font-weight: 600;
   color: var(--color-primary-dark);
   display: block;
+}
+
+/* 命中来源标签 */
+.formula-result-item .fr-match {
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.fr-match-recipe {
+  background: var(--surface-card);
+  color: var(--color-primary-dark);
+}
+
+.fr-match-source {
+  background: var(--surface-light);
+  color: var(--text-secondary);
+}
+
+.fr-match-eff {
+  background: #FFF7E6;
+  color: #B45309;
 }
 
 .formula-result-item .fr-source {

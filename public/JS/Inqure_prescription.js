@@ -290,21 +290,41 @@
     card.appendChild(p);
   }
 
+  // 命中来源标签：区分「名称/配方含/出处含/功效提及」
+  var FS_MATCH = {
+    name: { label: '', cls: '' },
+    recipe: { label: '配方含', cls: 'fr-match-recipe' },
+    source: { label: '出处含', cls: 'fr-match-source' },
+    efficacy: { label: '功效提及', cls: 'fr-match-eff' }
+  };
+
   /** 构建单条方剂结果项 */
   function fsBuildResultItem(f, nameRegex) {
     var item = document.createElement('button');
     item.type = 'button';
     item.className = 'formula-result-item';
+
+    var head = document.createElement('div');
+    head.className = 'fr-head';
     var name = document.createElement('span');
     name.className = 'fr-name';
     fsHighlight(name, f.name || '', nameRegex);
+    head.appendChild(name);
+    var m = FS_MATCH[f.match_field];
+    if (m && m.label) {
+      var tag = document.createElement('span');
+      tag.className = 'fr-match ' + m.cls;
+      tag.textContent = m.label;
+      head.appendChild(tag);
+    }
+    item.appendChild(head);
+
     var src = document.createElement('span');
     src.className = 'fr-source';
     src.textContent = f.source_text || '';
     var eff = document.createElement('span');
     eff.className = 'fr-eff';
     eff.textContent = f.efficacy || '';
-    item.appendChild(name);
     item.appendChild(src);
     item.appendChild(eff);
     item.addEventListener('click', function () {
