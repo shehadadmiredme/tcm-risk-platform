@@ -47,32 +47,79 @@
     <!-- 分隔线 -->
     <hr class="nav-divider">
 
-    <!-- 搜索框 -->
-    <div class="search" data-reveal>
-        <i class="ri-search-line" style="color:#aaa;font-size:18px;margin-right:4px;"></i>
-        <input type="text" data-i18n-placeholder="prescription.searchPlaceholder" placeholder="请输入方剂成分，如：红糖姜水、川贝炖梨...">
-        <span data-i18n="prescription.searchBtn"><i class="ri-search-line"></i> 搜索</span>
+    <!-- Tab 切换：方剂查询 / 药方风险分析 -->
+    <div class="prescription-tabs" role="tablist" aria-label="药方查询工具">
+        <button class="prescription-tab is-active" type="button" role="tab" aria-selected="true" data-tab="query">
+            <i class="ri-file-list-3-line"></i> <span data-i18n="prescription.tabs.query">方剂查询</span>
+        </button>
+        <button class="prescription-tab" type="button" role="tab" aria-selected="false" data-tab="analyze">
+            <i class="ri-heart-pulse-line"></i> <span data-i18n="prescription.tabs.analyze">药方风险分析</span>
+        </button>
     </div>
 
-    <!-- 四宫格展示区 -->
-    <div class="show card-rise-stagger">
-        <div class="imagine" data-tilt>
-            <h2><i class="ri-file-list-3-line"></i> <span data-i18n="prescription.section.composition">组成成分</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的组成药材及其用量配比。</p>
+    <!-- ============ 面板 1：方剂查询（查询库内收录方剂） ============ -->
+    <section class="prescription-panel" data-panel="query" role="tabpanel" data-reveal>
+        <!-- 搜索框 -->
+        <div class="search">
+            <i class="ri-search-line" style="color:#aaa;font-size:18px;margin-right:4px;"></i>
+            <input type="text" id="prescriptionSearchInput" data-i18n-placeholder="prescription.searchPlaceholder" placeholder="请输入方剂成分，如：红糖姜水、川贝炖梨...">
+            <span id="prescriptionSearchBtn"><i class="ri-search-line"></i> <span data-i18n="prescription.searchBtn">搜索</span></span>
         </div>
-        <div class="unhealth" data-tilt>
-            <h2><i class="ri-user-heart-line"></i> <span data-i18n="prescription.section.indications">适用人群或症状</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的适用症状和推荐使用人群。</p>
+
+        <!-- 四宫格展示区 -->
+        <div class="show card-rise-stagger">
+            <div class="imagine" data-tilt>
+                <h2><i class="ri-file-list-3-line"></i> <span data-i18n="prescription.section.composition">组成成分</span></h2>
+                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的组成药材及其用量配比。</p>
+            </div>
+            <div class="unhealth" data-tilt>
+                <h2><i class="ri-user-heart-line"></i> <span data-i18n="prescription.section.indications">适用人群或症状</span></h2>
+                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的适用症状和推荐使用人群。</p>
+            </div>
+            <div class="popularity" data-tilt>
+                <h2><i class="ri-alert-line"></i> <span data-i18n="prescription.section.adverseEffects">不良反应与注意事项</span></h2>
+                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂可能的副作用、禁忌及使用注意事项。</p>
+            </div>
+            <div class="symptoms" data-tilt>
+                <h2><i class="ri-bar-chart-box-line"></i> <span data-i18n="prescription.section.credibility">估计对比与可信度</span></h2>
+                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示古籍记载与现代研究的对比分析及可信度评级。</p>
+            </div>
         </div>
-        <div class="popularity" data-tilt>
-            <h2><i class="ri-alert-line"></i> <span data-i18n="prescription.section.adverseEffects">不良反应与注意事项</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂可能的副作用、禁忌及使用注意事项。</p>
+    </section>
+
+    <!-- ============ 面板 2：药方风险分析（用户自输入药方） ============ -->
+    <section class="prescription-panel" data-panel="analyze" role="tabpanel" hidden data-reveal>
+        <!-- 输入区 -->
+        <div class="analyze-box">
+            <div class="analyze-intro">
+                <i class="ri-heart-pulse-line"></i>
+                <p data-i18n="prescription.analyze.intro">输入您自拟或他人提供的药方，平台将逐味分析药材风险并给出配伍警示。</p>
+            </div>
+
+            <div class="analyze-input-wrap">
+                <textarea id="analyzeInput" class="analyze-textarea" data-i18n-placeholder="prescription.analyze.placeholder" placeholder="每行一味药材，可标注用量，例如：&#10;生姜 30g&#10;红糖 20g&#10;附子 5g"></textarea>
+                <div class="analyze-actions">
+                    <span id="analyzeClearBtn" class="analyze-clear-btn"><i class="ri-delete-back-2-line"></i> <span data-i18n="prescription.analyze.clearBtn">清空</span></span>
+                    <span id="analyzeBtn" class="analyze-btn"><i class="ri-stethoscope-line"></i> <span data-i18n="prescription.analyze.analyzeBtn">开始分析</span></span>
+                </div>
+            </div>
+
+            <!-- 已识别药材标签 -->
+            <div class="analyze-tags" id="analyzeTags" hidden>
+                <span class="analyze-tags-label"><i class="ri-price-tag-3-line"></i> <span data-i18n="prescription.analyze.tagsLabel">已识别药材</span></span>
+                <div class="analyze-tags-list" id="analyzeTagsList"></div>
+            </div>
         </div>
-        <div class="symptoms" data-tilt>
-            <h2><i class="ri-bar-chart-box-line"></i> <span data-i18n="prescription.section.credibility">估计对比与可信度</span></h2>
-            <p style="color:var(--text-tertiary);margin-top:8px;">此处展示古籍记载与现代研究的对比分析及可信度评级。</p>
+
+        <!-- 结果区（前端占位，机制待实现） -->
+        <div class="analyze-result" id="analyzeResult">
+            <div class="analyze-empty">
+                <i class="ri-stethoscope-line"></i>
+                <p data-i18n="prescription.analyze.emptyTitle">等待药方输入</p>
+                <span data-i18n="prescription.analyze.emptyHint">在左上方输入框中逐行录入药材，点击「开始分析」后，此处将展示风险分析结果。</span>
+            </div>
         </div>
-    </div>
+    </section>
 
     <!-- 温馨提示 -->
     <div class="notice" data-reveal>
@@ -88,6 +135,8 @@
     <script src="JS/zh-CN.js"></script>
     <!-- 全局动效引擎 -->
     <script src="JS/effects.js"></script>
+    <!-- 页面交互：tab 切换 + 药方风险分析前端逻辑 -->
+    <script src="JS/Inqure_prescription.js"></script>
     <script>
     if (typeof I18N !== 'undefined') {
         I18N.autoInit();

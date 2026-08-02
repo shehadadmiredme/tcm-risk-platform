@@ -83,11 +83,35 @@ I18N.register('zh-CN', {
         title: '药方查询 — 常用中药偏方风险信息公开平台',
         searchPlaceholder: '请输入方剂成分，如：红糖姜水、川贝炖梨...',
         searchBtn: '搜索',
+        tabs: {
+            query: '方剂查询',
+            analyze: '药方风险分析'
+        },
         section: {
             composition: '组成成分',
             indications: '适用人群或症状',
             adverseEffects: '不良反应与注意事项',
             credibility: '估计对比与可信度'
+        },
+        analyze: {
+            intro: '输入您自拟或他人提供的药方，平台将逐味分析药材风险并给出配伍警示。',
+            placeholder: '每行一味药材，可标注用量，例如：\n生姜 30g\n红糖 20g\n附子 5g',
+            tagsLabel: '已识别药材',
+            analyzeBtn: '开始分析',
+            clearBtn: '清空',
+            emptyTitle: '等待药方输入',
+            emptyHint: '在左上方输入框中逐行录入药材，点击「开始分析」后，此处将展示风险分析结果。',
+            warningDev: '当前为前端演示版本，风险分析引擎即将上线。',
+            result: {
+                devBadge: '功能开发中',
+                overallTitle: '整体风险评级',
+                overallEmpty: '风险评级机制即将上线，敬请期待。',
+                herbTitle: '逐味药材风险',
+                herbEmpty: '将逐味展示药材的毒性等级、禁忌人群与不良反应。',
+                compatTitle: '配伍风险提示',
+                compatEmpty: '将展示方剂中潜在的相反、相畏及不适宜同用的组合。',
+                notReady: '待分析'
+            }
         }
     },
 
