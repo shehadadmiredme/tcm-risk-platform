@@ -211,19 +211,39 @@ for (const h of herbs) {
 const { DatabaseSync } = require('node:sqlite');
 const pdb = new DatabaseSync(path.join(__dirname, '../data/tcm_formula.db'), { readOnly: true });
 
-// 药典药材名按首字符索引，加速成分匹配（处理「炒白术」「炙甘草」等炮制前缀）
+// 药典药材名按首字符索引，加速正向匹配（处理「炒白术」「炙甘草」等炮制前缀）
 const herbsByFirstChar = new Map();
 for (const h of herbNames) {
   const ch = h[0];
   if (!herbsByFirstChar.has(ch)) herbsByFirstChar.set(ch, []);
   herbsByFirstChar.get(ch).push(h);
 }
+// 按长度降序，用于反向匹配（成分名是药典名的子串时兜底）
+const herbNamesSorted = Array.from(herbNames).sort((a, b) => b.length - a.length);
+
+// 古籍成分名 → 药典品种名的精确映射（歧义消解）。
+// 反向包含匹配无法区分同长候选（「大戟」会命中「红大戟」），
+// 古籍「大戟」多指大戟科京大戟，此处显式指定。
+const HERB_ALIAS = {
+  '大戟': '京大戟'
+};
 
 /** 返回 herb_name 匹配到的药典药材名，未匹配返回 null */
 function matchFormulaHerb(hname) {
+  // 正向：成分名包含药典药材名（古籍成分多为「药材+炮制前缀/用量后缀」）
   const cands = herbsByFirstChar.get(hname[0]);
-  if (!cands) return null;
-  for (const h of cands) if (hname.includes(h)) return h;
+  if (cands) {
+    for (const h of cands) if (hname.includes(h)) return h;
+  }
+  // 别名精确映射（优先于反向兜底）
+  const alias = HERB_ALIAS[hname];
+  if (alias && herbNames.has(alias)) return alias;
+  // 反向：药典药材名包含成分名
+  if (hname.length >= 2) {
+    for (const h of herbNamesSorted) {
+      if (h.length >= 3 && h.includes(hname)) return h;
+    }
+  }
   return null;
 }
 
@@ -237,30 +257,55 @@ for (const r of ingRows) {
   formulaAll.get(r.formula_id).push(r.herb_name);
 }
 
-// 筛选：全部成分均匹配药典药材 + 组成药材 3~20 味
+// 候选方剂：匹配到药典药材的占比 ≥50%，且匹配药材 3~20 味
 const formulaCandidates = [];
 for (const [fid, hnames] of formulaAll) {
   const matched = [];
-  let allMatch = true;
   for (const h of hnames) {
     const m = matchFormulaHerb(h);
     if (m) matched.push(m);
-    else { allMatch = false; break; }
   }
-  if (allMatch && matched.length >= 3 && matched.length <= 20) {
-    formulaCandidates.push({ fid, herbs: matched });
+  const ms = new Set(matched);
+  if (ms.size >= 3 && matched.length / hnames.length >= 0.5) {
+    formulaCandidates.push({ fid, herbs: ms });
   }
 }
 
-// 按「组成药材在候选集中的流行度均值」降序，选出由常用药材组成的代表方剂
-const herbFreq = {};
-for (const c of formulaCandidates) for (const h of c.herbs) herbFreq[h] = (herbFreq[h] || 0) + 1;
-formulaCandidates.sort((a, b) => {
-  const avg = (c) => c.herbs.reduce((s, h) => s + herbFreq[h], 0) / c.herbs.length;
-  return avg(b) - avg(a);
+// 1) 覆盖优先：保证数据库中存在方剂的每味药材至少关联一个方剂
+//    （优先复用已选方剂，否则选匹配药材最少的方剂以控制规模）
+const herbToCand = new Map();
+for (const h of herbNames) herbToCand.set(h, []);
+formulaCandidates.forEach((c, idx) => {
+  for (const h of c.herbs) {
+    const arr = herbToCand.get(h);
+    if (arr) arr.push(idx);
+  }
 });
+const pickedIdx = new Set();
+for (const h of herbNames) {
+  const idxs = herbToCand.get(h) || [];
+  let chosen = -1;
+  for (const idx of idxs) {
+    if (pickedIdx.has(idx)) { chosen = idx; break; }
+    if (chosen === -1 || formulaCandidates[idx].herbs.size < formulaCandidates[chosen].herbs.size) chosen = idx;
+  }
+  if (chosen !== -1) pickedIdx.add(chosen);
+}
+let selectedCandidates = Array.from(pickedIdx).map((i) => formulaCandidates[i]);
 
-const topFormulas = formulaCandidates.slice(0, FORMULA_LIMIT);
+// 2) 剩余额度：按「组成药材流行度均值」补充常用药材组成的代表方剂
+const remain = FORMULA_LIMIT - selectedCandidates.length;
+if (remain > 0) {
+  const herbFreq = {};
+  for (const c of formulaCandidates) for (const h of c.herbs) herbFreq[h] = (herbFreq[h] || 0) + 1;
+  const avgScore = (c) => Array.from(c.herbs).reduce((s, h) => s + (herbFreq[h] || 0), 0) / Math.max(c.herbs.size, 1);
+  const rest = formulaCandidates
+    .filter((c, i) => !pickedIdx.has(i))
+    .sort((a, b) => avgScore(b) - avgScore(a));
+  selectedCandidates = selectedCandidates.concat(rest.slice(0, remain));
+}
+
+const topFormulas = selectedCandidates;
 const formulaInfo = new Map();
 for (const c of topFormulas) {
   const row = pdb.prepare('SELECT name, source_text FROM formula WHERE id = ?').get(c.fid);

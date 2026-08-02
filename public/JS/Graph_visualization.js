@@ -292,6 +292,24 @@
     addRow(box, '用法与用量', herb['用法与用量'] || '无');
     if (herb['注意'] && herb['注意'] !== '无') addRow(box, '注意', herb['注意']);
 
+    // 图谱未关联方剂的药材：提示可在药材查询页面查看补充信息
+    var hasFormulaEdge = graphData.edges.some(function (e) {
+      return e.type === '组成' && (e.source === node.id || e.target === node.id);
+    });
+    if (!hasFormulaEdge) {
+      var tip = document.createElement('div');
+      tip.className = 'detail-row';
+      tip.style.color = 'var(--text-tertiary)';
+      tip.style.fontSize = '13px';
+      tip.textContent = '该药材在图谱中暂无关联方剂，可在「药材查询」页面查看其详细信息。';
+      box.appendChild(tip);
+      var link = document.createElement('a');
+      link.className = 'detail-link';
+      link.href = './Inqure_medicinal.html?q=' + encodeURIComponent(herb['药材名称'] || node.name);
+      link.textContent = '前往药材查询页面查看 →';
+      box.appendChild(link);
+    }
+
     fillDetail(box);
   }
 
