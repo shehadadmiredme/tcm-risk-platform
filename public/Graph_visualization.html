@@ -54,7 +54,7 @@
             <!-- 搜索节点 -->
             <div class="sidebar-search">
                 <i class="ri-search-line"></i>
-                <input type="text" id="graphSearchInput" placeholder="搜索药材、经络、功效、症状...">
+                <input type="text" id="graphSearchInput" placeholder="搜索药材、方剂、经络、功效、症状...">
             </div>
 
             <!-- 图例筛选 -->
@@ -63,6 +63,10 @@
                 <label class="filter-item" data-node-type="herb">
                     <input type="checkbox" checked>
                     <span class="filter-dot" style="background:#0F766E;"></span> 药材
+                </label>
+                <label class="filter-item" data-node-type="formula">
+                    <input type="checkbox" checked>
+                    <span class="filter-dot" style="background:#EC4899;"></span> 方剂
                 </label>
                 <label class="filter-item" data-node-type="meridian">
                     <input type="checkbox" checked>
@@ -87,6 +91,9 @@
                 <h4><i class="ri-link"></i> 关系类型筛选</h4>
                 <label class="filter-item" data-edge-type="归经">
                     <input type="checkbox" checked> 归经
+                </label>
+                <label class="filter-item" data-edge-type="组成">
+                    <input type="checkbox" checked> 组成
                 </label>
                 <label class="filter-item" data-edge-type="功效">
                     <input type="checkbox" checked> 功效

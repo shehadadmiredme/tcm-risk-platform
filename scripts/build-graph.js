@@ -61,7 +61,10 @@ const TOXIC_LEVELS = [
   ['小毒', 1]
 ];
 
-const DATA_VERSION = '2026-07-31';
+const DATA_VERSION = '2026-08-02';
+
+// 图谱中加入的精选方剂数量（从 8 万余方剂中选组成药材均为药典品种的代表方剂）
+const FORMULA_LIMIT = 400;
 
 /* ---------- 数据加载与归一化 ---------- */
 
@@ -146,7 +149,7 @@ const edges = [];
 const edgeSet = new Set();
 
 function addNode(type, name, extra = {}) {
-  const id = `${type}:${name}`;
+  const id = extra.id || `${type}:${name}`;
   if (!nodeMap.has(id)) {
     nodeMap.set(id, Object.assign({ id, name, type, value: 0 }, extra));
   }
@@ -203,6 +206,78 @@ for (const h of herbs) {
   }
 }
 
+/* ---------- 方剂节点（精选代表方剂，组成药材均为药典品种） ---------- */
+
+const { DatabaseSync } = require('node:sqlite');
+const pdb = new DatabaseSync(path.join(__dirname, '../data/tcm_formula.db'), { readOnly: true });
+
+// 药典药材名按首字符索引，加速成分匹配（处理「炒白术」「炙甘草」等炮制前缀）
+const herbsByFirstChar = new Map();
+for (const h of herbNames) {
+  const ch = h[0];
+  if (!herbsByFirstChar.has(ch)) herbsByFirstChar.set(ch, []);
+  herbsByFirstChar.get(ch).push(h);
+}
+
+/** 返回 herb_name 匹配到的药典药材名，未匹配返回 null */
+function matchFormulaHerb(hname) {
+  const cands = herbsByFirstChar.get(hname[0]);
+  if (!cands) return null;
+  for (const h of cands) if (hname.includes(h)) return h;
+  return null;
+}
+
+const ingRows = pdb
+  .prepare("SELECT formula_id, herb_name FROM formula_ingredient WHERE herb_name IS NOT NULL AND herb_name != ''")
+  .all();
+
+const formulaAll = new Map(); // formula_id -> [herb_name,...]
+for (const r of ingRows) {
+  if (!formulaAll.has(r.formula_id)) formulaAll.set(r.formula_id, []);
+  formulaAll.get(r.formula_id).push(r.herb_name);
+}
+
+// 筛选：全部成分均匹配药典药材 + 组成药材 3~20 味
+const formulaCandidates = [];
+for (const [fid, hnames] of formulaAll) {
+  const matched = [];
+  let allMatch = true;
+  for (const h of hnames) {
+    const m = matchFormulaHerb(h);
+    if (m) matched.push(m);
+    else { allMatch = false; break; }
+  }
+  if (allMatch && matched.length >= 3 && matched.length <= 20) {
+    formulaCandidates.push({ fid, herbs: matched });
+  }
+}
+
+// 按「组成药材在候选集中的流行度均值」降序，选出由常用药材组成的代表方剂
+const herbFreq = {};
+for (const c of formulaCandidates) for (const h of c.herbs) herbFreq[h] = (herbFreq[h] || 0) + 1;
+formulaCandidates.sort((a, b) => {
+  const avg = (c) => c.herbs.reduce((s, h) => s + herbFreq[h], 0) / c.herbs.length;
+  return avg(b) - avg(a);
+});
+
+const topFormulas = formulaCandidates.slice(0, FORMULA_LIMIT);
+const formulaInfo = new Map();
+for (const c of topFormulas) {
+  const row = pdb.prepare('SELECT name, source_text FROM formula WHERE id = ?').get(c.fid);
+  if (row) formulaInfo.set(c.fid, row);
+}
+
+for (const c of topFormulas) {
+  const row = formulaInfo.get(c.fid);
+  if (!row) continue;
+  const fid = 'formula:' + c.fid;
+  addNode('formula', normalizeText(row.name), { id: fid, source_text: row.source_text || '' });
+  for (const h of c.herbs) {
+    addEdge(fid, `herb:${h}`, '组成');
+  }
+}
+pdb.close();
+
 // 计算节点 value = 入度（被多少药材连接）；药材节点 value = 出度
 const inDegree = {};
 const outDegree = {};
@@ -212,7 +287,7 @@ for (const e of edges) {
 }
 const nodeList = Array.from(nodeMap.values());
 for (const n of nodeList) {
-  n.value = n.type === 'herb' ? (outDegree[n.id] || 0) : (inDegree[n.id] || 0);
+  n.value = (n.type === 'herb' || n.type === 'formula') ? (outDegree[n.id] || 0) : (inDegree[n.id] || 0);
 }
 
 /* ---------- 统计与输出 ---------- */
@@ -226,7 +301,8 @@ const stats = {
   meridianCount: nodeList.filter((n) => n.type === 'meridian').length,
   effectCount: nodeList.filter((n) => n.type === 'effect').length,
   symptomCount: nodeList.filter((n) => n.type === 'symptom').length,
-  cautionCount: nodeList.filter((n) => n.type === 'caution').length
+  cautionCount: nodeList.filter((n) => n.type === 'caution').length,
+  formulaCount: nodeList.filter((n) => n.type === 'formula').length
 };
 
 const graph = {
@@ -239,7 +315,7 @@ const graph = {
 fs.writeFileSync(OUT_FILE, JSON.stringify(graph, null, 2), 'utf-8');
 console.log(`✔ 图谱构建完成：${stats.nodes} 节点 / ${stats.edges} 边`);
 console.log(
-  `  药材 ${stats.herbTotal} | 有毒 ${stats.toxicCount} | 配伍 ${stats.conflictPairs} | ` +
+  `  药材 ${stats.herbTotal} | 方剂 ${stats.formulaCount} | 有毒 ${stats.toxicCount} | 配伍 ${stats.conflictPairs} | ` +
   `经络 ${stats.meridianCount} | 功效 ${stats.effectCount} | 症状 ${stats.symptomCount} | 禁忌 ${stats.cautionCount}`
 );
 console.log(`  产物：${OUT_FILE}`);

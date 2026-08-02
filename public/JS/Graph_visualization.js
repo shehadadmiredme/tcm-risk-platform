@@ -27,6 +27,7 @@
 
   var TYPE_LABELS = {
     herb: '药材',
+    formula: '方剂',
     meridian: '经络',
     effect: '功效',
     symptom: '症状',
@@ -34,6 +35,7 @@
   };
   var TYPE_COLORS = {
     herb: '#0F766E',
+    formula: '#EC4899',
     meridian: '#D97706',
     effect: '#2563EB',
     symptom: '#7C3AED',
@@ -44,14 +46,16 @@
     '功效': 'rgba(37,99,235,0.6)',
     '主治': 'rgba(124,58,237,0.55)',
     '配伍禁忌': 'rgba(220,38,38,0.85)',
-    '毒性': 'rgba(220,38,38,0.95)'
+    '毒性': 'rgba(220,38,38,0.95)',
+    '组成': 'rgba(236,72,153,0.6)'
   };
   var EDGE_LABELS = {
     '归经': '归经',
     '功效': '功效',
     '主治': '主治',
     '配伍禁忌': '禁忌',
-    '毒性': '毒性'
+    '毒性': '毒性',
+    '组成': '组成'
   };
 
   var enabledNodeTypes = new Set(Object.keys(TYPE_LABELS));
@@ -79,6 +83,7 @@
     var base;
     switch (n.type) {
       case 'herb': base = n.toxic ? 46 : 36; break;
+      case 'formula': base = 20 + Math.min(12, n.value * 0.4); break;
       case 'meridian': base = 20 + Math.min(12, n.value * 0.08); break;
       case 'effect': base = 16 + Math.min(10, n.value * 0.15); break;
       case 'symptom': base = 12 + Math.min(8, n.value * 0.2); break;
@@ -284,6 +289,11 @@
     head.appendChild(tag);
     box.appendChild(head);
 
+    // 方剂节点补充出处信息
+    if (node.type === 'formula' && node.source_text) {
+      addRow(box, '出处', node.source_text);
+    }
+
     // 收集所有相关药材（去重）
     var neighborNames = [];
     var seen = new Set();
@@ -301,9 +311,15 @@
       var countRow = document.createElement('div');
       countRow.className = 'detail-row';
       var b = document.createElement('b');
-      b.textContent = '相关药材';
+      b.textContent = node.type === 'formula' ? '组成药材' : '相关药材';
       countRow.appendChild(b);
-      countRow.appendChild(document.createTextNode('（共 ' + neighborNames.length + ' 种，点击可聚焦）'));
+      countRow.appendChild(
+        document.createTextNode(
+          node.type === 'formula'
+            ? '（组成 ' + neighborNames.length + ' 味，点击可聚焦）'
+            : '（共 ' + neighborNames.length + ' 种，点击可聚焦）'
+        )
+      );
       box.appendChild(countRow);
 
       var pills = document.createElement('div');
@@ -417,9 +433,9 @@
     searchInput.addEventListener('input', function () {
       var q = searchInput.value.trim();
       if (!q) return;
-      // 匹配药材名称，聚焦到该药材的子图
+      // 匹配药材 / 方剂名称，聚焦到该节点的子图
       var match = graphData.nodes.find(function (n) {
-        return n.type === 'herb' && n.name.indexOf(q) >= 0;
+        return (n.type === 'herb' || n.type === 'formula') && n.name.indexOf(q) >= 0;
       });
       if (match && match.id !== currentCenter) {
         setCenter(match.id);
