@@ -73,12 +73,12 @@ app.get('/api/graph', async (req, res) => {
 
 /* ---------- 方剂查询路由 ---------- */
 
-// 方剂搜索：/api/formulas/search?q=红糖姜水&limit=20
+// 方剂搜索：/api/formulas/search?q=红糖姜水&limit=30&offset=30
 app.get('/api/formulas/search', async (req, res) => {
   try {
     const q = String(req.query.q || '').trim();
     if (!q) return fail(res, 400, '缺少 q 参数');
-    ok(res, formulaService.searchFormulas(q, req.query.limit));
+    ok(res, formulaService.searchFormulas(q, req.query.limit, req.query.offset));
   } catch (e) {
     fail(res, 500, e.message);
   }

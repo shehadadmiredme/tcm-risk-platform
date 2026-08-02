@@ -246,6 +246,12 @@
   var cardAdverse = document.getElementById('card-adverse');
   var cardCredibility = document.getElementById('card-credibility');
 
+  // 分页状态
+  var fsQuery = '';       // 当前搜索词
+  var fsOffset = 0;       // 下次加载的 offset
+  var fsLoadedCount = 0;  // 当前已显示条数
+  var fsPageSize = 30;    // 每页条数
+
   function fsSetLoading(on) {
     if (!fsBox) return;
     fsBox.classList.toggle('search-loading', !!on);
@@ -284,7 +290,30 @@
     card.appendChild(p);
   }
 
-  /** 渲染搜索结果列表 */
+  /** 构建单条方剂结果项 */
+  function fsBuildResultItem(f, nameRegex) {
+    var item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'formula-result-item';
+    var name = document.createElement('span');
+    name.className = 'fr-name';
+    fsHighlight(name, f.name || '', nameRegex);
+    var src = document.createElement('span');
+    src.className = 'fr-source';
+    src.textContent = f.source_text || '';
+    var eff = document.createElement('span');
+    eff.className = 'fr-eff';
+    eff.textContent = f.efficacy || '';
+    item.appendChild(name);
+    item.appendChild(src);
+    item.appendChild(eff);
+    item.addEventListener('click', function () {
+      fsOpenFormula(f.id);
+    });
+    return item;
+  }
+
+  /** 渲染搜索结果列表（第一页） */
   function fsRenderResults(q, data) {
     var results = data.results || [];
     fsResults.hidden = false;
@@ -300,26 +329,52 @@
       t('prescription.search.clickHint', '点击方剂名称查看详情');
     var nameRegex = new RegExp(fsEscapeRegExp(q), 'g');
     results.forEach(function (f) {
-      var item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'formula-result-item';
-      var name = document.createElement('span');
-      name.className = 'fr-name';
-      fsHighlight(name, f.name || '', nameRegex);
-      var src = document.createElement('span');
-      src.className = 'fr-source';
-      src.textContent = f.source_text || '';
-      var eff = document.createElement('span');
-      eff.className = 'fr-eff';
-      eff.textContent = f.efficacy || '';
-      item.appendChild(name);
-      item.appendChild(src);
-      item.appendChild(eff);
-      item.addEventListener('click', function () {
-        fsOpenFormula(f.id);
-      });
-      fsResultsList.appendChild(item);
+      fsResultsList.appendChild(fsBuildResultItem(f, nameRegex));
     });
+    fsLoadedCount = results.length;
+    fsOffset = results.length;
+    fsRenderLoadMore(total);
+  }
+
+  /** 渲染「加载更多」按钮（结果未显示完时出现） */
+  function fsRenderLoadMore(total) {
+    var old = document.getElementById('formulaLoadMore');
+    if (old) old.remove();
+    if (fsLoadedCount >= total) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'formulaLoadMore';
+    btn.className = 'formula-load-more';
+    btn.textContent = '加载更多（已显示 ' + fsLoadedCount + ' / ' + total + ' 条）';
+    btn.addEventListener('click', fsLoadMore);
+    fsResultsList.appendChild(btn);
+  }
+
+  /** 加载更多结果 */
+  function fsLoadMore() {
+    fsSetLoading(true);
+    window.API.searchFormulas(fsQuery, fsPageSize, fsOffset)
+      .then(function (data) {
+        fsSetLoading(false);
+        var results = data.results || [];
+        var nameRegex = new RegExp(fsEscapeRegExp(fsQuery), 'g');
+        var loadMoreBtn = document.getElementById('formulaLoadMore');
+        results.forEach(function (f) {
+          var item = fsBuildResultItem(f, nameRegex);
+          if (loadMoreBtn && loadMoreBtn.parentNode) {
+            fsResultsList.insertBefore(item, loadMoreBtn);
+          } else {
+            fsResultsList.appendChild(item);
+          }
+        });
+        fsLoadedCount += results.length;
+        fsOffset += results.length;
+        fsRenderLoadMore(data.count);
+      })
+      .catch(function (err) {
+        fsSetLoading(false);
+        fsResultsHead.textContent = '加载失败：' + (err.message || '');
+      });
   }
 
   /** 打开方剂详情 */
@@ -402,8 +457,11 @@
   function fsDoSearch() {
     var q = (fsInput.value || '').trim();
     if (!q) return;
+    fsQuery = q;
+    fsOffset = 0;
+    fsLoadedCount = 0;
     fsSetLoading(true);
-    window.API.searchFormulas(q, 30)
+    window.API.searchFormulas(q, fsPageSize, 0)
       .then(function (data) {
         fsSetLoading(false);
         fsRenderResults(q, data);

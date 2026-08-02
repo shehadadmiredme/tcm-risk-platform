@@ -449,6 +449,27 @@ body {
   background: var(--surface-light);
 }
 
+/* 加载更多按钮 */
+.formula-load-more {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-top: 1px dashed var(--border-light);
+  background: var(--surface-light);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+}
+
+.formula-load-more:hover {
+  background: var(--surface-card);
+  color: var(--color-primary-dark);
+}
+
 .formula-result-item .fr-name {
   font-size: 15px;
   font-weight: 600;

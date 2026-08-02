@@ -48,10 +48,11 @@
       return fetchJSON(url);
     },
 
-    /** 方剂搜索：GET /api/formulas/search?q=&limit= */
-    searchFormulas: function (q, limit) {
+    /** 方剂搜索：GET /api/formulas/search?q=&limit=&offset= */
+    searchFormulas: function (q, limit, offset) {
       var url = '/api/formulas/search?q=' + encodeURIComponent(q);
       if (limit) url += '&limit=' + encodeURIComponent(limit);
+      if (offset) url += '&offset=' + encodeURIComponent(offset);
       return fetchJSON(url);
     },
 
