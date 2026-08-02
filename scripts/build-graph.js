@@ -267,12 +267,27 @@ for (const c of topFormulas) {
   if (row) formulaInfo.set(c.fid, row);
 }
 
+// 按方剂名合并重名方剂为一个节点（如「理中丸」有 8 个版本），组成药材取并集
+const formulaGroups = new Map(); // 方剂名 -> { ids, herbs:Set, sources:Set }
 for (const c of topFormulas) {
   const row = formulaInfo.get(c.fid);
   if (!row) continue;
-  const fid = 'formula:' + c.fid;
-  addNode('formula', normalizeText(row.name), { id: fid, source_text: row.source_text || '' });
-  for (const h of c.herbs) {
+  const name = normalizeText(row.name);
+  if (!formulaGroups.has(name)) formulaGroups.set(name, { ids: [], herbs: new Set(), sources: new Set() });
+  const g = formulaGroups.get(name);
+  g.ids.push(c.fid);
+  for (const h of c.herbs) g.herbs.add(h);
+  g.sources.add(row.source_text || '');
+}
+
+for (const [name, g] of formulaGroups) {
+  const fid = 'formula:' + name;
+  addNode('formula', name, {
+    id: fid,
+    variant_count: g.ids.length,
+    sources: Array.from(g.sources)
+  });
+  for (const h of g.herbs) {
     addEdge(fid, `herb:${h}`, '组成');
   }
 }

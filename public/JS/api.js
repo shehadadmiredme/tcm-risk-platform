@@ -58,6 +58,11 @@
     /** 方剂详情：GET /api/formulas/:id（含成分明细） */
     getFormula: function (id) {
       return fetchJSON('/api/formulas/' + encodeURIComponent(id));
+    },
+
+    /** 同名方剂列表：GET /api/formulas/by-name?name=（图谱重名节点展开） */
+    getFormulasByName: function (name) {
+      return fetchJSON('/api/formulas/by-name?name=' + encodeURIComponent(name));
     }
   };
 })();

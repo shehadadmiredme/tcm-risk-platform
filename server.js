@@ -84,6 +84,17 @@ app.get('/api/formulas/search', async (req, res) => {
   }
 });
 
+// 同名方剂列表：/api/formulas/by-name?name=理中丸（图谱重名节点展开，须在 :id 前定义）
+app.get('/api/formulas/by-name', async (req, res) => {
+  try {
+    const name = String(req.query.name || '').trim();
+    if (!name) return fail(res, 400, '缺少 name 参数');
+    ok(res, formulaService.getFormulasByName(name));
+  } catch (e) {
+    fail(res, 500, e.message);
+  }
+});
+
 // 方剂详情：/api/formulas/:id（含成分明细）
 app.get('/api/formulas/:id', async (req, res) => {
   try {

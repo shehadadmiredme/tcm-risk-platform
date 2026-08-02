@@ -596,6 +596,19 @@ body {
   user-select: none;
 }
 
+/* 同名方剂版本块（图谱方剂节点展开） */
+.formula-variant {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-top: 12px;
+  background: var(--surface-light);
+}
+
+.formula-variant .related-pills {
+  max-height: 120px;
+}
+
 .related-pill:hover {
   background: var(--color-primary-bg);
   color: #fff;

@@ -20,7 +20,7 @@
   var graphData = null;      // 后端全量数据
   var currentCenter = null;  // 当前中心节点 id
   var currentLayout = 'force';
-  var roamMode = 'move';
+  var roamMode = true; // true = 平移 + 滚轮缩放，可用下方按钮切换为单一模式
 
   // 默认初始中心药材（关系最丰富、最常用的「药中甘草」）
   var DEFAULT_CENTER = 'herb:甘草';
@@ -101,6 +101,16 @@
   function buildOption() {
     var sub = currentCenter ? extractSubgraph(currentCenter) : { nodes: [], edges: [] };
 
+    // 中心药材关联方剂过多时（>20），超出的方剂作为「远邻」弱化显示并推远
+    var FAR_LIMIT = 20;
+    var farNodeIds = new Set();
+    if (currentCenter && currentCenter.indexOf('herb:') === 0) {
+      var formulaNeighbors = sub.nodes.filter(function (n) { return n.type === 'formula'; });
+      if (formulaNeighbors.length > FAR_LIMIT) {
+        formulaNeighbors.slice(FAR_LIMIT).forEach(function (n) { farNodeIds.add(n.id); });
+      }
+    }
+
     // 类型筛选 + 记录可见 id
     var nodeIds = new Set();
     var nodes = sub.nodes
@@ -156,9 +166,10 @@
             toxic: n.toxic,
             value: n.value,
             category: TYPE_LABELS[n.type],
-            symbolSize: symbolSizeFor(n, isCenter),
+            symbolSize: farNodeIds.has(n.id) ? symbolSizeFor(n, isCenter) * 0.65 : symbolSizeFor(n, isCenter),
             itemStyle: {
               color: TYPE_COLORS[n.type],
+              opacity: farNodeIds.has(n.id) ? 0.4 : 1,
               borderColor: borderColorFor(n, isCenter),
               borderWidth: isCenter ? 3 : (n.type === 'herb' && n.toxic ? 2 : 1),
               shadowBlur: isCenter ? 24 : 0,
@@ -174,11 +185,18 @@
           };
         }),
         links: links.map(function (e) {
+          var isFar = farNodeIds.has(e.source) || farNodeIds.has(e.target);
           return {
             source: e.source,
             target: e.target,
             value: EDGE_LABELS[e.type] || e.type,
-            lineStyle: { color: EDGE_COLORS[e.type] || 'rgba(255,255,255,0.25)', width: e.type === '配伍禁忌' || e.type === '毒性' ? 2 : 1.2 },
+            // 远邻方剂：边拉长使其远离中心（force 布局 edgeLength 按边生效）
+            edgeLength: isFar ? [420, 520] : undefined,
+            lineStyle: {
+              color: EDGE_COLORS[e.type] || 'rgba(255,255,255,0.25)',
+              width: e.type === '配伍禁忌' || e.type === '毒性' ? 2 : 1.2,
+              opacity: isFar ? 0.2 : 0.6
+            },
             label: { show: e.type === '配伍禁忌' || e.type === '毒性', fontSize: 9, color: 'rgba(248,113,113,0.9)', formatter: '{v}' }
           };
         }),
@@ -224,6 +242,8 @@
         .getHerb(centerNode.name)
         .then(function (herb) { renderHerbDetail(centerNode, herb); })
         .catch(function () { renderGenericDetail(centerNode); });
+    } else if (centerNode.type === 'formula') {
+      renderFormulaDetail(centerNode);
     } else {
       renderGenericDetail(centerNode);
     }
@@ -236,6 +256,8 @@
     var node = params.data;
     if (node.type === 'herb' && node.id !== currentCenter) {
       setCenter(node.id); // 点击药材 → 聚焦其关系网
+    } else if (node.type === 'formula') {
+      renderFormulaDetail(node); // 点击方剂 → 展开全部同名版本
     } else if (node.type !== 'herb') {
       renderGenericDetail(node); // 点击概念节点 → 查看相关药材
     }
@@ -338,6 +360,103 @@
     } else {
       addRow(box, '说明', '该节点暂无关联药材。');
     }
+
+    fillDetail(box);
+  }
+
+  /** 渲染方剂节点详情：异步加载全部同名版本 */
+  function renderFormulaDetail(node) {
+    var box = document.createElement('div');
+    box.className = 'detail-content';
+
+    var head = document.createElement('div');
+    head.className = 'detail-head';
+    var title = document.createElement('span');
+    title.className = 'detail-name';
+    title.textContent = node.name;
+    head.appendChild(title);
+    var tag = document.createElement('span');
+    tag.className = 'detail-type';
+    tag.textContent = '方剂';
+    head.appendChild(tag);
+    box.appendChild(head);
+
+    if (node.variant_count && node.variant_count > 1) {
+      addRow(box, '同名版本', node.variant_count + ' 个，正在加载…');
+    }
+    fillDetail(box);
+
+    window.API
+      .getFormulasByName(node.name)
+      .then(function (list) { renderFormulaVariants(node, list); })
+      .catch(function (err) {
+        var ebox = document.createElement('div');
+        ebox.className = 'detail-content';
+        addRow(ebox, '说明', '加载方剂详情失败：' + (err.message || '未知错误'));
+        fillDetail(ebox);
+      });
+  }
+
+  /** 渲染同名方剂全部版本（出处 + 主治 + 组成药材胶囊） */
+  function renderFormulaVariants(node, list) {
+    var box = document.createElement('div');
+    box.className = 'detail-content';
+
+    var head = document.createElement('div');
+    head.className = 'detail-head';
+    var title = document.createElement('span');
+    title.className = 'detail-name';
+    title.textContent = node.name;
+    head.appendChild(title);
+    var tag = document.createElement('span');
+    tag.className = 'detail-type';
+    tag.textContent = '方剂';
+    head.appendChild(tag);
+    box.appendChild(head);
+
+    if (!list || !list.length) {
+      addRow(box, '说明', '未找到该方剂的详情记录。');
+      fillDetail(box);
+      return;
+    }
+
+    addRow(box, '同名版本', list.length + ' 个版本');
+
+    list.forEach(function (f, idx) {
+      var block = document.createElement('div');
+      block.className = 'formula-variant';
+
+      var ver = document.createElement('div');
+      ver.className = 'detail-row';
+      var vb = document.createElement('b');
+      vb.textContent = '版本 ' + (idx + 1) + ' 出处';
+      ver.appendChild(vb);
+      ver.appendChild(document.createTextNode(f.source_text || '未记载'));
+      block.appendChild(ver);
+
+      if (f.efficacy && f.efficacy.trim()) addRow(block, '主治', f.efficacy);
+
+      var ing = f.ingredients || [];
+      if (ing.length) {
+        var pills = document.createElement('div');
+        pills.className = 'related-pills';
+        pills.style.marginTop = '8px';
+        ing.forEach(function (it) {
+          var hname = it.herb_name || it.raw_text || '';
+          var pill = document.createElement('span');
+          pill.className = 'related-pill';
+          pill.textContent = hname + (it.dosage ? ' ' + it.dosage : '');
+          pill.title = '点击聚焦查看「' + hname + '」的关系网';
+          pill.addEventListener('click', (function (name) {
+            return function () { setCenter('herb:' + name); };
+          })(hname));
+          pills.appendChild(pill);
+        });
+        block.appendChild(pills);
+      }
+
+      box.appendChild(block);
+    });
 
     fillDetail(box);
   }
