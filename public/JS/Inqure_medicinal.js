@@ -55,10 +55,10 @@
     card.appendChild(p);
   }
 
-  /** 从「注意」提取含风险关键词的句子（毒/慎/禁/发汗/刺激/忌/勿；「不宜与X同用」归入注意事项卡，不重复） */
-  function extractRiskSentences(caution) {
+  /** 从「注意」提取不良反应表现句（毒/发汗/刺激/中毒/恶心/呕吐/腹泻等，不含 慎用/禁用/忌 等注意事项，避免与注意事项卡重复） */
+  function extractAdverseSentences(caution) {
     if (!caution || caution === '无') return [];
-    var riskKw = /毒|慎|禁|发汗|刺激|忌|勿/;
+    var riskKw = /毒|发汗|刺激|中毒|恶心|呕吐|腹泻/;
     return caution
       .split(/[。；;]/)
       .map(function (s) { return s.trim(); })
@@ -116,35 +116,41 @@
     item2.appendChild(document.createTextNode(herb['用法与用量'] || '无'));
     cardBasic.appendChild(item2);
 
+    // ── 不良症状卡（毒性徽章 + 不良反应表现，注意字段完整内容在下方注意事项卡，不重复）──
+    clearCard(cardRisk);
+    var risks = extractAdverseSentences(herb['注意']);
+    var hasRisk = false;
     if (toxic) {
-      var pill = document.createElement('span');
-      pill.className = 'pill pill-danger';
-      pill.textContent = '⚠ ' + toxic;
-      cardBasic.appendChild(pill);
+      var pill = document.createElement('p');
+      pill.className = 'result-item';
+      var pillBadge = document.createElement('span');
+      pillBadge.className = 'pill pill-danger';
+      pillBadge.textContent = '⚠ 本品' + toxic;
+      pill.appendChild(pillBadge);
+      cardRisk.appendChild(pill);
+      hasRisk = true;
+    }
+    risks.forEach(function (s) {
+      var p = document.createElement('p');
+      p.className = 'result-item';
+      p.textContent = '· ' + s;
+      cardRisk.appendChild(p);
+      hasRisk = true;
+    });
+    if (!hasRisk) {
+      if (toxic) {
+        setCardPlaceholder(cardRisk, '本品' + toxic + '，具体用药禁忌与注意事项详见下方。');
+      } else {
+        setCardPlaceholder(cardRisk, '该药材未见明确的不良反应记载，但仍需遵医嘱谨慎使用。');
+      }
     }
 
-    // ── 不良症状卡 ──
-    var risks = extractRiskSentences(herb['注意']);
-    if (risks.length) {
-      clearCard(cardRisk);
-      risks.forEach(function (s) {
-        var p = document.createElement('p');
-        p.className = 'result-item';
-        p.textContent = '· ' + s;
-        cardRisk.appendChild(p);
-      });
-    } else {
-      setCardPlaceholder(cardRisk, '该药材未见明确的不良反应记载，但仍需遵医嘱谨慎使用。');
-    }
-
-    // ── 注意事项卡 ──
+    // ── 注意事项卡（注意字段在此完整展示一次，配伍禁忌/相反相畏高亮）──
     clearCard(cardNote);
     var caution = herb['注意'] || '无';
     if (caution && caution !== '无') {
-      // 配伍禁忌高亮
-      appendHighlighted(cardNote, caution, /不宜与[^，。；;、]+?同用/g, 'keyword-hl');
-      // 「X相反」高亮
-      appendHighlighted(cardNote, caution, /[一-龥]{1,6}相[反畏]/g, 'keyword-hl');
+      // 单次调用，合并「不宜与X同用」与「X相反/相畏」两个高亮规则，避免重复追加
+      appendHighlighted(cardNote, caution, /不宜与[^，。；;、]+?同用|[一-龥]{1,6}相[反畏]/g, 'keyword-hl');
     } else {
       setCardPlaceholder(cardNote, '未见明确记载的用药注意事项。');
     }
