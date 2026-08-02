@@ -230,6 +230,209 @@
     });
   }
 
+  /* ---------- 方剂查询：前后端交接（/api/formulas/search） ---------- */
+
+  var fsInput = document.getElementById('prescriptionSearchInput');
+  var fsBtn = document.getElementById('prescriptionSearchBtn');
+  var fsBox = fsInput ? fsInput.closest('.search') : null;
+  var fsResults = document.getElementById('formulaResults');
+  var fsResultsHead = document.getElementById('formulaResultsHead');
+  var fsResultsList = document.getElementById('formulaResultsList');
+  var fsTitle = document.getElementById('formulaTitle');
+  var fsNameEl = document.getElementById('formulaName');
+  var fsSourceEl = document.getElementById('formulaSource');
+  var cardComposition = document.getElementById('card-composition');
+  var cardIndications = document.getElementById('card-indications');
+  var cardAdverse = document.getElementById('card-adverse');
+  var cardCredibility = document.getElementById('card-credibility');
+
+  function fsSetLoading(on) {
+    if (!fsBox) return;
+    fsBox.classList.toggle('search-loading', !!on);
+  }
+
+  function fsEscapeRegExp(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /** 按正则高亮追加（DOM 操作，安全防 XSS） */
+  function fsHighlight(parent, text, regex) {
+    parent.innerHTML = '';
+    var last = 0;
+    var m;
+    if (regex) regex.lastIndex = 0;
+    while (regex && (m = regex.exec(text))) {
+      if (m.index > last) parent.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var mark = document.createElement('mark');
+      mark.className = 'keyword-hl';
+      mark.textContent = m[0];
+      parent.appendChild(mark);
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) parent.appendChild(document.createTextNode(text.slice(last)));
+  }
+
+  function fsCardClear(card) {
+    card.innerHTML = '';
+  }
+
+  function fsCardEmpty(card, text) {
+    fsCardClear(card);
+    var p = document.createElement('p');
+    p.className = 'result-empty';
+    p.textContent = text;
+    card.appendChild(p);
+  }
+
+  /** 渲染搜索结果列表 */
+  function fsRenderResults(q, data) {
+    var results = data.results || [];
+    fsResults.hidden = false;
+    fsResultsList.innerHTML = '';
+    if (!results.length) {
+      fsResultsHead.textContent = t('prescription.search.notFound', '未找到相关方剂，请尝试其他关键词。');
+      return;
+    }
+    var total = data.count;
+    fsResultsHead.textContent =
+      t('prescription.search.totalPrefix', '共') + ' ' + total + ' ' +
+      t('prescription.search.totalSuffix', '条相关方剂') + ' · ' +
+      t('prescription.search.clickHint', '点击方剂名称查看详情');
+    var nameRegex = new RegExp(fsEscapeRegExp(q), 'g');
+    results.forEach(function (f) {
+      var item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'formula-result-item';
+      var name = document.createElement('span');
+      name.className = 'fr-name';
+      fsHighlight(name, f.name || '', nameRegex);
+      var src = document.createElement('span');
+      src.className = 'fr-source';
+      src.textContent = f.source_text || '';
+      var eff = document.createElement('span');
+      eff.className = 'fr-eff';
+      eff.textContent = f.efficacy || '';
+      item.appendChild(name);
+      item.appendChild(src);
+      item.appendChild(eff);
+      item.addEventListener('click', function () {
+        fsOpenFormula(f.id);
+      });
+      fsResultsList.appendChild(item);
+    });
+  }
+
+  /** 打开方剂详情 */
+  function fsOpenFormula(id) {
+    window.API.getFormula(id).then(function (f) {
+      fsResults.hidden = true;
+      fsRenderFormula(f);
+    }).catch(function (err) {
+      fsResultsHead.textContent = '加载详情失败：' + (err.message || '');
+      fsResults.hidden = false;
+    });
+  }
+
+  /** 渲染方剂详情：标题栏 + 四宫格 */
+  function fsRenderFormula(f) {
+    fsTitle.hidden = false;
+    fsNameEl.textContent = f.name || '';
+    fsSourceEl.textContent = f.source_text || '';
+
+    // ── 组成成分 ──
+    var ing = f.ingredients || [];
+    fsCardClear(cardComposition);
+    if (ing.length) {
+      ing.forEach(function (it) {
+        var item = document.createElement('p');
+        item.className = 'result-item';
+        var b = document.createElement('b');
+        b.textContent = (it.herb_name || it.raw_text || '').trim() + '：';
+        item.appendChild(b);
+        // dosage 字段已含单位（如「6两」）；dosage_note 为「各半/等分」等修饰语
+        var dose = it.dosage || '';
+        if (it.dosage_note) dose = dose ? dose + '（' + it.dosage_note + '）' : it.dosage_note;
+        item.appendChild(document.createTextNode(dose || it.raw_text || ''));
+        cardComposition.appendChild(item);
+      });
+    } else if (f.recipe_raw) {
+      var p0 = document.createElement('p');
+      p0.className = 'result-item';
+      p0.textContent = f.recipe_raw;
+      cardComposition.appendChild(p0);
+    } else {
+      fsCardEmpty(cardComposition, t('prescription.search.noRecord', '未记载'));
+    }
+
+    // ── 适用人群或症状 ──
+    fsCardClear(cardIndications);
+    if (f.efficacy && f.efficacy.trim()) {
+      var p1 = document.createElement('p');
+      p1.className = 'result-item';
+      p1.textContent = f.efficacy;
+      cardIndications.appendChild(p1);
+    } else {
+      fsCardEmpty(cardIndications, t('prescription.search.noRecord', '未记载'));
+    }
+
+    // ── 不良反应与注意事项（配伍禁忌/相反相畏高亮）──
+    fsCardClear(cardAdverse);
+    if (f.caution && f.caution.trim()) {
+      fsHighlight(cardAdverse, f.caution, /不宜与[^，。；;、]+?同用|[一-龥]{1,6}相[反畏]/g);
+    } else {
+      fsCardEmpty(cardAdverse, '该方剂未见明确的不良反应与禁忌记载，请遵医嘱使用。');
+    }
+
+    // ── 估计对比与可信度 ──
+    fsCardClear(cardCredibility);
+    var srcItem = document.createElement('p');
+    srcItem.className = 'result-item';
+    var b2 = document.createElement('b');
+    b2.textContent = t('prescription.search.sourceLabel', '出处：');
+    srcItem.appendChild(b2);
+    srcItem.appendChild(document.createTextNode(f.source_text || t('prescription.search.noRecord', '未记载')));
+    cardCredibility.appendChild(srcItem);
+    var hint = document.createElement('p');
+    hint.className = 'result-empty';
+    hint.textContent = t('prescription.search.credibilityHint', '出处为古籍原文记载，可信度需结合现代医学研究评估。');
+    cardCredibility.appendChild(hint);
+  }
+
+  /** 搜索流程 */
+  function fsDoSearch() {
+    var q = (fsInput.value || '').trim();
+    if (!q) return;
+    fsSetLoading(true);
+    window.API.searchFormulas(q, 30)
+      .then(function (data) {
+        fsSetLoading(false);
+        fsRenderResults(q, data);
+      })
+      .catch(function (err) {
+        fsSetLoading(false);
+        fsResults.hidden = false;
+        fsResultsHead.textContent = '查询失败：' + (err.message || '未知错误');
+        fsResultsList.innerHTML = '';
+      });
+  }
+
+  /** 支持 URL 参数：Inqure_prescription.html?q=红糖姜水 直达搜索 */
+  function fsAutoSearchFromUrl() {
+    var params = new URLSearchParams(location.search);
+    var q = (params.get('q') || '').trim();
+    if (q && fsInput) {
+      fsInput.value = q;
+      fsDoSearch();
+    }
+  }
+
+  if (fsBtn) fsBtn.addEventListener('click', fsDoSearch);
+  if (fsInput) {
+    fsInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') fsDoSearch();
+    });
+  }
+
   /* ---------- 初始化 ---------- */
 
   /** 支持 URL hash 定位：Inqure_prescription.html#analyze 直达药方风险分析 */
@@ -241,6 +444,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     renderEmpty();
     syncTabFromHash();
+    fsAutoSearchFromUrl();
   });
 
   window.addEventListener('hashchange', syncTabFromHash);

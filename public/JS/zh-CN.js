@@ -93,6 +93,17 @@ I18N.register('zh-CN', {
             adverseEffects: '不良反应与注意事项',
             credibility: '估计对比与可信度'
         },
+        search: {
+            loading: '搜索中…',
+            resultsLabel: '搜索结果',
+            totalPrefix: '共',
+            totalSuffix: '条相关方剂',
+            notFound: '未找到相关方剂，请尝试其他关键词。',
+            clickHint: '点击方剂名称查看详情',
+            sourceLabel: '出处：',
+            noRecord: '未记载',
+            credibilityHint: '出处为古籍原文记载，可信度需结合现代医学研究评估。'
+        },
         analyze: {
             intro: '输入您自拟或他人提供的药方，平台将逐味分析药材风险并给出配伍警示。',
             placeholder: '每行一味药材，可标注用量，例如：\n生姜 30g\n红糖 20g\n附子 5g',

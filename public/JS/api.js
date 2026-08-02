@@ -46,6 +46,18 @@
       var url = '/api/graph';
       if (types && types.length) url += '?types=' + types.join(',');
       return fetchJSON(url);
+    },
+
+    /** 方剂搜索：GET /api/formulas/search?q=&limit= */
+    searchFormulas: function (q, limit) {
+      var url = '/api/formulas/search?q=' + encodeURIComponent(q);
+      if (limit) url += '&limit=' + encodeURIComponent(limit);
+      return fetchJSON(url);
+    },
+
+    /** 方剂详情：GET /api/formulas/:id（含成分明细） */
+    getFormula: function (id) {
+      return fetchJSON('/api/formulas/' + encodeURIComponent(id));
     }
   };
 })();

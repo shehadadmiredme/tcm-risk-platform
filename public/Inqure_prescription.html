@@ -66,23 +66,35 @@
             <span id="prescriptionSearchBtn"><i class="ri-search-line"></i> <span data-i18n="prescription.searchBtn">搜索</span></span>
         </div>
 
+        <!-- 搜索结果列表 -->
+        <div class="formula-results" id="formulaResults" hidden>
+            <div class="formula-results-head" id="formulaResultsHead"></div>
+            <div class="formula-results-list" id="formulaResultsList"></div>
+        </div>
+
+        <!-- 方剂标题栏 -->
+        <div class="formula-title" id="formulaTitle" hidden>
+            <div id="formulaName"></div>
+            <div id="formulaSource"></div>
+        </div>
+
         <!-- 四宫格展示区 -->
         <div class="show card-rise-stagger">
             <div class="imagine" data-tilt>
                 <h2><i class="ri-file-list-3-line"></i> <span data-i18n="prescription.section.composition">组成成分</span></h2>
-                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的组成药材及其用量配比。</p>
+                <div class="result-content" id="card-composition"><p class="result-empty">此处展示该方剂的组成药材及其用量配比。</p></div>
             </div>
             <div class="unhealth" data-tilt>
                 <h2><i class="ri-user-heart-line"></i> <span data-i18n="prescription.section.indications">适用人群或症状</span></h2>
-                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂的适用症状和推荐使用人群。</p>
+                <div class="result-content" id="card-indications"><p class="result-empty">此处展示该方剂的适用症状和推荐使用人群。</p></div>
             </div>
             <div class="popularity" data-tilt>
                 <h2><i class="ri-alert-line"></i> <span data-i18n="prescription.section.adverseEffects">不良反应与注意事项</span></h2>
-                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示该方剂可能的副作用、禁忌及使用注意事项。</p>
+                <div class="result-content" id="card-adverse"><p class="result-empty">此处展示该方剂可能的副作用、禁忌及使用注意事项。</p></div>
             </div>
             <div class="symptoms" data-tilt>
                 <h2><i class="ri-bar-chart-box-line"></i> <span data-i18n="prescription.section.credibility">估计对比与可信度</span></h2>
-                <p style="color:var(--text-tertiary);margin-top:8px;">此处展示古籍记载与现代研究的对比分析及可信度评级。</p>
+                <div class="result-content" id="card-credibility"><p class="result-empty">此处展示古籍记载与现代研究的对比分析及可信度评级。</p></div>
             </div>
         </div>
     </section>
@@ -135,7 +147,9 @@
     <script src="JS/zh-CN.js"></script>
     <!-- 全局动效引擎 -->
     <script src="JS/effects.js"></script>
-    <!-- 页面交互：tab 切换 + 药方风险分析前端逻辑 -->
+    <!-- API 通信 -->
+    <script src="JS/api.js"></script>
+    <!-- 页面交互：tab 切换 + 方剂查询 + 药方风险分析前端逻辑 -->
     <script src="JS/Inqure_prescription.js"></script>
     <script>
     if (typeof I18N !== 'undefined') {

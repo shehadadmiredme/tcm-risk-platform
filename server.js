@@ -8,6 +8,7 @@
 const path = require('path');
 const express = require('express');
 const dataService = require('./lib/dataService');
+const formulaService = require('./lib/formulaService');
 
 const app = express();
 app.use(express.json());
@@ -65,6 +66,30 @@ app.get('/api/graph', async (req, res) => {
   try {
     const types = req.query.types ? String(req.query.types).split(',') : null;
     ok(res, await dataService.getGraph(types));
+  } catch (e) {
+    fail(res, 500, e.message);
+  }
+});
+
+/* ---------- 方剂查询路由 ---------- */
+
+// 方剂搜索：/api/formulas/search?q=红糖姜水&limit=20
+app.get('/api/formulas/search', async (req, res) => {
+  try {
+    const q = String(req.query.q || '').trim();
+    if (!q) return fail(res, 400, '缺少 q 参数');
+    ok(res, formulaService.searchFormulas(q, req.query.limit));
+  } catch (e) {
+    fail(res, 500, e.message);
+  }
+});
+
+// 方剂详情：/api/formulas/:id（含成分明细）
+app.get('/api/formulas/:id', async (req, res) => {
+  try {
+    const formula = formulaService.getFormula(req.params.id);
+    if (!formula) return fail(res, 404, '未找到该方剂');
+    ok(res, formula);
   } catch (e) {
     fail(res, 500, e.message);
   }

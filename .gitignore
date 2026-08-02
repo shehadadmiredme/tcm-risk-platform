@@ -8,3 +8,6 @@ node_modules/
 
 .vercel
 .env*
+
+# 中医方剂数据库（89MB，不入 git，部署单独上传）
+data/tcm_formula.db*
