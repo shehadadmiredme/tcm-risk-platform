@@ -1,8 +1,11 @@
 /**
- * public/JS/Graph_visualization.js —— 图谱可视化页逻辑
+ * public/JS/Graph_visualization.js —— 图谱可视化页逻辑（子图聚焦模式）
  *
- * 数据流：GET /api/graph → ECharts graph 系列渲染
- * 交互：节点点击详情 / 类型与关系筛选 / 布局切换 / 搜索高亮 / 重置视图
+ * 交互模式（参考 GitHub 依赖图）：不一次性渲染全部 841 节点，
+ * 而是每次聚焦展示「一个中心药材 + 它的直接关系邻居」的局部子图，
+ * 通过搜索 / 点击节点不断切换中心，图谱始终清晰可读。
+ *
+ * 数据流：GET /api/graph 获取全量 → 前端裁剪子图 → ECharts graph 渲染
  * 依赖：ECharts 5（CDN）+ JS/api.js
  */
 (function () {
@@ -14,9 +17,13 @@
   var searchInput = document.getElementById('graphSearchInput');
 
   var chart = null;
-  var graphData = null;      // 后端原始数据
+  var graphData = null;      // 后端全量数据
+  var currentCenter = null;  // 当前中心节点 id
   var currentLayout = 'force';
-  var roamMode = 'move';     // move | scale
+  var roamMode = 'move';
+
+  // 默认初始中心药材（关系最丰富、最常用的「药中甘草」）
+  var DEFAULT_CENTER = 'herb:甘草';
 
   var TYPE_LABELS = {
     herb: '药材',
@@ -39,39 +46,62 @@
     '配伍禁忌': 'rgba(220,38,38,0.85)',
     '毒性': 'rgba(220,38,38,0.95)'
   };
+  var EDGE_LABELS = {
+    '归经': '归经',
+    '功效': '功效',
+    '主治': '主治',
+    '配伍禁忌': '禁忌',
+    '毒性': '毒性'
+  };
 
   var enabledNodeTypes = new Set(Object.keys(TYPE_LABELS));
   var enabledEdgeTypes = new Set(Object.keys(EDGE_COLORS));
 
-  /* ---------- 渲染 ---------- */
+  /* ---------- 子图提取 ---------- */
 
-  function symbolSizeFor(n) {
-    switch (n.type) {
-      case 'herb':
-        return n.toxic ? 50 : 40;
-      case 'meridian':
-        return 22 + Math.min(14, n.value * 0.08);
-      case 'effect':
-        return 18 + Math.min(12, n.value * 0.15);
-      case 'symptom':
-        return 12 + Math.min(10, n.value * 0.2);
-      default: // caution
-        return 18 + Math.min(14, n.value * 0.5);
-    }
+  /** 从全量数据提取「中心节点 + 一跳邻居 + 相关边」的局部子图 */
+  function extractSubgraph(centerId) {
+    var ids = new Set([centerId]);
+    graphData.edges.forEach(function (e) {
+      if (e.source === centerId) ids.add(e.target);
+      if (e.target === centerId) ids.add(e.source);
+    });
+    var nodes = graphData.nodes.filter(function (n) { return ids.has(n.id); });
+    var edges = graphData.edges.filter(function (e) {
+      return ids.has(e.source) && ids.has(e.target);
+    });
+    return { nodes: nodes, edges: edges };
   }
 
-  function borderColorFor(n) {
+  /* ---------- 渲染 ---------- */
+
+  function symbolSizeFor(n, isCenter) {
+    var base;
+    switch (n.type) {
+      case 'herb': base = n.toxic ? 46 : 36; break;
+      case 'meridian': base = 20 + Math.min(12, n.value * 0.08); break;
+      case 'effect': base = 16 + Math.min(10, n.value * 0.15); break;
+      case 'symptom': base = 12 + Math.min(8, n.value * 0.2); break;
+      default: base = 16 + Math.min(12, n.value * 0.5); break; // caution
+    }
+    return isCenter ? base + 16 : base;
+  }
+
+  function borderColorFor(n, isCenter) {
+    if (isCenter) return '#fff';
     if (n.type === 'herb' && n.toxic) return '#F87171';
     return 'rgba(255,255,255,0.35)';
   }
 
   function buildOption() {
-    // 按当前筛选过滤节点与边
+    var sub = currentCenter ? extractSubgraph(currentCenter) : { nodes: [], edges: [] };
+
+    // 类型筛选 + 记录可见 id
     var nodeIds = new Set();
-    var nodes = graphData.nodes
+    var nodes = sub.nodes
       .filter(function (n) { return enabledNodeTypes.has(n.type); })
       .map(function (n) { nodeIds.add(n.id); return n; });
-    var links = graphData.edges.filter(function (e) {
+    var links = sub.edges.filter(function (e) {
       return enabledEdgeTypes.has(e.type) && nodeIds.has(e.source) && nodeIds.has(e.target);
     });
 
@@ -91,17 +121,29 @@
             var d = p.data;
             var line = '<b>' + d.name + '</b><br/>' + (TYPE_LABELS[d.type] || d.type);
             if (d.toxic) line += ' · <span style="color:#F87171">有毒</span>';
+            if (d.type === 'herb' && d.id === currentCenter) line += '<br/><span style="color:#34D399">当前中心药材（点击其他节点可切换）</span>';
             return line;
           }
           return '';
         }
       },
+      legend: {
+        data: categories.map(function (c) { return c.name; }),
+        textStyle: { color: 'rgba(226,240,238,0.85)', fontSize: 11 },
+        top: 8,
+        right: 12,
+        icon: 'circle',
+        itemWidth: 10,
+        itemHeight: 10,
+        itemGap: 10
+      },
       series: [{
         type: 'graph',
         layout: currentLayout,
-        roam: true,
+        roam: roamMode,
         draggable: true,
         data: nodes.map(function (n) {
+          var isCenter = n.id === currentCenter;
           return {
             id: n.id,
             name: n.name,
@@ -109,28 +151,41 @@
             toxic: n.toxic,
             value: n.value,
             category: TYPE_LABELS[n.type],
-            symbolSize: symbolSizeFor(n),
-            itemStyle: { color: TYPE_COLORS[n.type], borderColor: borderColorFor(n), borderWidth: n.type === 'herb' && n.toxic ? 2 : 1 },
-            label: { show: true, fontSize: 10, color: 'rgba(226,240,238,0.92)', offset: [0, -8] }
+            symbolSize: symbolSizeFor(n, isCenter),
+            itemStyle: {
+              color: TYPE_COLORS[n.type],
+              borderColor: borderColorFor(n, isCenter),
+              borderWidth: isCenter ? 3 : (n.type === 'herb' && n.toxic ? 2 : 1),
+              shadowBlur: isCenter ? 24 : 0,
+              shadowColor: 'rgba(52,211,153,0.55)'
+            },
+            label: {
+              show: true,
+              fontSize: isCenter ? 14 : 10,
+              color: isCenter ? '#fff' : 'rgba(226,240,238,0.9)',
+              fontWeight: isCenter ? 700 : 400,
+              offset: [0, -10]
+            }
           };
         }),
         links: links.map(function (e) {
           return {
             source: e.source,
             target: e.target,
-            lineStyle: { color: EDGE_COLORS[e.type] || 'rgba(255,255,255,0.25)', width: 1.2 },
-            type: e.type
+            value: EDGE_LABELS[e.type] || e.type,
+            lineStyle: { color: EDGE_COLORS[e.type] || 'rgba(255,255,255,0.25)', width: e.type === '配伍禁忌' || e.type === '毒性' ? 2 : 1.2 },
+            label: { show: e.type === '配伍禁忌' || e.type === '毒性', fontSize: 9, color: 'rgba(248,113,113,0.9)', formatter: '{v}' }
           };
         }),
         categories: categories,
-        force: { repulsion: 220, edgeLength: [50, 150], gravity: 0.08, friction: 0.55 },
-        lineStyle: { opacity: 0.55, curveness: 0.08 },
+        force: { repulsion: 280, edgeLength: [70, 160], gravity: 0.08, friction: 0.6 },
+        lineStyle: { opacity: 0.6, curveness: 0.1 },
         emphasis: {
           focus: 'adjacency',
-          label: { fontSize: 13 },
-          lineStyle: { width: 2.5, opacity: 0.9 }
-        },
-        labelLayout: { hideOverlap: true }
+          label: { fontSize: 12 },
+          lineStyle: { width: 3, opacity: 0.95 }
+        }
+        // 不使用 hideOverlap：保证所有节点名称始终显示，不因标签重叠被隐藏
       }]
     };
     return option;
@@ -145,23 +200,28 @@
     if (!chart) {
       chart = echarts.init(canvas);
       chart.on('click', onNodeClick);
-      window.addEventListener('resize', function () {
-        if (chart) chart.resize();
-      });
+      window.addEventListener('resize', function () { if (chart) chart.resize(); });
     }
     chart.setOption(buildOption(), true);
   }
 
-  /* ---------- 统计 ---------- */
+  /* ---------- 中心切换 ---------- */
 
-  function fillStats(g) {
-    var set = function (id, val) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = val;
-    };
-    set('statNodes', g.stats.nodes);
-    set('statEdges', g.stats.edges);
-    set('statToxic', g.stats.toxicCount);
+  function setCenter(nodeId) {
+    if (!graphData || !nodeId) return;
+    currentCenter = nodeId;
+    renderChart();
+
+    var centerNode = graphData.nodes.find(function (n) { return n.id === nodeId; });
+    if (!centerNode) return;
+    if (centerNode.type === 'herb') {
+      window.API
+        .getHerb(centerNode.name)
+        .then(function (herb) { renderHerbDetail(centerNode, herb); })
+        .catch(function () { renderGenericDetail(centerNode); });
+    } else {
+      renderGenericDetail(centerNode);
+    }
   }
 
   /* ---------- 节点点击 ---------- */
@@ -169,15 +229,14 @@
   function onNodeClick(params) {
     if (!params || params.dataType !== 'node') return;
     var node = params.data;
-    if (node.type === 'herb') {
-      window.API
-        .getHerb(node.name)
-        .then(function (herb) { renderHerbDetail(node, herb); })
-        .catch(function () { renderGenericDetail(node); });
-    } else {
-      renderGenericDetail(node);
+    if (node.type === 'herb' && node.id !== currentCenter) {
+      setCenter(node.id); // 点击药材 → 聚焦其关系网
+    } else if (node.type !== 'herb') {
+      renderGenericDetail(node); // 点击概念节点 → 查看相关药材
     }
   }
+
+  /* ---------- 详情渲染 ---------- */
 
   function renderHerbDetail(node, herb) {
     var box = document.createElement('div');
@@ -195,6 +254,10 @@
       badge.textContent = '有毒';
       head.appendChild(badge);
     }
+    var tag = document.createElement('span');
+    tag.className = 'detail-type';
+    tag.textContent = '当前中心 · 点击节点可切换';
+    head.appendChild(tag);
     box.appendChild(head);
 
     addRow(box, '性味与归经', herb['性味与归经'] || '无');
@@ -221,17 +284,43 @@
     head.appendChild(tag);
     box.appendChild(head);
 
-    // 相关药材
-    var related = [];
-    var neighborNames = new Set();
+    // 收集所有相关药材（去重）
+    var neighborNames = [];
+    var seen = new Set();
     graphData.edges.forEach(function (e) {
-      if (e.source === node.id && e.target.indexOf('herb:') === 0) neighborNames.add(e.target.slice(5));
-      if (e.target === node.id && e.source.indexOf('herb:') === 0) neighborNames.add(e.source.slice(5));
+      var nb = null;
+      if (e.source === node.id && e.target.indexOf('herb:') === 0) nb = e.target.slice(5);
+      if (e.target === node.id && e.source.indexOf('herb:') === 0) nb = e.source.slice(5);
+      if (nb && !seen.has(nb)) {
+        seen.add(nb);
+        neighborNames.push(nb);
+      }
     });
-    if (neighborNames.size) {
-      addRow(box, '相关药材', Array.from(neighborNames).slice(0, 30).join('、') + (neighborNames.size > 30 ? '…' : ''));
+
+    if (neighborNames.length) {
+      var countRow = document.createElement('div');
+      countRow.className = 'detail-row';
+      var b = document.createElement('b');
+      b.textContent = '相关药材';
+      countRow.appendChild(b);
+      countRow.appendChild(document.createTextNode('（共 ' + neighborNames.length + ' 种，点击可聚焦）'));
+      box.appendChild(countRow);
+
+      var pills = document.createElement('div');
+      pills.className = 'related-pills';
+      neighborNames.forEach(function (name) {
+        var pill = document.createElement('span');
+        pill.className = 'related-pill';
+        pill.textContent = name;
+        pill.title = '点击聚焦查看「' + name + '」的关系网';
+        pill.addEventListener('click', function () {
+          setCenter('herb:' + name);
+        });
+        pills.appendChild(pill);
+      });
+      box.appendChild(pills);
     } else {
-      addRow(box, '说明', '该节点为图谱中的概念节点，点击其相连的药材查看详情。');
+      addRow(box, '说明', '该节点暂无关联药材。');
     }
 
     fillDetail(box);
@@ -252,6 +341,18 @@
     nodeDetail.appendChild(box);
   }
 
+  /* ---------- 统计 ---------- */
+
+  function fillStats(g) {
+    var set = function (id, val) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
+    set('statNodes', g.stats.nodes);
+    set('statEdges', g.stats.edges);
+    set('statToxic', g.stats.toxicCount);
+  }
+
   /* ---------- 错误态 ---------- */
 
   function renderError(msg) {
@@ -264,7 +365,6 @@
   /* ---------- 交互绑定 ---------- */
 
   function bindFilters() {
-    // 节点类型筛选
     document.querySelectorAll('[data-node-type]').forEach(function (label) {
       label.addEventListener('change', function () {
         var type = label.getAttribute('data-node-type');
@@ -273,7 +373,6 @@
         if (chart) chart.setOption(buildOption(), true);
       });
     });
-    // 关系类型筛选
     document.querySelectorAll('[data-edge-type]').forEach(function (label) {
       label.addEventListener('change', function () {
         var type = label.getAttribute('data-edge-type');
@@ -285,7 +384,6 @@
   }
 
   function bindToolbar() {
-    // 布局切换
     document.querySelectorAll('.layout-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         document.querySelectorAll('.layout-btn').forEach(function (b) { b.classList.remove('active'); });
@@ -295,7 +393,6 @@
       });
     });
 
-    // 平移/缩放模式
     var btnPan = document.getElementById('btnPan');
     var btnZoom = document.getElementById('btnZoom');
     function setRoam(mode) {
@@ -307,28 +404,26 @@
     if (btnPan) btnPan.addEventListener('click', function () { setRoam('move'); });
     if (btnZoom) btnZoom.addEventListener('click', function () { setRoam('scale'); });
 
-    // 重置视图
+    // 重置：回到默认中心药材
     var btnReset = document.getElementById('btnReset');
     if (btnReset) btnReset.addEventListener('click', function () {
-      if (!chart) return;
-      chart.setOption(buildOption(), true);
+      if (searchInput) searchInput.value = '';
+      if (graphData) setCenter(DEFAULT_CENTER);
     });
   }
 
   function bindSearch() {
     if (!searchInput) return;
     searchInput.addEventListener('input', function () {
-      if (!chart) return;
       var q = searchInput.value.trim();
-      // 取消全部高亮
-      chart.dispatchAction({ type: 'downplay', seriesIndex: 0 });
       if (!q) return;
-      var data = buildOption().series[0].data;
-      data.forEach(function (n, idx) {
-        if (n.name.indexOf(q) >= 0) {
-          chart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: idx });
-        }
+      // 匹配药材名称，聚焦到该药材的子图
+      var match = graphData.nodes.find(function (n) {
+        return n.type === 'herb' && n.name.indexOf(q) >= 0;
       });
+      if (match && match.id !== currentCenter) {
+        setCenter(match.id);
+      }
     });
   }
 
@@ -344,6 +439,8 @@
         bindFilters();
         bindToolbar();
         bindSearch();
+        // 初始聚焦默认中心药材
+        setCenter(DEFAULT_CENTER);
       })
       .catch(function (err) {
         renderError(err.message || '网络异常');
