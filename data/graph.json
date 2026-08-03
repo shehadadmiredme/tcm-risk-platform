@@ -1,15 +1,15 @@
 {
   "meta": {
     "dataVersion": "2026-08-02",
-    "generatedAt": "2026-08-02T11:37:29.449Z",
+    "generatedAt": "2026-08-03T03:56:08.386Z",
     "herbTotal": 544
   },
   "stats": {
     "nodes": 1204,
-    "edges": 4916,
+    "edges": 4950,
     "herbTotal": 544,
     "toxicCount": 70,
-    "conflictPairs": 21,
+    "conflictPairs": 20,
     "meridianCount": 12,
     "effectCount": 70,
     "symptomCount": 212,
@@ -29,13 +29,13 @@
       "id": "meridian:肺",
       "name": "肺",
       "type": "meridian",
-      "value": 217
+      "value": 219
     },
     {
       "id": "meridian:肝",
       "name": "肝",
       "type": "meridian",
-      "value": 278
+      "value": 279
     },
     {
       "id": "effect:清热解毒",
@@ -47,25 +47,25 @@
       "id": "effect:疏散风热",
       "name": "疏散风热",
       "type": "effect",
-      "value": 11
+      "value": 12
     },
     {
       "id": "symptom:喉痹",
       "name": "喉痹",
       "type": "symptom",
-      "value": 18
+      "value": 16
     },
     {
       "id": "symptom:咽喉肿痛",
       "name": "咽喉肿痛",
       "type": "symptom",
-      "value": 34
+      "value": 35
     },
     {
       "id": "symptom:风热感冒",
       "name": "风热感冒",
       "type": "symptom",
-      "value": 11
+      "value": 12
     },
     {
       "id": "herb:丁公藤",
@@ -79,13 +79,13 @@
       "id": "meridian:脾",
       "name": "脾",
       "type": "meridian",
-      "value": 154
+      "value": 152
     },
     {
       "id": "meridian:胃",
       "name": "胃",
       "type": "meridian",
-      "value": 173
+      "value": 175
     },
     {
       "id": "effect:祛风除湿",
@@ -109,7 +109,7 @@
       "id": "symptom:半身不遂",
       "name": "半身不遂",
       "type": "symptom",
-      "value": 8
+      "value": 7
     },
     {
       "id": "symptom:跌扑肿痛",
@@ -135,7 +135,7 @@
       "id": "meridian:肾",
       "name": "肾",
       "type": "meridian",
-      "value": 138
+      "value": 137
     },
     {
       "id": "effect:补肾助阳",
@@ -147,7 +147,7 @@
       "id": "symptom:脾胃虚寒",
       "name": "脾胃虚寒",
       "type": "symptom",
-      "value": 5
+      "value": 4
     },
     {
       "id": "symptom:食少吐泻",
@@ -179,13 +179,13 @@
       "id": "effect:理气止痛",
       "name": "理气止痛",
       "type": "effect",
-      "value": 4
+      "value": 5
     },
     {
       "id": "symptom:寒疝腹痛",
       "name": "寒疝腹痛",
       "type": "symptom",
-      "value": 7
+      "value": 6
     },
     {
       "id": "symptom:肾虚腰痛",
@@ -217,7 +217,7 @@
       "id": "meridian:心",
       "name": "心",
       "type": "meridian",
-      "value": 109
+      "value": 110
     },
     {
       "id": "symptom:口舌生疮",
@@ -229,7 +229,7 @@
       "id": "symptom:痈肿疔疮",
       "name": "痈肿疔疮",
       "type": "symptom",
-      "value": 6
+      "value": 8
     },
     {
       "id": "herb:人参",
@@ -285,7 +285,7 @@
       "id": "symptom:津伤口渴",
       "name": "津伤口渴",
       "type": "symptom",
-      "value": 7
+      "value": 8
     },
     {
       "id": "symptom:内热消渴",
@@ -331,7 +331,7 @@
       "id": "symptom:外伤出血",
       "name": "外伤出血",
       "type": "symptom",
-      "value": 23
+      "value": 24
     },
     {
       "id": "symptom:吐血衄血",
@@ -349,7 +349,7 @@
       "id": "symptom:肺热咳嗽",
       "name": "肺热咳嗽",
       "type": "symptom",
-      "value": 13
+      "value": 16
     },
     {
       "id": "herb:九里香",
@@ -363,7 +363,7 @@
       "id": "effect:行气止痛",
       "name": "行气止痛",
       "type": "effect",
-      "value": 10
+      "value": 9
     },
     {
       "id": "herb:九香虫",
@@ -383,15 +383,21 @@
       "id": "symptom:腰膝酸痛",
       "name": "腰膝酸痛",
       "type": "symptom",
-      "value": 10
+      "value": 11
     },
     {
       "id": "herb:刀豆",
       "name": "刀豆",
       "type": "herb",
-      "value": 2,
+      "value": 3,
       "toxic": false,
       "toxicLevel": 0
+    },
+    {
+      "id": "symptom:呕吐",
+      "name": "呕吐",
+      "type": "symptom",
+      "value": 5
     },
     {
       "id": "herb:三七",
@@ -411,13 +417,13 @@
       "id": "symptom:吐血",
       "name": "吐血",
       "type": "symptom",
-      "value": 26
+      "value": 27
     },
     {
       "id": "symptom:衄血",
       "name": "衄血",
       "type": "symptom",
-      "value": 19
+      "value": 20
     },
     {
       "id": "symptom:便血",
@@ -473,7 +479,7 @@
       "id": "symptom:湿疹",
       "name": "湿疹",
       "type": "symptom",
-      "value": 15
+      "value": 16
     },
     {
       "id": "herb:三棱",
@@ -505,7 +511,7 @@
       "id": "symptom:胸痹心痛",
       "name": "胸痹心痛",
       "type": "symptom",
-      "value": 21
+      "value": 22
     },
     {
       "id": "herb:三颗针",
@@ -519,7 +525,7 @@
       "id": "meridian:大肠",
       "name": "大肠",
       "type": "meridian",
-      "value": 84
+      "value": 85
     },
     {
       "id": "effect:清热燥湿",
@@ -537,7 +543,7 @@
       "id": "symptom:湿热泻痢",
       "name": "湿热泻痢",
       "type": "symptom",
-      "value": 8
+      "value": 9
     },
     {
       "id": "symptom:黄疸",
@@ -583,7 +589,7 @@
       "id": "symptom:虫积腹痛",
       "name": "虫积腹痛",
       "type": "symptom",
-      "value": 13
+      "value": 14
     },
     {
       "id": "herb:土木香",
@@ -603,7 +609,7 @@
       "id": "symptom:脘腹胀痛",
       "name": "脘腹胀痛",
       "type": "symptom",
-      "value": 12
+      "value": 13
     },
     {
       "id": "symptom:胎动不安",
@@ -615,7 +621,7 @@
       "id": "herb:木香",
       "name": "木香",
       "type": "herb",
-      "value": 9,
+      "value": 10,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -629,13 +635,13 @@
       "id": "meridian:胆",
       "name": "胆",
       "type": "meridian",
-      "value": 25
+      "value": 26
     },
     {
       "id": "symptom:食积不消",
       "name": "食积不消",
       "type": "symptom",
-      "value": 8
+      "value": 7
     },
     {
       "id": "symptom:不思饮食",
@@ -737,7 +743,7 @@
       "id": "effect:祛风止痛",
       "name": "祛风止痛",
       "type": "effect",
-      "value": 9
+      "value": 10
     },
     {
       "id": "symptom:肠痈腹痛",
@@ -803,13 +809,13 @@
       "id": "effect:凉血消斑",
       "name": "凉血消斑",
       "type": "effect",
-      "value": 5
+      "value": 4
     },
     {
       "id": "symptom:痄腮",
       "name": "痄腮",
       "type": "symptom",
-      "value": 6
+      "value": 5
     },
     {
       "id": "symptom:丹毒",
@@ -835,7 +841,7 @@
       "id": "symptom:目赤肿痛",
       "name": "目赤肿痛",
       "type": "symptom",
-      "value": 9
+      "value": 10
     },
     {
       "id": "herb:大枣",
@@ -857,7 +863,7 @@
       "id": "meridian:心包",
       "name": "心包",
       "type": "meridian",
-      "value": 6
+      "value": 7
     },
     {
       "id": "effect:清热泻火",
@@ -875,13 +881,13 @@
       "id": "symptom:血热吐衄",
       "name": "血热吐衄",
       "type": "symptom",
-      "value": 10
+      "value": 9
     },
     {
       "id": "symptom:痈肿疮",
       "name": "痈肿疮",
       "type": "symptom",
-      "value": 6
+      "value": 4
     },
     {
       "id": "symptom:产后瘀阻",
@@ -913,7 +919,7 @@
       "id": "effect:解毒消肿",
       "name": "解毒消肿",
       "type": "effect",
-      "value": 7
+      "value": 9
     },
     {
       "id": "symptom:痈肿疮疡",
@@ -925,7 +931,7 @@
       "id": "symptom:泄泻",
       "name": "泄泻",
       "type": "symptom",
-      "value": 10
+      "value": 11
     },
     {
       "id": "symptom:痢疾",
@@ -945,7 +951,7 @@
       "id": "effect:凉血止血",
       "name": "凉血止血",
       "type": "effect",
-      "value": 16
+      "value": 17
     },
     {
       "id": "herb:山茱萸",
@@ -959,13 +965,13 @@
       "id": "symptom:眩晕耳鸣",
       "name": "眩晕耳鸣",
       "type": "symptom",
-      "value": 8
+      "value": 9
     },
     {
       "id": "symptom:阳痿遗精",
       "name": "阳痿遗精",
       "type": "symptom",
-      "value": 11
+      "value": 12
     },
     {
       "id": "symptom:遗尿尿频",
@@ -991,7 +997,7 @@
       "id": "symptom:久泻不止",
       "name": "久泻不止",
       "type": "symptom",
-      "value": 5
+      "value": 4
     },
     {
       "id": "symptom:白带过多",
@@ -1093,7 +1099,7 @@
       "id": "symptom:蛇虫咬伤",
       "name": "蛇虫咬伤",
       "type": "symptom",
-      "value": 15
+      "value": 18
     },
     {
       "id": "herb:千年健",
@@ -1107,13 +1113,13 @@
       "id": "effect:祛风湿",
       "name": "祛风湿",
       "type": "effect",
-      "value": 17
+      "value": 16
     },
     {
       "id": "symptom:风寒湿痹",
       "name": "风寒湿痹",
       "type": "symptom",
-      "value": 8
+      "value": 7
     },
     {
       "id": "symptom:腰膝冷痛",
@@ -1125,7 +1131,7 @@
       "id": "symptom:筋骨痿软",
       "name": "筋骨痿软",
       "type": "symptom",
-      "value": 8
+      "value": 11
     },
     {
       "id": "herb:千里光",
@@ -1179,7 +1185,7 @@
       "id": "herb:川木香",
       "name": "川木香",
       "type": "herb",
-      "value": 3,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -1273,13 +1279,13 @@
       "id": "symptom:筋骨无力",
       "name": "筋骨无力",
       "type": "symptom",
-      "value": 7
+      "value": 6
     },
     {
       "id": "symptom:头痛",
       "name": "头痛",
       "type": "symptom",
-      "value": 9
+      "value": 10
     },
     {
       "id": "symptom:眩晕",
@@ -1291,13 +1297,13 @@
       "id": "symptom:牙痛",
       "name": "牙痛",
       "type": "symptom",
-      "value": 10
+      "value": 11
     },
     {
       "id": "symptom:口疮",
       "name": "口疮",
       "type": "symptom",
-      "value": 8
+      "value": 7
     },
     {
       "id": "herb:川芎",
@@ -1317,7 +1323,7 @@
       "id": "symptom:月经不调",
       "name": "月经不调",
       "type": "symptom",
-      "value": 15
+      "value": 16
     },
     {
       "id": "symptom:经闭痛经",
@@ -1337,7 +1343,7 @@
       "id": "symptom:咳嗽气喘",
       "name": "咳嗽气喘",
       "type": "symptom",
-      "value": 6
+      "value": 5
     },
     {
       "id": "herb:川楝子",
@@ -1365,7 +1371,7 @@
       "id": "herb:广枣",
       "name": "广枣",
       "type": "herb",
-      "value": 4,
+      "value": 1,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -1399,7 +1405,7 @@
       "id": "symptom:水肿尿少",
       "name": "水肿尿少",
       "type": "symptom",
-      "value": 11
+      "value": 12
     },
     {
       "id": "herb:广藿香",
@@ -1439,7 +1445,7 @@
       "id": "symptom:腰膝酸软",
       "name": "腰膝酸软",
       "type": "symptom",
-      "value": 15
+      "value": 16
     },
     {
       "id": "symptom:须发早白",
@@ -1593,13 +1599,13 @@
       "id": "effect:活血通经",
       "name": "活血通经",
       "type": "effect",
-      "value": 6
+      "value": 7
     },
     {
       "id": "symptom:乳痈肿痛",
       "name": "乳痈肿痛",
       "type": "symptom",
-      "value": 5
+      "value": 4
     },
     {
       "id": "herb:天仙子",
@@ -1633,7 +1639,7 @@
       "id": "symptom:肠燥便秘",
       "name": "肠燥便秘",
       "type": "symptom",
-      "value": 15
+      "value": 16
     },
     {
       "id": "herb:天花粉",
@@ -1659,13 +1665,19 @@
       "id": "herb:天竺黄",
       "name": "天竺黄",
       "type": "herb",
-      "value": 3,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
     },
     {
       "id": "symptom:热病神昏",
       "name": "热病神昏",
+      "type": "symptom",
+      "value": 5
+    },
+    {
+      "id": "symptom:中风痰迷",
+      "name": "中风痰迷",
       "type": "symptom",
       "value": 4
     },
@@ -1695,7 +1707,7 @@
       "id": "symptom:小儿惊风",
       "name": "小儿惊风",
       "type": "symptom",
-      "value": 7
+      "value": 6
     },
     {
       "id": "symptom:破伤风",
@@ -1707,7 +1719,7 @@
       "id": "symptom:头痛眩晕",
       "name": "头痛眩晕",
       "type": "symptom",
-      "value": 9
+      "value": 10
     },
     {
       "id": "herb:天葵子",
@@ -1755,13 +1767,13 @@
       "id": "symptom:湿热黄疸",
       "name": "湿热黄疸",
       "type": "symptom",
-      "value": 21
+      "value": 20
     },
     {
       "id": "symptom:胁痛",
       "name": "胁痛",
       "type": "symptom",
-      "value": 6
+      "value": 5
     },
     {
       "id": "herb:木瓜",
@@ -1781,7 +1793,7 @@
       "id": "symptom:湿痹拘挛",
       "name": "湿痹拘挛",
       "type": "symptom",
-      "value": 6
+      "value": 5
     },
     {
       "id": "herb:木芙蓉叶",
@@ -1857,7 +1869,7 @@
       "id": "effect:涩肠止泻",
       "name": "涩肠止泻",
       "type": "effect",
-      "value": 6
+      "value": 5
     },
     {
       "id": "symptom:久泻久痢",
@@ -1883,7 +1895,7 @@
       "id": "symptom:食欲不振",
       "name": "食欲不振",
       "type": "symptom",
-      "value": 8
+      "value": 7
     },
     {
       "id": "herb:车前子",
@@ -1957,9 +1969,21 @@
       "id": "herb:牛黄",
       "name": "牛黄",
       "type": "herb",
-      "value": 6,
+      "value": 9,
       "toxic": false,
       "toxicLevel": 0
+    },
+    {
+      "id": "symptom:惊痫抽搐",
+      "name": "惊痫抽搐",
+      "type": "symptom",
+      "value": 5
+    },
+    {
+      "id": "symptom:癫痫发狂",
+      "name": "癫痫发狂",
+      "type": "symptom",
+      "value": 6
     },
     {
       "id": "herb:牛蒡子",
@@ -2081,7 +2105,7 @@
       "id": "herb:乌梢蛇",
       "name": "乌梢蛇",
       "type": "herb",
-      "value": 7,
+      "value": 6,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -2090,12 +2114,6 @@
       "name": "麻木拘挛",
       "type": "symptom",
       "value": 5
-    },
-    {
-      "id": "symptom:抽搐痉挛",
-      "name": "抽搐痉挛",
-      "type": "symptom",
-      "value": 4
     },
     {
       "id": "herb:乌梅",
@@ -2181,9 +2199,9 @@
       "id": "herb:水蛭",
       "name": "水蛭",
       "type": "herb",
-      "value": 5,
-      "toxic": false,
-      "toxicLevel": 0
+      "value": 6,
+      "toxic": true,
+      "toxicLevel": 1
     },
     {
       "id": "symptom:中风偏瘫",
@@ -2211,7 +2229,7 @@
       "id": "herb:甘松",
       "name": "甘松",
       "type": "herb",
-      "value": 4,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -2247,7 +2265,7 @@
       "id": "symptom:脾胃虚弱",
       "name": "脾胃虚弱",
       "type": "symptom",
-      "value": 5
+      "value": 4
     },
     {
       "id": "herb:甘遂",
@@ -2291,7 +2309,7 @@
       "id": "symptom:瘰疬痰核",
       "name": "瘰疬痰核",
       "type": "symptom",
-      "value": 6
+      "value": 7
     },
     {
       "id": "herb:石决明",
@@ -2305,7 +2323,7 @@
       "id": "effect:平肝潜阳",
       "name": "平肝潜阳",
       "type": "effect",
-      "value": 3
+      "value": 4
     },
     {
       "id": "symptom:目赤翳障",
@@ -2337,7 +2355,7 @@
       "id": "herb:石斛",
       "name": "石斛",
       "type": "herb",
-      "value": 6,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -2348,10 +2366,16 @@
       "value": 4
     },
     {
+      "id": "symptom:胃阴不足",
+      "name": "胃阴不足",
+      "type": "symptom",
+      "value": 4
+    },
+    {
       "id": "symptom:骨蒸劳热",
       "name": "骨蒸劳热",
       "type": "symptom",
-      "value": 7
+      "value": 8
     },
     {
       "id": "herb:石榴皮",
@@ -2439,7 +2463,7 @@
       "id": "herb:北沙参",
       "name": "北沙参",
       "type": "herb",
-      "value": 6,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -2503,13 +2527,13 @@
       "id": "symptom:崩漏下血",
       "name": "崩漏下血",
       "type": "symptom",
-      "value": 6
+      "value": 7
     },
     {
       "id": "symptom:阴痒带下",
       "name": "阴痒带下",
       "type": "symptom",
-      "value": 4
+      "value": 5
     },
     {
       "id": "herb:白及",
@@ -2537,7 +2561,7 @@
       "id": "herb:白头翁",
       "name": "白头翁",
       "type": "herb",
-      "value": 4,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -2621,15 +2645,9 @@
       "id": "herb:白矾",
       "name": "白矾",
       "type": "herb",
-      "value": 12,
-      "toxic": true,
-      "toxicLevel": 2
-    },
-    {
-      "id": "symptom:癫痫发狂",
-      "name": "癫痫发狂",
-      "type": "symptom",
-      "value": 4
+      "value": 11,
+      "toxic": false,
+      "toxicLevel": 0
     },
     {
       "id": "herb:白果",
@@ -2681,7 +2699,7 @@
       "id": "symptom:痈疽发背",
       "name": "痈疽发背",
       "type": "symptom",
-      "value": 6
+      "value": 5
     },
     {
       "id": "herb:白鲜皮",
@@ -2709,7 +2727,7 @@
       "id": "symptom:阴虚发热",
       "name": "阴虚发热",
       "type": "symptom",
-      "value": 4
+      "value": 5
     },
     {
       "id": "herb:瓜子金",
@@ -2844,12 +2862,6 @@
       "toxicLevel": 0
     },
     {
-      "id": "symptom:惊痫抽搐",
-      "name": "惊痫抽搐",
-      "type": "symptom",
-      "value": 4
-    },
-    {
       "id": "symptom:关节痹痛",
       "name": "关节痹痛",
       "type": "symptom",
@@ -2903,7 +2915,7 @@
       "id": "symptom:温毒发斑",
       "name": "温毒发斑",
       "type": "symptom",
-      "value": 8
+      "value": 7
     },
     {
       "id": "herb:熟地黄",
@@ -3003,7 +3015,7 @@
       "id": "symptom:蛲虫病",
       "name": "蛲虫病",
       "type": "symptom",
-      "value": 4
+      "value": 5
     },
     {
       "id": "herb:当归",
@@ -3031,13 +3043,13 @@
       "id": "effect:清湿热",
       "name": "清湿热",
       "type": "effect",
-      "value": 4
+      "value": 3
     },
     {
       "id": "herb:虫白蜡",
       "name": "虫白蜡",
       "type": "herb",
-      "value": 7,
+      "value": 0,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3053,27 +3065,21 @@
       "id": "symptom:肾阳不足",
       "name": "肾阳不足",
       "type": "symptom",
-      "value": 6
+      "value": 7
     },
     {
       "id": "herb:肉豆蔻",
       "name": "肉豆蔻",
       "type": "herb",
-      "value": 8,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
-    },
-    {
-      "id": "symptom:食少呕吐",
-      "name": "食少呕吐",
-      "type": "symptom",
-      "value": 4
     },
     {
       "id": "herb:豆蔻",
       "name": "豆蔻",
       "type": "herb",
-      "value": 9,
+      "value": 8,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3113,7 +3119,7 @@
       "id": "herb:竹茹",
       "name": "竹茹",
       "type": "herb",
-      "value": 7,
+      "value": 8,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3413,7 +3419,7 @@
       "id": "symptom:遗精滑精",
       "name": "遗精滑精",
       "type": "symptom",
-      "value": 6
+      "value": 7
     },
     {
       "id": "herb:芦荟",
@@ -3483,13 +3489,13 @@
       "id": "symptom:头晕目眩",
       "name": "头晕目眩",
       "type": "symptom",
-      "value": 8
+      "value": 9
     },
     {
       "id": "herb:杜仲叶",
       "name": "杜仲叶",
       "type": "herb",
-      "value": 6,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3497,7 +3503,7 @@
       "id": "herb:杠板归",
       "name": "杠板归",
       "type": "herb",
-      "value": 8,
+      "value": 10,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3599,7 +3605,7 @@
       "id": "herb:佛手",
       "name": "佛手",
       "type": "herb",
-      "value": 9,
+      "value": 8,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3629,7 +3635,7 @@
       "id": "herb:谷精草",
       "name": "谷精草",
       "type": "herb",
-      "value": 4,
+      "value": 3,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3637,7 +3643,7 @@
       "id": "herb:龟甲",
       "name": "龟甲",
       "type": "herb",
-      "value": 3,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -3865,9 +3871,15 @@
       "id": "herb:青礞石",
       "name": "青礞石",
       "type": "herb",
-      "value": 8,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
+    },
+    {
+      "id": "symptom:惊风抽搐",
+      "name": "惊风抽搐",
+      "type": "symptom",
+      "value": 6
     },
     {
       "id": "herb:青黛",
@@ -3921,7 +3933,7 @@
       "id": "herb:苦参",
       "name": "苦参",
       "type": "herb",
-      "value": 11,
+      "value": 12,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4075,7 +4087,7 @@
       "id": "herb:使君子",
       "name": "使君子",
       "type": "herb",
-      "value": 4,
+      "value": 6,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4102,12 +4114,6 @@
       "value": 7,
       "toxic": false,
       "toxicLevel": 0
-    },
-    {
-      "id": "symptom:惊风抽搐",
-      "name": "惊风抽搐",
-      "type": "symptom",
-      "value": 4
     },
     {
       "id": "herb:金果榄",
@@ -4169,7 +4175,7 @@
       "id": "herb:金礞石",
       "name": "金礞石",
       "type": "herb",
-      "value": 4,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4241,7 +4247,7 @@
       "id": "herb:泽泻",
       "name": "泽泻",
       "type": "herb",
-      "value": 9,
+      "value": 8,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4311,7 +4317,7 @@
       "id": "herb:荜茇",
       "name": "荜茇",
       "type": "herb",
-      "value": 8,
+      "value": 9,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4335,7 +4341,7 @@
       "id": "herb:草果",
       "name": "草果",
       "type": "herb",
-      "value": 2,
+      "value": 3,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4415,7 +4421,7 @@
       "id": "herb:五味子",
       "name": "五味子",
       "type": "herb",
-      "value": 8,
+      "value": 9,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4509,15 +4515,21 @@
       "id": "herb:威灵仙",
       "name": "威灵仙",
       "type": "herb",
-      "value": 3,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
+    },
+    {
+      "id": "symptom:筋脉拘挛",
+      "name": "筋脉拘挛",
+      "type": "symptom",
+      "value": 4
     },
     {
       "id": "herb:厚朴",
       "name": "厚朴",
       "type": "herb",
-      "value": 3,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4589,15 +4601,9 @@
       "id": "herb:钟乳石",
       "name": "钟乳石",
       "type": "herb",
-      "value": 5,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
-    },
-    {
-      "id": "symptom:乳汁不通",
-      "name": "乳汁不通",
-      "type": "symptom",
-      "value": 4
     },
     {
       "id": "herb:钩藤",
@@ -4643,21 +4649,15 @@
       "id": "herb:禹州漏芦",
       "name": "禹州漏芦",
       "type": "herb",
-      "value": 7,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
-    },
-    {
-      "id": "symptom:瘰疬疮毒",
-      "name": "瘰疬疮毒",
-      "type": "symptom",
-      "value": 4
     },
     {
       "id": "herb:胆南星",
       "name": "胆南星",
       "type": "herb",
-      "value": 5,
+      "value": 6,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4673,7 +4673,7 @@
       "id": "herb:独一味",
       "name": "独一味",
       "type": "herb",
-      "value": 3,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4743,7 +4743,7 @@
       "id": "herb:络石藤",
       "name": "络石藤",
       "type": "herb",
-      "value": 8,
+      "value": 10,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4751,7 +4751,7 @@
       "id": "herb:秦艽",
       "name": "秦艽",
       "type": "herb",
-      "value": 8,
+      "value": 9,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4847,7 +4847,7 @@
       "id": "herb:核桃仁",
       "name": "核桃仁",
       "type": "herb",
-      "value": 4,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4887,7 +4887,7 @@
       "id": "herb:铁皮石斛",
       "name": "铁皮石斛",
       "type": "herb",
-      "value": 5,
+      "value": 7,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4895,7 +4895,7 @@
       "id": "herb:鸭跖草",
       "name": "鸭跖草",
       "type": "herb",
-      "value": 9,
+      "value": 10,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4911,15 +4911,15 @@
       "id": "herb:臭灵丹草",
       "name": "臭灵丹草",
       "type": "herb",
-      "value": 4,
-      "toxic": false,
-      "toxicLevel": 0
+      "value": 6,
+      "toxic": true,
+      "toxicLevel": 2
     },
     {
       "id": "herb:射干",
       "name": "射干",
       "type": "herb",
-      "value": 3,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -4941,7 +4941,7 @@
       "id": "herb:狼毒",
       "name": "狼毒",
       "type": "herb",
-      "value": 3,
+      "value": 4,
       "toxic": true,
       "toxicLevel": 2
     },
@@ -4949,9 +4949,9 @@
       "id": "herb:凌霄花",
       "name": "凌霄花",
       "type": "herb",
-      "value": 4,
-      "toxic": true,
-      "toxicLevel": 2
+      "value": 5,
+      "toxic": false,
+      "toxicLevel": 0
     },
     {
       "id": "herb:高良姜",
@@ -4965,7 +4965,7 @@
       "id": "herb:拳参",
       "name": "拳参",
       "type": "herb",
-      "value": 6,
+      "value": 8,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5013,7 +5013,7 @@
       "id": "herb:海风藤",
       "name": "海风藤",
       "type": "herb",
-      "value": 4,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5123,7 +5123,7 @@
       "id": "herb:桑螵蛸",
       "name": "桑螵蛸",
       "type": "herb",
-      "value": 4,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5205,7 +5205,7 @@
       "id": "herb:梅花",
       "name": "梅花",
       "type": "herb",
-      "value": 5,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5245,7 +5245,7 @@
       "id": "herb:野菊花",
       "name": "野菊花",
       "type": "herb",
-      "value": 6,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5261,7 +5261,7 @@
       "id": "herb:蛇蜕",
       "name": "蛇蜕",
       "type": "herb",
-      "value": 5,
+      "value": 4,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5277,7 +5277,7 @@
       "id": "herb:银柴胡",
       "name": "银柴胡",
       "type": "herb",
-      "value": 3,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5317,7 +5317,7 @@
       "id": "herb:猫爪草",
       "name": "猫爪草",
       "type": "herb",
-      "value": 3,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5541,7 +5541,7 @@
       "id": "herb:紫珠叶",
       "name": "紫珠叶",
       "type": "herb",
-      "value": 10,
+      "value": 11,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5899,7 +5899,7 @@
       "id": "herb:蜘蛛香",
       "name": "蜘蛛香",
       "type": "herb",
-      "value": 7,
+      "value": 8,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5923,7 +5923,7 @@
       "id": "herb:辣椒",
       "name": "辣椒",
       "type": "herb",
-      "value": 4,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5931,7 +5931,7 @@
       "id": "herb:漏芦",
       "name": "漏芦",
       "type": "herb",
-      "value": 7,
+      "value": 5,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5939,7 +5939,7 @@
       "id": "herb:赭石",
       "name": "赭石",
       "type": "herb",
-      "value": 7,
+      "value": 11,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -5947,7 +5947,7 @@
       "id": "herb:蕤仁",
       "name": "蕤仁",
       "type": "herb",
-      "value": 8,
+      "value": 7,
       "toxic": true,
       "toxicLevel": 2
     },
@@ -5955,7 +5955,7 @@
       "id": "herb:槲寄生",
       "name": "槲寄生",
       "type": "herb",
-      "value": 8,
+      "value": 9,
       "toxic": false,
       "toxicLevel": 0
     },
@@ -10225,6 +10225,11 @@
       "type": "归经"
     },
     {
+      "source": "herb:刀豆",
+      "target": "symptom:呕吐",
+      "type": "主治"
+    },
+    {
       "source": "herb:三七",
       "target": "meridian:肝",
       "type": "归经"
@@ -10492,6 +10497,11 @@
     {
       "source": "herb:木香",
       "target": "meridian:脾",
+      "type": "归经"
+    },
+    {
+      "source": "herb:木香",
+      "target": "meridian:胃",
       "type": "归经"
     },
     {
@@ -11191,7 +11201,7 @@
     },
     {
       "source": "herb:山银花",
-      "target": "symptom:痈肿疮",
+      "target": "symptom:痈肿疔疮",
       "type": "主治"
     },
     {
@@ -11463,6 +11473,26 @@
       "source": "herb:千金子霜",
       "target": "caution:有毒",
       "type": "毒性"
+    },
+    {
+      "source": "herb:川木香",
+      "target": "meridian:脾",
+      "type": "归经"
+    },
+    {
+      "source": "herb:川木香",
+      "target": "meridian:胃",
+      "type": "归经"
+    },
+    {
+      "source": "herb:川木香",
+      "target": "meridian:大肠",
+      "type": "归经"
+    },
+    {
+      "source": "herb:川木香",
+      "target": "meridian:胆",
+      "type": "归经"
     },
     {
       "source": "herb:川木香",
@@ -11843,21 +11873,6 @@
       "source": "herb:广东紫珠",
       "target": "symptom:水火烫伤",
       "type": "主治"
-    },
-    {
-      "source": "herb:广枣",
-      "target": "meridian:肝",
-      "type": "归经"
-    },
-    {
-      "source": "herb:广枣",
-      "target": "meridian:肺",
-      "type": "归经"
-    },
-    {
-      "source": "herb:广枣",
-      "target": "meridian:胃",
-      "type": "归经"
     },
     {
       "source": "herb:广枣",
@@ -12560,6 +12575,11 @@
       "type": "主治"
     },
     {
+      "source": "herb:天竺黄",
+      "target": "symptom:中风痰迷",
+      "type": "主治"
+    },
+    {
       "source": "herb:天南星",
       "target": "meridian:肺",
       "type": "归经"
@@ -13176,8 +13196,23 @@
     },
     {
       "source": "herb:牛黄",
-      "target": "effect:清热解毒",
-      "type": "功效"
+      "target": "symptom:热病神昏",
+      "type": "主治"
+    },
+    {
+      "source": "herb:牛黄",
+      "target": "symptom:中风痰迷",
+      "type": "主治"
+    },
+    {
+      "source": "herb:牛黄",
+      "target": "symptom:惊痫抽搐",
+      "type": "主治"
+    },
+    {
+      "source": "herb:牛黄",
+      "target": "symptom:癫痫发狂",
+      "type": "主治"
     },
     {
       "source": "herb:牛黄",
@@ -13451,11 +13486,6 @@
     },
     {
       "source": "herb:乌梢蛇",
-      "target": "symptom:抽搐痉挛",
-      "type": "主治"
-    },
-    {
-      "source": "herb:乌梢蛇",
       "target": "symptom:破伤风",
       "type": "主治"
     },
@@ -13690,6 +13720,11 @@
       "type": "主治"
     },
     {
+      "source": "herb:水蛭",
+      "target": "caution:有毒",
+      "type": "毒性"
+    },
+    {
       "source": "herb:玉竹",
       "target": "meridian:肺",
       "type": "归经"
@@ -13767,6 +13802,11 @@
     {
       "source": "herb:甘松",
       "target": "symptom:食欲不振",
+      "type": "主治"
+    },
+    {
+      "source": "herb:甘松",
+      "target": "symptom:呕吐",
       "type": "主治"
     },
     {
@@ -13866,7 +13906,7 @@
     },
     {
       "source": "herb:甘遂",
-      "target": "meridian:肾",
+      "target": "meridian:肝",
       "type": "归经"
     },
     {
@@ -14092,6 +14132,11 @@
     {
       "source": "herb:石斛",
       "target": "symptom:热病津伤",
+      "type": "主治"
+    },
+    {
+      "source": "herb:石斛",
+      "target": "symptom:胃阴不足",
       "type": "主治"
     },
     {
@@ -14391,6 +14436,11 @@
     },
     {
       "source": "herb:北沙参",
+      "target": "symptom:胃阴不足",
+      "type": "主治"
+    },
+    {
+      "source": "herb:北沙参",
       "target": "symptom:热病津伤",
       "type": "主治"
     },
@@ -14647,6 +14697,11 @@
     {
       "source": "herb:白头翁",
       "target": "symptom:热毒血痢",
+      "type": "主治"
+    },
+    {
+      "source": "herb:白头翁",
+      "target": "symptom:阴痒带下",
       "type": "主治"
     },
     {
@@ -14913,11 +14968,6 @@
       "source": "herb:白矾",
       "target": "symptom:阴痒带下",
       "type": "主治"
-    },
-    {
-      "source": "herb:白矾",
-      "target": "caution:有毒",
-      "type": "毒性"
     },
     {
       "source": "herb:白果",
@@ -16160,41 +16210,6 @@
       "type": "主治"
     },
     {
-      "source": "herb:虫白蜡",
-      "target": "meridian:肝",
-      "type": "归经"
-    },
-    {
-      "source": "herb:虫白蜡",
-      "target": "meridian:胃",
-      "type": "归经"
-    },
-    {
-      "source": "herb:虫白蜡",
-      "target": "meridian:大肠",
-      "type": "归经"
-    },
-    {
-      "source": "herb:虫白蜡",
-      "target": "effect:清湿热",
-      "type": "功效"
-    },
-    {
-      "source": "herb:虫白蜡",
-      "target": "symptom:湿热黄疸",
-      "type": "主治"
-    },
-    {
-      "source": "herb:虫白蜡",
-      "target": "symptom:胁痛",
-      "type": "主治"
-    },
-    {
-      "source": "herb:虫白蜡",
-      "target": "symptom:食欲不振",
-      "type": "主治"
-    },
-    {
       "source": "herb:肉苁蓉",
       "target": "meridian:肾",
       "type": "归经"
@@ -16270,9 +16285,9 @@
       "type": "主治"
     },
     {
-      "source": "herb:肉豆蔻",
-      "target": "symptom:食少呕吐",
-      "type": "主治"
+      "source": "herb:豆蔻",
+      "target": "meridian:肺",
+      "type": "归经"
     },
     {
       "source": "herb:豆蔻",
@@ -16286,38 +16301,28 @@
     },
     {
       "source": "herb:豆蔻",
-      "target": "meridian:大肠",
-      "type": "归经"
-    },
-    {
-      "source": "herb:豆蔻",
-      "target": "effect:涩肠止泻",
+      "target": "effect:温中止呕",
       "type": "功效"
     },
     {
       "source": "herb:豆蔻",
-      "target": "symptom:脾胃虚寒",
+      "target": "symptom:湿浊中阻",
       "type": "主治"
     },
     {
       "source": "herb:豆蔻",
-      "target": "symptom:久泻不止",
+      "target": "symptom:不思饮食",
       "type": "主治"
     },
     {
       "source": "herb:豆蔻",
-      "target": "symptom:脘腹胀痛",
+      "target": "symptom:湿温初起",
       "type": "主治"
     },
     {
       "source": "herb:豆蔻",
-      "target": "symptom:食少呕吐",
+      "target": "symptom:食积不消",
       "type": "主治"
-    },
-    {
-      "source": "herb:豆蔻",
-      "target": "herb:赤石脂",
-      "type": "配伍禁忌"
     },
     {
       "source": "herb:肉桂",
@@ -16497,6 +16502,11 @@
     {
       "source": "herb:竹茹",
       "target": "symptom:痰热咳嗽",
+      "type": "主治"
+    },
+    {
+      "source": "herb:竹茹",
+      "target": "symptom:中风痰迷",
       "type": "主治"
     },
     {
@@ -17640,43 +17650,58 @@
       "type": "主治"
     },
     {
+      "source": "herb:杜仲叶",
+      "target": "symptom:筋骨痿软",
+      "type": "主治"
+    },
+    {
       "source": "herb:杠板归",
       "target": "meridian:肺",
       "type": "归经"
     },
     {
       "source": "herb:杠板归",
-      "target": "meridian:脾",
+      "target": "meridian:膀胱",
       "type": "归经"
     },
     {
       "source": "herb:杠板归",
-      "target": "meridian:胃",
-      "type": "归经"
-    },
-    {
-      "source": "herb:杠板归",
-      "target": "effect:温中止呕",
+      "target": "effect:清热解毒",
       "type": "功效"
     },
     {
       "source": "herb:杠板归",
-      "target": "symptom:湿浊中阻",
+      "target": "effect:利水消肿",
+      "type": "功效"
+    },
+    {
+      "source": "herb:杠板归",
+      "target": "symptom:咽喉肿痛",
       "type": "主治"
     },
     {
       "source": "herb:杠板归",
-      "target": "symptom:不思饮食",
+      "target": "symptom:肺热咳嗽",
       "type": "主治"
     },
     {
       "source": "herb:杠板归",
-      "target": "symptom:湿温初起",
+      "target": "symptom:水肿尿少",
       "type": "主治"
     },
     {
       "source": "herb:杠板归",
-      "target": "symptom:食积不消",
+      "target": "symptom:湿热泻痢",
+      "type": "主治"
+    },
+    {
+      "source": "herb:杠板归",
+      "target": "symptom:湿疹",
+      "type": "主治"
+    },
+    {
+      "source": "herb:杠板归",
+      "target": "symptom:蛇虫咬伤",
       "type": "主治"
     },
     {
@@ -18121,11 +18146,6 @@
     },
     {
       "source": "herb:佛手",
-      "target": "symptom:食少呕吐",
-      "type": "主治"
-    },
-    {
-      "source": "herb:佛手",
       "target": "symptom:咳嗽痰多",
       "type": "主治"
     },
@@ -18166,23 +18186,18 @@
     },
     {
       "source": "herb:谷精草",
-      "target": "meridian:脾",
+      "target": "meridian:肝",
       "type": "归经"
     },
     {
       "source": "herb:谷精草",
-      "target": "meridian:胃",
+      "target": "meridian:肺",
       "type": "归经"
     },
     {
       "source": "herb:谷精草",
-      "target": "symptom:食积不消",
-      "type": "主治"
-    },
-    {
-      "source": "herb:谷精草",
-      "target": "symptom:脾胃虚弱",
-      "type": "主治"
+      "target": "effect:疏散风热",
+      "type": "功效"
     },
     {
       "source": "herb:龟甲",
@@ -18198,6 +18213,16 @@
       "source": "herb:龟甲",
       "target": "meridian:心",
       "type": "归经"
+    },
+    {
+      "source": "herb:龟甲",
+      "target": "symptom:头晕目眩",
+      "type": "主治"
+    },
+    {
+      "source": "herb:龟甲",
+      "target": "symptom:筋骨痿软",
+      "type": "主治"
     },
     {
       "source": "herb:龟甲胶",
@@ -18876,42 +18901,27 @@
     },
     {
       "source": "herb:青礞石",
+      "target": "meridian:肺",
+      "type": "归经"
+    },
+    {
+      "source": "herb:青礞石",
+      "target": "meridian:心",
+      "type": "归经"
+    },
+    {
+      "source": "herb:青礞石",
       "target": "meridian:肝",
       "type": "归经"
     },
     {
       "source": "herb:青礞石",
-      "target": "effect:清热解毒",
-      "type": "功效"
-    },
-    {
-      "source": "herb:青礞石",
-      "target": "effect:凉血消斑",
-      "type": "功效"
-    },
-    {
-      "source": "herb:青礞石",
-      "target": "symptom:温毒发斑",
+      "target": "symptom:癫痫发狂",
       "type": "主治"
     },
     {
       "source": "herb:青礞石",
-      "target": "symptom:血热吐衄",
-      "type": "主治"
-    },
-    {
-      "source": "herb:青礞石",
-      "target": "symptom:口疮",
-      "type": "主治"
-    },
-    {
-      "source": "herb:青礞石",
-      "target": "symptom:痄腮",
-      "type": "主治"
-    },
-    {
-      "source": "herb:青礞石",
-      "target": "symptom:喉痹",
+      "target": "symptom:惊风抽搐",
       "type": "主治"
     },
     {
@@ -19147,6 +19157,11 @@
     {
       "source": "herb:苦参",
       "target": "meridian:肝",
+      "type": "归经"
+    },
+    {
+      "source": "herb:苦参",
+      "target": "meridian:胃",
       "type": "归经"
     },
     {
@@ -19741,6 +19756,16 @@
     },
     {
       "source": "herb:使君子",
+      "target": "symptom:蛲虫病",
+      "type": "主治"
+    },
+    {
+      "source": "herb:使君子",
+      "target": "symptom:虫积腹痛",
+      "type": "主治"
+    },
+    {
+      "source": "herb:使君子",
       "target": "symptom:小儿疳积",
       "type": "主治"
     },
@@ -20051,7 +20076,7 @@
     },
     {
       "source": "herb:金银花",
-      "target": "symptom:痈肿疮",
+      "target": "symptom:痈肿疔疮",
       "type": "主治"
     },
     {
@@ -20137,6 +20162,11 @@
     {
       "source": "herb:金礞石",
       "target": "symptom:癫痫发狂",
+      "type": "主治"
+    },
+    {
+      "source": "herb:金礞石",
+      "target": "symptom:惊风抽搐",
       "type": "主治"
     },
     {
@@ -20396,17 +20426,12 @@
     },
     {
       "source": "herb:泽泻",
-      "target": "meridian:心",
-      "type": "归经"
-    },
-    {
-      "source": "herb:泽泻",
-      "target": "meridian:肺",
-      "type": "归经"
-    },
-    {
-      "source": "herb:泽泻",
       "target": "meridian:肾",
+      "type": "归经"
+    },
+    {
+      "source": "herb:泽泻",
+      "target": "meridian:膀胱",
       "type": "归经"
     },
     {
@@ -20666,28 +20691,13 @@
     },
     {
       "source": "herb:荜茇",
-      "target": "meridian:脾",
-      "type": "归经"
-    },
-    {
-      "source": "herb:荜茇",
       "target": "meridian:胃",
       "type": "归经"
     },
     {
       "source": "herb:荜茇",
-      "target": "meridian:肾",
+      "target": "meridian:大肠",
       "type": "归经"
-    },
-    {
-      "source": "herb:荜茇",
-      "target": "meridian:膀胱",
-      "type": "归经"
-    },
-    {
-      "source": "herb:荜茇",
-      "target": "effect:行气止痛",
-      "type": "功效"
     },
     {
       "source": "herb:荜茇",
@@ -20701,7 +20711,27 @@
     },
     {
       "source": "herb:荜茇",
-      "target": "symptom:寒疝腹痛",
+      "target": "symptom:呕吐",
+      "type": "主治"
+    },
+    {
+      "source": "herb:荜茇",
+      "target": "symptom:泄泻",
+      "type": "主治"
+    },
+    {
+      "source": "herb:荜茇",
+      "target": "symptom:胸痹心痛",
+      "type": "主治"
+    },
+    {
+      "source": "herb:荜茇",
+      "target": "symptom:头痛",
+      "type": "主治"
+    },
+    {
+      "source": "herb:荜茇",
+      "target": "symptom:牙痛",
       "type": "主治"
     },
     {
@@ -20773,6 +20803,11 @@
       "source": "herb:草果",
       "target": "meridian:胃",
       "type": "归经"
+    },
+    {
+      "source": "herb:草果",
+      "target": "symptom:脘腹胀痛",
+      "type": "主治"
     },
     {
       "source": "herb:茵陈",
@@ -21071,6 +21106,11 @@
     },
     {
       "source": "herb:五味子",
+      "target": "symptom:津伤口渴",
+      "type": "主治"
+    },
+    {
+      "source": "herb:五味子",
       "target": "symptom:内热消渴",
       "type": "主治"
     },
@@ -21106,7 +21146,7 @@
     },
     {
       "source": "herb:南沙参",
-      "target": "symptom:食少呕吐",
+      "target": "symptom:胃阴不足",
       "type": "主治"
     },
     {
@@ -21350,8 +21390,18 @@
       "type": "主治"
     },
     {
+      "source": "herb:威灵仙",
+      "target": "symptom:筋脉拘挛",
+      "type": "主治"
+    },
+    {
       "source": "herb:厚朴",
       "target": "meridian:脾",
+      "type": "归经"
+    },
+    {
+      "source": "herb:厚朴",
+      "target": "meridian:胃",
       "type": "归经"
     },
     {
@@ -21600,11 +21650,6 @@
       "type": "主治"
     },
     {
-      "source": "herb:钟乳石",
-      "target": "symptom:乳汁不通",
-      "type": "主治"
-    },
-    {
       "source": "herb:钩藤",
       "target": "meridian:肝",
       "type": "归经"
@@ -21806,16 +21851,6 @@
     },
     {
       "source": "herb:禹州漏芦",
-      "target": "symptom:瘰疬疮毒",
-      "type": "主治"
-    },
-    {
-      "source": "herb:禹州漏芦",
-      "target": "symptom:乳汁不通",
-      "type": "主治"
-    },
-    {
-      "source": "herb:禹州漏芦",
       "target": "symptom:湿痹拘挛",
       "type": "主治"
     },
@@ -21845,6 +21880,11 @@
       "type": "主治"
     },
     {
+      "source": "herb:胆南星",
+      "target": "symptom:中风痰迷",
+      "type": "主治"
+    },
+    {
       "source": "herb:胖大海",
       "target": "meridian:肺",
       "type": "归经"
@@ -21871,12 +21911,22 @@
     },
     {
       "source": "herb:独一味",
-      "target": "effect:祛风除湿",
+      "target": "effect:祛风止痛",
       "type": "功效"
     },
     {
       "source": "herb:独一味",
-      "target": "symptom:风寒湿痹",
+      "target": "symptom:跌打损伤",
+      "type": "主治"
+    },
+    {
+      "source": "herb:独一味",
+      "target": "symptom:外伤出血",
+      "type": "主治"
+    },
+    {
+      "source": "herb:独一味",
+      "target": "symptom:风湿痹痛",
       "type": "主治"
     },
     {
@@ -22101,6 +22151,16 @@
     },
     {
       "source": "herb:络石藤",
+      "target": "symptom:筋脉拘挛",
+      "type": "主治"
+    },
+    {
+      "source": "herb:络石藤",
+      "target": "symptom:腰膝酸痛",
+      "type": "主治"
+    },
+    {
+      "source": "herb:络石藤",
       "target": "symptom:喉痹",
       "type": "主治"
     },
@@ -22142,6 +22202,11 @@
     {
       "source": "herb:秦艽",
       "target": "symptom:风湿痹痛",
+      "type": "主治"
+    },
+    {
+      "source": "herb:秦艽",
+      "target": "symptom:筋脉拘挛",
       "type": "主治"
     },
     {
@@ -22456,22 +22521,37 @@
     },
     {
       "source": "herb:核桃仁",
-      "target": "meridian:心",
+      "target": "meridian:肾",
       "type": "归经"
     },
     {
       "source": "herb:核桃仁",
-      "target": "meridian:肝",
+      "target": "meridian:肺",
       "type": "归经"
     },
     {
       "source": "herb:核桃仁",
-      "target": "symptom:风湿痹痛",
+      "target": "meridian:大肠",
+      "type": "归经"
+    },
+    {
+      "source": "herb:核桃仁",
+      "target": "symptom:肾阳不足",
       "type": "主治"
     },
     {
       "source": "herb:核桃仁",
-      "target": "symptom:跌打损伤",
+      "target": "symptom:腰膝酸软",
+      "type": "主治"
+    },
+    {
+      "source": "herb:核桃仁",
+      "target": "symptom:阳痿遗精",
+      "type": "主治"
+    },
+    {
+      "source": "herb:核桃仁",
+      "target": "symptom:肠燥便秘",
       "type": "主治"
     },
     {
@@ -22656,12 +22736,27 @@
     },
     {
       "source": "herb:铁皮石斛",
+      "target": "symptom:胃阴不足",
+      "type": "主治"
+    },
+    {
+      "source": "herb:铁皮石斛",
       "target": "symptom:骨蒸劳热",
+      "type": "主治"
+    },
+    {
+      "source": "herb:铁皮石斛",
+      "target": "symptom:筋骨痿软",
       "type": "主治"
     },
     {
       "source": "herb:鸭跖草",
       "target": "meridian:肺",
+      "type": "归经"
+    },
+    {
+      "source": "herb:鸭跖草",
+      "target": "meridian:胃",
       "type": "归经"
     },
     {
@@ -22756,18 +22851,33 @@
     },
     {
       "source": "herb:臭灵丹草",
+      "target": "symptom:风热感冒",
+      "type": "主治"
+    },
+    {
+      "source": "herb:臭灵丹草",
       "target": "symptom:咽喉肿痛",
       "type": "主治"
     },
     {
       "source": "herb:臭灵丹草",
-      "target": "symptom:咳嗽气喘",
+      "target": "symptom:肺热咳嗽",
       "type": "主治"
+    },
+    {
+      "source": "herb:臭灵丹草",
+      "target": "caution:有毒",
+      "type": "毒性"
     },
     {
       "source": "herb:射干",
       "target": "meridian:肺",
       "type": "归经"
+    },
+    {
+      "source": "herb:射干",
+      "target": "effect:清热解毒",
+      "type": "功效"
     },
     {
       "source": "herb:射干",
@@ -22831,6 +22941,11 @@
     },
     {
       "source": "herb:狼毒",
+      "target": "caution:密陀僧",
+      "type": "配伍禁忌"
+    },
+    {
+      "source": "herb:狼毒",
       "target": "caution:有毒",
       "type": "毒性"
     },
@@ -22841,18 +22956,23 @@
     },
     {
       "source": "herb:凌霄花",
-      "target": "meridian:脾",
+      "target": "meridian:心包",
       "type": "归经"
     },
     {
       "source": "herb:凌霄花",
-      "target": "caution:密陀僧",
-      "type": "配伍禁忌"
+      "target": "effect:活血通经",
+      "type": "功效"
     },
     {
       "source": "herb:凌霄花",
-      "target": "caution:有毒",
-      "type": "毒性"
+      "target": "symptom:月经不调",
+      "type": "主治"
+    },
+    {
+      "source": "herb:凌霄花",
+      "target": "symptom:皮肤瘙痒",
+      "type": "主治"
     },
     {
       "source": "herb:高良姜",
@@ -22901,12 +23021,22 @@
     },
     {
       "source": "herb:拳参",
+      "target": "symptom:肺热咳嗽",
+      "type": "主治"
+    },
+    {
+      "source": "herb:拳参",
       "target": "symptom:口舌生疮",
       "type": "主治"
     },
     {
       "source": "herb:拳参",
       "target": "symptom:血热吐衄",
+      "type": "主治"
+    },
+    {
+      "source": "herb:拳参",
+      "target": "symptom:蛇虫咬伤",
       "type": "主治"
     },
     {
@@ -23062,6 +23192,11 @@
     {
       "source": "herb:海风藤",
       "target": "symptom:风寒湿痹",
+      "type": "主治"
+    },
+    {
+      "source": "herb:海风藤",
+      "target": "symptom:筋脉拘挛",
       "type": "主治"
     },
     {
@@ -23428,6 +23563,11 @@
       "source": "herb:桑螵蛸",
       "target": "effect:补肾助阳",
       "type": "功效"
+    },
+    {
+      "source": "herb:桑螵蛸",
+      "target": "symptom:遗精滑精",
+      "type": "主治"
     },
     {
       "source": "herb:桑螵蛸",
@@ -23810,11 +23950,6 @@
       "type": "主治"
     },
     {
-      "source": "herb:梅花",
-      "target": "symptom:瘰疬疮毒",
-      "type": "主治"
-    },
-    {
       "source": "herb:救必应",
       "target": "meridian:肺",
       "type": "归经"
@@ -23956,22 +24091,17 @@
     },
     {
       "source": "herb:野菊花",
-      "target": "symptom:小儿惊风",
+      "target": "effect:清热解毒",
+      "type": "功效"
+    },
+    {
+      "source": "herb:野菊花",
+      "target": "symptom:目赤肿痛",
       "type": "主治"
     },
     {
       "source": "herb:野菊花",
-      "target": "symptom:抽搐痉挛",
-      "type": "主治"
-    },
-    {
-      "source": "herb:野菊花",
-      "target": "symptom:喉痹",
-      "type": "主治"
-    },
-    {
-      "source": "herb:野菊花",
-      "target": "symptom:皮肤瘙痒",
+      "target": "symptom:头痛眩晕",
       "type": "主治"
     },
     {
@@ -24007,11 +24137,6 @@
     {
       "source": "herb:蛇蜕",
       "target": "symptom:小儿惊风",
-      "type": "主治"
-    },
-    {
-      "source": "herb:蛇蜕",
-      "target": "symptom:抽搐痉挛",
       "type": "主治"
     },
     {
@@ -24078,6 +24203,16 @@
       "source": "herb:银柴胡",
       "target": "effect:清虚热",
       "type": "功效"
+    },
+    {
+      "source": "herb:银柴胡",
+      "target": "symptom:阴虚发热",
+      "type": "主治"
+    },
+    {
+      "source": "herb:银柴胡",
+      "target": "symptom:骨蒸劳热",
+      "type": "主治"
     },
     {
       "source": "herb:甜瓜子",
@@ -24246,18 +24381,28 @@
     },
     {
       "source": "herb:猫爪草",
+      "target": "meridian:肝",
+      "type": "归经"
+    },
+    {
+      "source": "herb:猫爪草",
       "target": "meridian:肺",
       "type": "归经"
     },
     {
       "source": "herb:猫爪草",
-      "target": "meridian:膀胱",
-      "type": "归经"
+      "target": "effect:解毒消肿",
+      "type": "功效"
     },
     {
       "source": "herb:猫爪草",
-      "target": "effect:利水消肿",
-      "type": "功效"
+      "target": "symptom:瘰疬痰核",
+      "type": "主治"
+    },
+    {
+      "source": "herb:猫爪草",
+      "target": "symptom:蛇虫咬伤",
+      "type": "主治"
     },
     {
       "source": "herb:麻黄",
@@ -24993,6 +25138,11 @@
       "source": "herb:紫珠叶",
       "target": "meridian:胃",
       "type": "归经"
+    },
+    {
+      "source": "herb:紫珠叶",
+      "target": "effect:解毒消肿",
+      "type": "功效"
     },
     {
       "source": "herb:紫珠叶",
@@ -26351,18 +26501,33 @@
     },
     {
       "source": "herb:蜘蛛香",
-      "target": "meridian:肝",
+      "target": "meridian:心",
       "type": "归经"
     },
     {
       "source": "herb:蜘蛛香",
-      "target": "meridian:肾",
+      "target": "meridian:脾",
       "type": "归经"
     },
     {
       "source": "herb:蜘蛛香",
-      "target": "effect:祛风湿",
+      "target": "meridian:胃",
+      "type": "归经"
+    },
+    {
+      "source": "herb:蜘蛛香",
+      "target": "effect:祛风除湿",
       "type": "功效"
+    },
+    {
+      "source": "herb:蜘蛛香",
+      "target": "effect:理气止痛",
+      "type": "功效"
+    },
+    {
+      "source": "herb:蜘蛛香",
+      "target": "symptom:脘腹胀痛",
+      "type": "主治"
     },
     {
       "source": "herb:蜘蛛香",
@@ -26371,17 +26536,7 @@
     },
     {
       "source": "herb:蜘蛛香",
-      "target": "symptom:筋骨无力",
-      "type": "主治"
-    },
-    {
-      "source": "herb:蜘蛛香",
       "target": "symptom:腰膝酸软",
-      "type": "主治"
-    },
-    {
-      "source": "herb:蜘蛛香",
-      "target": "symptom:半身不遂",
       "type": "主治"
     },
     {
@@ -26501,6 +26656,11 @@
     },
     {
       "source": "herb:辣椒",
+      "target": "symptom:呕吐",
+      "type": "主治"
+    },
+    {
+      "source": "herb:辣椒",
       "target": "symptom:泻痢",
       "type": "主治"
     },
@@ -26526,18 +26686,23 @@
     },
     {
       "source": "herb:漏芦",
-      "target": "symptom:瘰疬疮毒",
-      "type": "主治"
-    },
-    {
-      "source": "herb:漏芦",
-      "target": "symptom:乳汁不通",
-      "type": "主治"
-    },
-    {
-      "source": "herb:漏芦",
       "target": "symptom:湿痹拘挛",
       "type": "主治"
+    },
+    {
+      "source": "herb:赭石",
+      "target": "meridian:肝",
+      "type": "归经"
+    },
+    {
+      "source": "herb:赭石",
+      "target": "meridian:心",
+      "type": "归经"
+    },
+    {
+      "source": "herb:赭石",
+      "target": "meridian:肺",
+      "type": "归经"
     },
     {
       "source": "herb:赭石",
@@ -26546,32 +26711,37 @@
     },
     {
       "source": "herb:赭石",
-      "target": "effect:清热解毒",
+      "target": "effect:凉血止血",
       "type": "功效"
     },
     {
       "source": "herb:赭石",
-      "target": "symptom:乳痈肿痛",
+      "target": "effect:平肝潜阳",
+      "type": "功效"
+    },
+    {
+      "source": "herb:赭石",
+      "target": "symptom:眩晕耳鸣",
       "type": "主治"
     },
     {
       "source": "herb:赭石",
-      "target": "symptom:痈疽发背",
+      "target": "symptom:呕吐",
       "type": "主治"
     },
     {
       "source": "herb:赭石",
-      "target": "symptom:瘰疬疮毒",
+      "target": "symptom:吐血",
       "type": "主治"
     },
     {
       "source": "herb:赭石",
-      "target": "symptom:乳汁不通",
+      "target": "symptom:衄血",
       "type": "主治"
     },
     {
       "source": "herb:赭石",
-      "target": "symptom:湿痹拘挛",
+      "target": "symptom:崩漏下血",
       "type": "主治"
     },
     {
@@ -26596,11 +26766,6 @@
     },
     {
       "source": "herb:蕤仁",
-      "target": "symptom:抽搐痉挛",
-      "type": "主治"
-    },
-    {
-      "source": "herb:蕤仁",
       "target": "symptom:破伤风",
       "type": "主治"
     },
@@ -26616,7 +26781,12 @@
     },
     {
       "source": "herb:槲寄生",
-      "target": "meridian:肺",
+      "target": "meridian:肝",
+      "type": "归经"
+    },
+    {
+      "source": "herb:槲寄生",
+      "target": "meridian:肾",
       "type": "归经"
     },
     {
