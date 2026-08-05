@@ -38,7 +38,7 @@ I18N.register('zh-CN', {
         slide3: {
             badge: '安全用药 · 拒绝偏方误区',
             title: '多源数据 · 风险公开',
-            desc: '覆盖100+常用中药、50+常见偏方，提供用药禁忌、配伍风险、古籍对比，为基层医疗与大众提供参考。'
+            desc: '收录《中国药典》544 味药材、8.4 万条古籍方剂，提供用药禁忌、配伍风险、古籍对比，为基层医疗与大众提供参考。'
         },
         actions: {
             herbRisk: '快速查药材风险',
@@ -49,10 +49,10 @@ I18N.register('zh-CN', {
         side: {
             noticeTitle: '平台公告 / 提示',
             noticeContent: '本平台仅提供风险信息科普和公开展示，不提供医疗建议。若出现不适，请及时咨询医生、药师等专业人员。',
-            herbCount: '100+',
-            herbCountLabel: '常用中药',
-            prescriptionCount: '50+',
-            prescriptionCountLabel: '常见偏方',
+            herbCount: '544',
+            herbCountLabel: '药典药材',
+            prescriptionCount: '84,294',
+            prescriptionCountLabel: '收录方剂',
             hotTitle: '热门检索',
             hotContent: '板蓝根、菊花、枸杞、金银花、生姜、红糖姜水、川贝炖梨……'
         },
@@ -66,7 +66,7 @@ I18N.register('zh-CN', {
     // ── 药材查询页 ──
     herb: {
         title: '药材查询 — 常用中药偏方风险信息公开平台',
-        searchPlaceholder: '请输入药材名称，如：板蓝根、菊花、枸杞...',
+        searchPlaceholder: '搜索药材名称、功效或主治，如：板蓝根、阿胶、清热解毒...',
         searchBtn: '搜索',
         nameLabel: '药品名称',
         aliasLabel: '别名/常用名：',

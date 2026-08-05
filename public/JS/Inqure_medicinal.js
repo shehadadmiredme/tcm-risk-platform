@@ -19,6 +19,10 @@
   var cardNote = document.getElementById('card-note');
   var cardSymptom = document.getElementById('card-symptom');
 
+  var herbResults = document.getElementById('herbResults');
+  var herbResultsHead = document.getElementById('herbResultsHead');
+  var herbResultsList = document.getElementById('herbResultsList');
+
   /* ---------- 工具 ---------- */
 
   function setLoading(on) {
@@ -188,6 +192,37 @@
     setCardPlaceholder(cardSymptom, '—');
   }
 
+  /* ---------- 多匹配结果列表 ---------- */
+
+  /** 渲染多匹配药材列表（点击切换查看） */
+  function renderResultList(q, results) {
+    if (!herbResults) return;
+    herbResults.hidden = false;
+    herbResultsHead.textContent = '共 ' + results.length + ' 个匹配药材，点击切换查看：';
+    herbResultsList.innerHTML = '';
+    var regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    results.forEach(function (h) {
+      var pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'herb-result-pill';
+      appendHighlighted(pill, h['药材名称'], regex);
+      pill.addEventListener('click', function () {
+        var all = herbResultsList.querySelectorAll('.herb-result-pill');
+        all.forEach(function (p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        render(h);
+      });
+      herbResultsList.appendChild(pill);
+    });
+    var first = herbResultsList.querySelector('.herb-result-pill');
+    if (first) first.classList.add('active');
+  }
+
+  function hideResultList() {
+    if (herbResults) herbResults.hidden = true;
+    if (herbResultsList) herbResultsList.innerHTML = '';
+  }
+
   /* ---------- 搜索流程 ---------- */
 
   function doSearch() {
@@ -198,8 +233,10 @@
       .searchHerbs(q)
       .then(function (data) {
         setLoading(false);
-        if (data.count > 0) render(data.results[0]);
-        else renderNotFound(q);
+        if (data.count === 0) { renderNotFound(q); return; }
+        if (data.count > 1) renderResultList(q, data.results);
+        else hideResultList();
+        render(data.results[0]);
       })
       .catch(function (err) {
         setLoading(false);

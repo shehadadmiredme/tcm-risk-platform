@@ -270,6 +270,58 @@ body {
 }
 
 /* ============================================================
+   多匹配结果列表
+   ============================================================ */
+.herb-results {
+  max-width: 85%;
+  margin: 20px auto 0;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 12px 20px;
+}
+
+.herb-results-head {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.herb-results-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.herb-result-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: var(--surface-light);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+}
+
+.herb-result-pill:hover {
+  background: var(--surface-card);
+}
+
+.herb-result-pill.active {
+  background: var(--color-primary-bg);
+  color: #fff;
+  border-color: var(--color-primary-bg);
+}
+
+/* ============================================================
    药材标题栏
    ============================================================ */
 .title {
@@ -413,6 +465,10 @@ body {
   .show > div {
     height: auto;
     min-height: 200px;
+  }
+
+  .herb-results {
+    max-width: 95%;
   }
 
   .title {

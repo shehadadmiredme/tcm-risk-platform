@@ -19,10 +19,12 @@ const fail = (res, status, message) => res.status(status).json({ error: message 
 
 /* ---------- API 路由 ---------- */
 
-// 统计信息
+// 统计信息（药材 + 方剂）
 app.get('/api/stats', async (req, res) => {
   try {
-    ok(res, await dataService.getStats());
+    const herbStats = await dataService.getStats();
+    const formulaStats = formulaService.getStats();
+    ok(res, Object.assign({}, herbStats, formulaStats));
   } catch (e) {
     fail(res, 500, e.message);
   }

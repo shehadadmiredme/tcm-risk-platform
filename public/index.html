@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
 
     <!-- 项目样式 -->
-    <link rel="stylesheet" href="CSS/new Main_intreface.css">
+    <link rel="stylesheet" href="CSS/index.css">
     <!-- 共享动效样式 -->
     <link rel="stylesheet" href="CSS/animations.css">
 </head>
@@ -21,7 +21,7 @@
     <!-- 导航栏 -->
     <nav class="nav">
         <div class="nav-brand">
-            <a href="#" id="loge" aria-label="返回首页">
+            <a href="./index.html" id="loge" aria-label="返回首页">
                 <img src="./5717be68dae7df9f5529512d17a4ed3c.jpg" data-i18n-alt="nav.logoAlt" alt="留神">
             </a>
             <h1 class="h1-1" data-i18n="nav.brand">常用中药偏方风险信息公开平台</h1>
@@ -78,7 +78,7 @@
                             </div>
                             <h1 class="h1-2" data-i18n="home.slide3.title">多源数据 · 风险公开</h1>
                             <div class="sub" data-i18n="home.slide3.desc">
-                                覆盖100+常用中药、50+常见偏方，提供用药禁忌、配伍风险、古籍对比，为基层医疗与大众提供参考。
+                                收录《中国药典》544 味药材、8.4 万条古籍方剂，提供用药禁忌、配伍风险、古籍对比，为基层医疗与大众提供参考。
                             </div>
                         </div>
 
@@ -113,8 +113,8 @@
                         <h3><i class="ri-notification-3-line" style="color:var(--color-primary);"></i> <span data-i18n="home.side.noticeTitle">平台公告 / 提示</span></h3>
                         <p data-i18n="home.side.noticeContent">本平台仅提供风险信息科普和公开展示，不提供医疗建议。若出现不适，请及时咨询医生、药师等专业人员。</p>
                         <div class="statgrid">
-                            <div class="stat"><strong data-countup="100" data-suffix="+">100+</strong><span data-i18n="home.side.herbCountLabel">常用中药</span></div>
-                            <div class="stat"><strong data-countup="50" data-suffix="+">50+</strong><span data-i18n="home.side.prescriptionCountLabel">常见偏方</span></div>
+                            <div class="stat"><strong id="statHerbs">544</strong><span data-i18n="home.side.herbCountLabel">药典药材</span></div>
+                            <div class="stat"><strong id="statFormulas">84,294</strong><span data-i18n="home.side.prescriptionCountLabel">收录方剂</span></div>
                         </div>
                     </div>
                     <div class="mini" data-reveal data-reveal-delay="200">
@@ -160,28 +160,24 @@
         <div class="footer-left">
             <p data-i18n="common.footer.intro">常用中药偏方风险信息公开平台致力于普及中医药安全用药知识，为民众提供中药/偏方风险科普服务。</p>
             <p data-i18n="common.footer.copyright">© 2025 山东中医药大学 · 医学信息工程学院 保留所有权利。鲁ICP备XXXX号</p>
-            <button class="footer-btn" data-i18n="common.footer.downloadBtn">
-                <i class="ri-download-line"></i> 安全用药手册下载
-            </button>
         </div>
         <div class="footer-col">
             <h4 data-i18n="common.footer.col1Title">关于平台</h4>
-            <a href="#" data-i18n="common.footer.col1Link1">平台介绍</a>
-            <a href="#" data-i18n="common.footer.col1Link2">研发团队</a>
-            <a href="#" data-i18n="common.footer.col1Link3">数据来源</a>
-            <a href="#" data-i18n="common.footer.col1Link4">联系我们</a>
+            <a href="./index.html" data-i18n="common.footer.col1Link1">平台介绍</a>
+            <a href="./Disclaimer.html" data-i18n="common.footer.col1Link3">数据来源</a>
+            <a href="./Disclaimer.html"><i class="ri-shield-check-line"></i> 免责声明</a>
         </div>
         <div class="footer-col">
             <h4 data-i18n="common.footer.col2Title">使用指南</h4>
-            <a href="#" data-i18n="common.footer.col2Link1">如何查询药材</a>
-            <a href="#" data-i18n="common.footer.col2Link2">如何查询偏方</a>
-            <a href="#" data-i18n="common.footer.col2Link3">如何查看图谱</a>
-            <a href="#" data-i18n="common.footer.col2Link4">用药禁忌科普</a>
+            <a href="./Inqure_medicinal.html" data-i18n="common.footer.col2Link1">如何查询药材</a>
+            <a href="./Inqure_prescription.html" data-i18n="common.footer.col2Link2">如何查询偏方</a>
+            <a href="./Graph_visualization.html" data-i18n="common.footer.col2Link3">如何查看图谱</a>
+            <a href="./Inqure_medicinal.html" data-i18n="common.footer.col2Link4">用药禁忌科普</a>
         </div>
         <div class="footer-col">
             <h4 data-i18n="common.footer.col3Title">合作与资源</h4>
-            <a href="#" data-i18n="common.footer.col3Link1">院校合作</a>
-            <a href="#" data-i18n="common.footer.col3Link2">药典文献</a>
+            <a href="./Inqure_medicinal.html" data-i18n="common.footer.col3Link2">药典文献</a>
+            <a href="./Graph_visualization.html"><i class="ri-git-branch-line"></i> 知识图谱</a>
         </div>
     </footer>
 
@@ -267,6 +263,18 @@
                 autoPlay();
             });
         }
+    })();
+
+    // 动态加载真实数据统计（药材数 + 方剂数）
+    (function() {
+        fetch('/api/stats').then(function(r) { return r.json(); }).then(function(res) {
+            var d = res && res.data;
+            if (!d) return;
+            var h = document.getElementById('statHerbs');
+            var f = document.getElementById('statFormulas');
+            if (h && d.total) h.textContent = Number(d.total).toLocaleString();
+            if (f && d.formulaCount) f.textContent = Number(d.formulaCount).toLocaleString();
+        }).catch(function() {});
     })();
 
     // 首页跳转：药材查询页带参数自动搜索
