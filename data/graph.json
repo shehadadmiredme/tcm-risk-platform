@@ -1,7 +1,7 @@
 {
   "meta": {
     "dataVersion": "2026-08-02",
-    "generatedAt": "2026-08-03T03:56:08.386Z",
+    "generatedAt": "2026-08-05T10:54:21.205Z",
     "herbTotal": 544
   },
   "stats": {
@@ -9517,6 +9517,16 @@
       ]
     },
     {
+      "id": "formula:倍陈汤",
+      "name": "倍陈汤",
+      "type": "formula",
+      "value": 3,
+      "variant_count": 1,
+      "sources": [
+        "《医学入门》卷七。"
+      ]
+    },
+    {
       "id": "formula:陈橘皮丸",
       "name": "陈橘皮丸",
       "type": "formula",
@@ -9554,16 +9564,6 @@
       "variant_count": 1,
       "sources": [
         "《医方类聚》卷二一五引《徐氏胎产方》。"
-      ]
-    },
-    {
-      "id": "formula:倍陈汤",
-      "name": "倍陈汤",
-      "type": "formula",
-      "value": 3,
-      "variant_count": 1,
-      "sources": [
-        "《医学入门》卷七。"
       ]
     },
     {
@@ -34070,86 +34070,6 @@
       "type": "组成"
     },
     {
-      "source": "formula:陈橘皮丸",
-      "target": "herb:当归",
-      "type": "组成"
-    },
-    {
-      "source": "formula:陈橘皮丸",
-      "target": "herb:人参",
-      "type": "组成"
-    },
-    {
-      "source": "formula:陈橘皮丸",
-      "target": "herb:白芍",
-      "type": "组成"
-    },
-    {
-      "source": "formula:陈橘皮丸",
-      "target": "herb:甘草",
-      "type": "组成"
-    },
-    {
-      "source": "formula:地黄丸",
-      "target": "herb:人参",
-      "type": "组成"
-    },
-    {
-      "source": "formula:地黄丸",
-      "target": "herb:白芍",
-      "type": "组成"
-    },
-    {
-      "source": "formula:地黄丸",
-      "target": "herb:当归",
-      "type": "组成"
-    },
-    {
-      "source": "formula:地黄丸",
-      "target": "herb:甘草",
-      "type": "组成"
-    },
-    {
-      "source": "formula:加减黄耆建中汤",
-      "target": "herb:甘草",
-      "type": "组成"
-    },
-    {
-      "source": "formula:加减黄耆建中汤",
-      "target": "herb:白芍",
-      "type": "组成"
-    },
-    {
-      "source": "formula:加减黄耆建中汤",
-      "target": "herb:人参",
-      "type": "组成"
-    },
-    {
-      "source": "formula:加减黄耆建中汤",
-      "target": "herb:当归",
-      "type": "组成"
-    },
-    {
-      "source": "formula:卫生汤",
-      "target": "herb:白芍",
-      "type": "组成"
-    },
-    {
-      "source": "formula:卫生汤",
-      "target": "herb:当归",
-      "type": "组成"
-    },
-    {
-      "source": "formula:卫生汤",
-      "target": "herb:甘草",
-      "type": "组成"
-    },
-    {
-      "source": "formula:卫生汤",
-      "target": "herb:人参",
-      "type": "组成"
-    },
-    {
       "source": "formula:倍陈汤",
       "target": "herb:陈皮",
       "type": "组成"
@@ -34162,6 +34082,86 @@
     {
       "source": "formula:倍陈汤",
       "target": "herb:甘草",
+      "type": "组成"
+    },
+    {
+      "source": "formula:陈橘皮丸",
+      "target": "herb:当归",
+      "type": "组成"
+    },
+    {
+      "source": "formula:陈橘皮丸",
+      "target": "herb:人参",
+      "type": "组成"
+    },
+    {
+      "source": "formula:陈橘皮丸",
+      "target": "herb:白芍",
+      "type": "组成"
+    },
+    {
+      "source": "formula:陈橘皮丸",
+      "target": "herb:甘草",
+      "type": "组成"
+    },
+    {
+      "source": "formula:地黄丸",
+      "target": "herb:人参",
+      "type": "组成"
+    },
+    {
+      "source": "formula:地黄丸",
+      "target": "herb:白芍",
+      "type": "组成"
+    },
+    {
+      "source": "formula:地黄丸",
+      "target": "herb:当归",
+      "type": "组成"
+    },
+    {
+      "source": "formula:地黄丸",
+      "target": "herb:甘草",
+      "type": "组成"
+    },
+    {
+      "source": "formula:加减黄耆建中汤",
+      "target": "herb:甘草",
+      "type": "组成"
+    },
+    {
+      "source": "formula:加减黄耆建中汤",
+      "target": "herb:白芍",
+      "type": "组成"
+    },
+    {
+      "source": "formula:加减黄耆建中汤",
+      "target": "herb:人参",
+      "type": "组成"
+    },
+    {
+      "source": "formula:加减黄耆建中汤",
+      "target": "herb:当归",
+      "type": "组成"
+    },
+    {
+      "source": "formula:卫生汤",
+      "target": "herb:白芍",
+      "type": "组成"
+    },
+    {
+      "source": "formula:卫生汤",
+      "target": "herb:当归",
+      "type": "组成"
+    },
+    {
+      "source": "formula:卫生汤",
+      "target": "herb:甘草",
+      "type": "组成"
+    },
+    {
+      "source": "formula:卫生汤",
+      "target": "herb:人参",
       "type": "组成"
     },
     {

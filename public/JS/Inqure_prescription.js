@@ -467,6 +467,16 @@
     srcItem.appendChild(b2);
     srcItem.appendChild(document.createTextNode(f.source_text || t('prescription.search.noRecord', '未记载')));
     cardCredibility.appendChild(srcItem);
+    // 异名方（修正版数据库新增 alias_of 字段）
+    if (f.alias_of) {
+      var aliasItem = document.createElement('p');
+      aliasItem.className = 'result-item';
+      var b3 = document.createElement('b');
+      b3.textContent = '异名方：';
+      aliasItem.appendChild(b3);
+      aliasItem.appendChild(document.createTextNode(f.alias_of));
+      cardCredibility.appendChild(aliasItem);
+    }
     var hint = document.createElement('p');
     hint.className = 'result-empty';
     hint.textContent = t('prescription.search.credibilityHint', '出处为古籍原文记载，可信度需结合现代医学研究评估。');
