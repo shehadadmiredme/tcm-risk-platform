@@ -588,6 +588,26 @@ body {
   font-weight: 600;
 }
 
+/* 通俗化解释块（与原文区分展示） */
+.plain-tip {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--surface-light);
+  border-left: 3px solid var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.plain-tip b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--color-primary);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
 /* 打印样式 */
 @media print {
   .nav, .search, .notice { display: none; }

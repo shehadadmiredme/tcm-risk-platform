@@ -59,6 +59,17 @@
     card.appendChild(p);
   }
 
+  /** 通俗化解释块（与原文区分展示） */
+  function addPlainTip(parent, label, text) {
+    var tip = document.createElement('div');
+    tip.className = 'plain-tip';
+    var b = document.createElement('b');
+    b.textContent = label;
+    tip.appendChild(b);
+    tip.appendChild(document.createTextNode(text));
+    parent.appendChild(tip);
+  }
+
   /** 从「注意」提取不良反应表现句（毒/发汗/刺激/中毒/恶心/呕吐/腹泻等，不含 慎用/禁用/忌 等注意事项，避免与注意事项卡重复） */
   function extractAdverseSentences(caution) {
     if (!caution || caution === '无') return [];
@@ -158,6 +169,10 @@
     } else {
       setCardPlaceholder(cardNote, '未见明确记载的用药注意事项。');
     }
+    // 禁忌通俗化解释（与原文区分展示）
+    if (herb['禁忌通俗化处理']) {
+      addPlainTip(cardNote, '通俗解释', herb['禁忌通俗化处理']);
+    }
 
     // ── 主治症状卡 ──
     var syms = extractSymptoms(herb['功能与主治']);
@@ -171,6 +186,10 @@
       });
     } else {
       setCardPlaceholder(cardSymptom, '功能与主治：' + (herb['功能与主治'] || '无'));
+    }
+    // 功能与主治通俗化解释（与原文区分展示）
+    if (herb['通俗化处理']) {
+      addPlainTip(cardSymptom, '通俗解释', herb['通俗化处理']);
     }
   }
 
