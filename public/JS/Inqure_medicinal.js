@@ -169,6 +169,10 @@
     } else {
       setCardPlaceholder(cardNote, '未见明确记载的用药注意事项。');
     }
+    // 适用人群（通俗化展示）
+    if (herb['适用人群']) {
+      addPlainTip(cardNote, '适用人群', herb['适用人群']);
+    }
     // 禁忌通俗化解释（与原文区分展示）
     if (herb['禁忌通俗化处理']) {
       addPlainTip(cardNote, '通俗解释', herb['禁忌通俗化处理']);
