@@ -64,6 +64,22 @@
     /** 同名方剂列表：GET /api/formulas/by-name?name=（图谱重名节点展开） */
     getFormulasByName: function (name) {
       return fetchJSON('/api/formulas/by-name?name=' + encodeURIComponent(name));
+    },
+
+    /** 药方风险分析：POST /api/analyze/prescription */
+    analyzePrescription: function (text) {
+      return fetchJSON('/api/analyze/prescription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+      });
+    },
+
+    /** 判定记录列表：GET /api/analyze/records */
+    getRiskRecords: function (limit) {
+      var url = '/api/analyze/records';
+      if (limit) url += '?limit=' + encodeURIComponent(limit);
+      return fetchJSON(url);
     }
   };
 })();

@@ -50,25 +50,15 @@
   var analyzeTagsList = document.getElementById('analyzeTagsList');
   var analyzeResult = document.getElementById('analyzeResult');
 
-  /** 解析药方文本 → 药材名数组（纯前端：去用量、去空白、去重） */
+  /** 解析药方输入 → 原始行（保留用量，由后端做结构化解析） */
   function parseHerbs(text) {
-    var herbs = text
+    return text
       .split(/[\n,，、;；]+/)
-      .map(function (line) {
-        // 去掉用量标注，如：30g、20克、1.5g
-        return line
-          .replace(/[0-9０-９]+(?:[.．][0-9０-９]+)?\s*[克gG公斤两钱片粒mLml毫升]*/g, '')
-          .replace(/[（(][^）)]*[)）]?/g, '')
-          .trim();
-      })
+      .map(function (line) { return line.replace(/\s+/g, ' ').trim(); })
       .filter(Boolean);
-    // 去重，保持先后顺序
-    return herbs.filter(function (herb, i) {
-      return herbs.indexOf(herb) === i;
-    });
   }
 
-  /** 渲染已识别药材标签 */
+/** 渲染已识别药材标签 */
   function renderTags(herbs) {
     analyzeTagsList.innerHTML = '';
     herbs.forEach(function (herb) {
@@ -80,100 +70,142 @@
     analyzeTags.hidden = herbs.length === 0;
   }
 
-  /** 渲染风险分析结果占位框架（机制待实现） */
-  function renderResultPlaceholder(herbs) {
+  /** 创建 DOM 节点 */
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text) node.textContent = text;
+    return node;
+  }
+
+  /** 渲染风险分析真实结果 */
+  function renderAnalyzeResult(data) {
     analyzeResult.innerHTML = '';
+    var result = data || {};
+    var overall = result.overall || {};
+    var herbRisks = result.herbRisks || [];
+    var compat = result.compatibility || [];
+    var classical = result.classical || {};
 
-    // ── 整体风险评级横幅 ──
-    var overall = document.createElement('div');
-    overall.className = 'analyze-overall';
-
-    var icon = document.createElement('i');
-    icon.className = 'ri-shield-check-line';
-    overall.appendChild(icon);
-
-    var textWrap = document.createElement('div');
-    var b = document.createElement('b');
-    b.textContent = t('prescription.analyze.result.overallTitle', '整体风险评级');
-    var span = document.createElement('span');
-    span.textContent = ' — ' + t('prescription.analyze.result.overallEmpty', '风险评级机制即将上线，敬请期待。');
+    var banner = el('div', 'analyze-overall risk-level-' + overall.level);
+    var icon = el('i', 'ri-shield-check-line');
+    banner.appendChild(icon);
+    var textWrap = el('div');
+    var b = el('b', null, '整体风险评级：' + (overall.levelName || '待评估'));
+    var span = el('span', null, '风险分 ' + (overall.score || 0) + ' · ' + (overall.summary || ''));
     textWrap.appendChild(b);
     textWrap.appendChild(span);
-    overall.appendChild(textWrap);
+    banner.appendChild(textWrap);
+    if (result.recordId) {
+      banner.appendChild(el('span', 'record-id', '判定记录 #' + result.recordId));
+    }
+    analyzeResult.appendChild(banner);
 
-    var badge = document.createElement('span');
-    badge.className = 'dev-badge';
-    var badgeIcon = document.createElement('i');
-    badgeIcon.className = 'ri-tools-line';
-    badge.appendChild(badgeIcon);
-    badge.appendChild(document.createTextNode(t('prescription.analyze.result.devBadge', '功能开发中')));
-    overall.appendChild(badge);
+    var grid = el('div', 'analyze-grid');
 
-    analyzeResult.appendChild(overall);
+    var detailCard = el('div', 'analyze-card');
+    var detailTitle = el('h3');
+    detailTitle.appendChild(el('i', 'ri-alert-line'));
+    detailTitle.appendChild(document.createTextNode('风险明细'));
+    detailCard.appendChild(detailTitle);
+    var highs = (result.rules || []).filter(function (f) { return f.severity === 'high'; });
+    var mediums = (result.rules || []).filter(function (f) { return f.severity === 'medium'; });
+    if (highs.length) {
+      highs.forEach(function (f) {
+        detailCard.appendChild(el('p', 'risk-line risk-sev-high', '[' + (f.name || '高风险') + '] ' + (f.message || '')));
+      });
+    } else if (mediums.length) {
+      mediums.forEach(function (f) {
+        detailCard.appendChild(el('p', 'risk-line risk-sev-medium', '[' + (f.name || '中风险') + '] ' + (f.message || '')));
+      });
+    } else {
+      detailCard.appendChild(el('p', 'risk-line', '未检出明确高风险或中风险项。'));
+    }
+    grid.appendChild(detailCard);
 
-    // ── 逐味药材风险 + 配伍风险 ──
-    var grid = document.createElement('div');
-    grid.className = 'analyze-grid';
-
-    // 逐味药材风险卡
-    var herbCard = document.createElement('div');
-    herbCard.className = 'analyze-card';
-
-    var herbTitle = document.createElement('h3');
-    var herbIcon = document.createElement('i');
-    herbIcon.className = 'ri-plant-line';
-    herbTitle.appendChild(herbIcon);
-    herbTitle.appendChild(document.createTextNode(t('prescription.analyze.result.herbTitle', '逐味药材风险')));
+    var herbCard = el('div', 'analyze-card');
+    var herbTitle = el('h3');
+    herbTitle.appendChild(el('i', 'ri-plant-line'));
+    herbTitle.appendChild(document.createTextNode('逐味药材风险'));
     herbCard.appendChild(herbTitle);
-
-    var notReady = t('prescription.analyze.result.notReady', '待分析');
-    herbs.forEach(function (herb) {
-      var item = document.createElement('div');
-      item.className = 'analyze-herb-item';
-
-      var name = document.createElement('span');
-      name.className = 'herb-name';
-      name.textContent = herb;
-
-      var status = document.createElement('span');
-      status.className = 'herb-status';
-      var statusIcon = document.createElement('i');
-      statusIcon.className = 'ri-time-line';
-      status.appendChild(statusIcon);
-      status.appendChild(document.createTextNode(notReady));
-
-      item.appendChild(name);
+    herbRisks.forEach(function (r) {
+      var item = el('div', 'analyze-herb-item');
+      var nameWrap = el('span', 'herb-name', (r.name || '') + (r.doseText ? ' ' + r.doseText : ''));
+      item.appendChild(nameWrap);
+      var status = el('span', 'herb-status');
+      var sev = r.findings && r.findings.length ? r.findings[0].severity : 'info';
+      status.appendChild(el('span', 'risk-dot risk-dot-' + sev));
+      status.appendChild(document.createTextNode(r.matched ? '已匹配' : '未匹配药典'));
       item.appendChild(status);
       herbCard.appendChild(item);
+      if (r.toxicity && r.toxicity !== '无') {
+        herbCard.appendChild(el('p', 'risk-line', '毒性：' + r.toxicity + '；药典剂量：' + ((r.dosageRange && r.dosageRange.text) || '未见明确范围')));
+      } else if (r.dosageRange) {
+        herbCard.appendChild(el('p', 'risk-line', '药典剂量：' + r.dosageRange.text));
+      }
+      (r.findings || []).forEach(function (f) {
+        herbCard.appendChild(el('p', 'risk-line risk-sev-' + f.severity, '[' + f.name + '] ' + f.message));
+      });
     });
+    if (!herbRisks.length) herbCard.appendChild(el('p', null, '未识别到有效药材。'));
     grid.appendChild(herbCard);
 
-    // 配伍风险提示卡
-    var compatCard = document.createElement('div');
-    compatCard.className = 'analyze-card';
-
-    var compatTitle = document.createElement('h3');
-    var compatIcon = document.createElement('i');
-    compatIcon.className = 'ri-node-tree-line';
-    compatTitle.appendChild(compatIcon);
-    compatTitle.appendChild(document.createTextNode(t('prescription.analyze.result.compatTitle', '配伍风险提示')));
+    var compatCard = el('div', 'analyze-card');
+    var compatTitle = el('h3');
+    compatTitle.appendChild(el('i', 'ri-node-tree-line'));
+    compatTitle.appendChild(document.createTextNode('配伍风险提示'));
     compatCard.appendChild(compatTitle);
-
-    var compatEmpty = document.createElement('p');
-    compatEmpty.textContent = t('prescription.analyze.result.compatEmpty', '将展示方剂中潜在的相反、相畏及不适宜同用的组合。');
-    compatCard.appendChild(compatEmpty);
-
+    if (compat.length) {
+      compat.forEach(function (c) {
+        compatCard.appendChild(el('p', 'risk-line risk-sev-' + c.severity, '[' + c.name + '] ' + c.message));
+      });
+    } else {
+      compatCard.appendChild(el('p', null, '未检出十八反、十九畏等明确配伍禁忌组合。'));
+    }
     grid.appendChild(compatCard);
-    analyzeResult.appendChild(grid);
 
-    // ── 底部开发中提示 ──
-    var warning = document.createElement('p');
-    warning.className = 'analyze-warning';
-    warning.textContent = '⚠ ' + t('prescription.analyze.warningDev', '当前为前端演示版本，风险分析引擎即将上线。');
+    var classicalCard = el('div', 'analyze-card');
+    var classicalTitle = el('h3');
+    classicalTitle.appendChild(el('i', 'ri-history-line'));
+    classicalTitle.appendChild(document.createTextNode('古籍相似方剂与剂量'));
+    classicalCard.appendChild(classicalTitle);
+    classicalCard.appendChild(el('p', 'risk-line', '已对比药典剂量与 8.4 万条古籍方剂统计。'));
+    herbRisks.forEach(function (r) {
+      if (r.classical && r.classical.count) {
+        classicalCard.appendChild(el(
+          'p',
+          'risk-line',
+          r.name + '：古籍样本 ' + r.classical.count + ' 条，P50 ' + r.classical.p50 + 'g，P95 ' + r.classical.p95 + 'g。'
+        ));
+      }
+    });
+    if (result.similarFormulas) {
+      classicalCard.appendChild(el('p', 'risk-line', result.similarFormulas.summary || ''));
+      (result.similarFormulas.matches || []).slice(0, 5).forEach(function (f) {
+        classicalCard.appendChild(el(
+          'p',
+          'risk-line',
+          f.name + '（出处：' + (f.source_text || '未知') + '，重合 ' + f.overlap + '/' + f.herbCount + ' 味）'
+        ));
+      });
+    }
+    grid.appendChild(classicalCard);
+
+    var recordCard = el('div', 'analyze-card');
+    var recordTitle = el('h3');
+    recordTitle.appendChild(el('i', 'ri-file-list-3-line'));
+    recordTitle.appendChild(document.createTextNode('判定记录'));
+    recordCard.appendChild(recordTitle);
+    recordCard.appendChild(el('p', 'risk-line', '本次判定已保存，记录编号：#' + (result.recordId || '待保存')));
+    recordCard.appendChild(el('p', 'risk-line', '每条命中规则均保留规则编号、严重程度、证据来源，可回溯。'));
+    grid.appendChild(recordCard);
+
+    analyzeResult.appendChild(grid);
+    var warning = el('p', 'analyze-warning', '结果仅作风险信息科普参考，不构成医疗建议；用药请遵医嘱。');
     analyzeResult.appendChild(warning);
   }
 
-  /** 恢复空状态 */
+/** 恢复空状态 */
   function renderEmpty(hint) {
     analyzeResult.innerHTML = '';
     var empty = document.createElement('div');
@@ -194,7 +226,7 @@
     analyzeResult.appendChild(empty);
   }
 
-  function doAnalyze() {
+    function doAnalyze() {
     var text = (analyzeInput.value || '').trim();
     if (!text) {
       analyzeTags.hidden = true;
@@ -203,15 +235,36 @@
       return;
     }
 
-    var herbs = parseHerbs(text);
-    renderTags(herbs);
-
-    if (herbs.length === 0) {
+    var lines = parseHerbs(text);
+    renderTags(lines);
+    if (!lines.length) {
       renderEmpty('未能识别有效药材，请按「每行一味药材」的格式输入。');
       return;
     }
 
-    renderResultPlaceholder(herbs);
+    if (analyzeBtn) {
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = '分析中…';
+    }
+    analyzeResult.innerHTML = '';
+    var loading = el('div', 'analyze-empty');
+    loading.appendChild(el('i', 'ri-loader-4-line'));
+    loading.appendChild(el('p', null, '正在分析药方风险'));
+    analyzeResult.appendChild(loading);
+
+    window.API.analyzePrescription(text)
+      .then(function (data) {
+        renderAnalyzeResult(data);
+      })
+      .catch(function (err) {
+        renderEmpty('分析失败：' + (err.message || '未知错误'));
+      })
+      .finally(function () {
+        if (analyzeBtn) {
+          analyzeBtn.disabled = false;
+          analyzeBtn.textContent = '开始分析';
+        }
+      });
   }
 
   function clearAll() {

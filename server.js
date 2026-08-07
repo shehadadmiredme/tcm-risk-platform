@@ -9,6 +9,7 @@ const path = require('path');
 const express = require('express');
 const dataService = require('./lib/dataService');
 const formulaService = require('./lib/formulaService');
+const riskService = require('./lib/riskService');
 
 const app = express();
 app.use(express.json());
@@ -108,7 +109,37 @@ app.get('/api/formulas/:id', async (req, res) => {
   }
 });
 
+// 药方风险分析：POST /api/analyze/prescription
+app.post('/api/analyze/prescription', function (req, res) {
+  try {
+    ok(res, riskService.analyzePrescription(req.body && req.body.text));
+  } catch (e) {
+    fail(res, 400, e.message || '分析失败');
+  }
+});
+
+// 判定记录：GET /api/analyze/records
+app.get('/api/analyze/records', function (req, res) {
+  try {
+    ok(res, riskService.listRecords(req.query.limit));
+  } catch (e) {
+    fail(res, 500, e.message);
+  }
+});
+
+// 判定记录详情：GET /api/analyze/records/:id
+app.get('/api/analyze/records/:id', function (req, res) {
+  try {
+    const record = riskService.getRecord(req.params.id);
+    if (!record) return fail(res, 404, '未找到该判定记录');
+    ok(res, record);
+  } catch (e) {
+    fail(res, 500, e.message);
+  }
+});
+
 /* ---------- 本地开发静态托管（Vercel 生产环境不启用） ---------- */
+
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(express.static(path.join(__dirname, 'public')));

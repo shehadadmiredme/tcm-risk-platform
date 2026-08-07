@@ -11,3 +11,6 @@ node_modules/
 
 # 中医方剂数据库（89MB，不入 git，部署单独上传）
 data/tcm_formula.db*
+
+# 风险判定记录（运行时生成，不入 git）
+data/risk_records.db*

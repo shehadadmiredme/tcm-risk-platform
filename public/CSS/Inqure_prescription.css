@@ -1035,3 +1035,62 @@ body {
   body { background: #fff; }
   .show > div { box-shadow: none; border: 1px solid #ccc; }
 }
+
+/* 风险分析真实结果样式 */
+.analyze-overall.risk-level-high {
+  border-color: #f1aeb5;
+  background: #fff5f5;
+}
+.analyze-overall.risk-level-medium {
+  border-color: #f0d58c;
+  background: #fffaf0;
+}
+.analyze-overall.risk-level-low {
+  border-color: rgba(15,118,110,0.2);
+}
+.record-id {
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15,118,110,0.08);
+  color: var(--color-primary-dark);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.risk-line {
+  margin: 6px 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.risk-sev-high {
+  color: #b3261e;
+}
+.risk-sev-medium {
+  color: #9a6700;
+}
+.risk-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+.risk-dot-high {
+  background: #d92d20;
+}
+.risk-dot-medium {
+  background: #eaaa08;
+}
+.risk-dot-low {
+  background: #12b76a;
+}
+@media (max-width: 960px) {
+  .analyze-grid {
+    grid-template-columns: 1fr;
+  }
+  .record-id {
+    margin-left: 0;
+    margin-top: 6px;
+  }
+}
