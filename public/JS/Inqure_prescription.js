@@ -290,6 +290,17 @@
     card.appendChild(p);
   }
 
+  /** 通俗化解释块（与原文区分展示） */
+  function fsPlainTip(parent, label, text) {
+    var tip = document.createElement('div');
+    tip.className = 'plain-tip';
+    var b = document.createElement('b');
+    b.textContent = label;
+    tip.appendChild(b);
+    tip.appendChild(document.createTextNode(text));
+    parent.appendChild(tip);
+  }
+
   // 命中来源标签：区分「名称/配方含/出处含/功效提及」
   var FS_MATCH = {
     name: { label: '', cls: '' },
@@ -449,6 +460,10 @@
     } else {
       fsCardEmpty(cardIndications, t('prescription.search.noRecord', '未记载'));
     }
+    // 功效通俗化解释（与原文区分展示）
+    if (f.efficacy_plain) {
+      fsPlainTip(cardIndications, '通俗解释', f.efficacy_plain);
+    }
 
     // ── 不良反应与注意事项（配伍禁忌/相反相畏高亮）──
     fsCardClear(cardAdverse);
@@ -456,6 +471,10 @@
       fsHighlight(cardAdverse, f.caution, /不宜与[^，。；;、]+?同用|[一-龥]{1,6}相[反畏]/g);
     } else {
       fsCardEmpty(cardAdverse, '该方剂未见明确的不良反应与禁忌记载，请遵医嘱使用。');
+    }
+    // 禁忌通俗化解释（与原文区分展示）
+    if (f.caution_plain) {
+      fsPlainTip(cardAdverse, '通俗解释', f.caution_plain);
     }
 
     // ── 估计对比与可信度 ──
