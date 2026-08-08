@@ -251,6 +251,24 @@
     }
 
     // ============================================================
+    // 移动端导航汉堡切换
+    // ============================================================
+    function initNavToggle() {
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.nav-toggle');
+            var nav = e.target.closest('.nav');
+            if (btn && nav) {
+                nav.classList.toggle('open');
+                return;
+            }
+            // 点击菜单项（非「查询」下拉展开区域）后收起导航
+            if (nav && !e.target.closest('#insert')) {
+                nav.classList.remove('open');
+            }
+        });
+    }
+
+    // ============================================================
     // 初始化所有效果
     // ============================================================
     function initAll() {
@@ -262,6 +280,7 @@
         initCursorGlow();
         initParticleButtons();
         initSkeleton();
+        initNavToggle();
     }
 
     // DOM 就绪后初始化

@@ -337,3 +337,99 @@
   max-width: 85%;
   user-select: none;
 }
+
+/* ============================================================
+   移动端导航折叠（汉堡菜单，全站共享）
+   ============================================================ */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.92);
+  font-size: 26px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.nav-toggle:hover {
+  background: rgba(255,255,255,0.13);
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: linear-gradient(135deg, #3D8F80, #46A996);
+    padding: 8px 0;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    z-index: 99;
+    margin-left: 0;
+  }
+
+  .nav.open .nav-links {
+    display: flex;
+  }
+
+  .nav-links > a,
+  .nav-links > details {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    font-size: 16px;
+    color: rgba(255,255,255,0.92);
+  }
+
+  .nav-links > a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-links > a:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .nav-links #insert summary {
+    font-size: 16px;
+    color: rgba(255,255,255,0.92);
+    padding: 0;
+  }
+
+  .nav-links #insert[open] .dropdown-menu {
+    display: block;
+  }
+
+  .nav-links .dropdown-menu {
+    position: static;
+    transform: none;
+    background: rgba(0,0,0,0.12);
+    box-shadow: none;
+    margin-top: 8px;
+    min-width: 0;
+  }
+
+  .nav-links .dropdown-menu a {
+    color: rgba(255,255,255,0.92) !important;
+    font-weight: 400 !important;
+  }
+}
+
+/* 防横向溢出（手机端） */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
